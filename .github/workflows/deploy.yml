@@ -32,7 +32,7 @@ jobs:
           coverage: none
 
       - name: Create Required Directories
-        run: mkdir -p bootstrap/cache storage
+        run: mkdir -p bootstrap/cache storage/framework/cache storage/framework/sessions storage/framework/views storage/logs storage/app/public
 
       - name: Install Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
@@ -76,7 +76,7 @@ jobs:
           coverage: none
 
       - name: Create Required Directories
-        run: mkdir -p bootstrap/cache storage
+        run: mkdir -p bootstrap/cache storage/framework/cache storage/framework/sessions storage/framework/views storage/logs storage/app/public
 
       - name: Copy Environment
         run: cp .env.example .env
