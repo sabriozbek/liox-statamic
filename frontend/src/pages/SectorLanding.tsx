@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router'
 import { useEffect, useState } from 'react'
 import NotFoundPage from '@/pages/NotFoundPage'
 import LeadForm from '@/components/forms/LeadForm'
+import api from '@/services/api'
 
 interface IndustryStat {
   icon: string
@@ -294,18 +295,14 @@ export default function SectorLanding() {
   const [notFound, setNotFound] = useState(false)
 
   useEffect(() => {
-    fetch(`/api/sectors/${slug}`)
-      .then(async (res) => {
-        if (!res.ok) throw new Error(String(res.status))
-        return res.json()
-      })
-      .then(data => {
-        setSector(data)
+    api.get<SectorData>(`/sectors/${slug}`)
+      .then((response) => {
+        setSector(response.data)
         setNotFound(false)
       })
       .catch((error) => {
         setSector(null)
-        setNotFound(String(error?.message || '') === '404')
+        setNotFound(String(error?.response?.status || error?.message || '') === '404')
       })
   }, [slug])
 
