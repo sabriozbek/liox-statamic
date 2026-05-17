@@ -1,0 +1,11 @@
+form: event_registration
+date: '2026-05-14 10:13:30'
+data:
+    event_slug: insaat-sektorunde-dijital-donusum-zirvesi
+    event_title: 'İnşaat Sektöründe Dijital Dönüşüm Zirvesi'
+    name: 'CP Test Kullanıcı'
+    email: cptest@example.com
+    company: LioXERP
+    title: Yönetici
+    attendee_count: '2-5 Kişi'
+    path: /etkinlik/insaat-sektorunde-dijital-donusum-zirvesi

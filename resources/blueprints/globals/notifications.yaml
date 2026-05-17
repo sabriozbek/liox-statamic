@@ -1,0 +1,94 @@
+title: Bildirim Merkezi
+tabs:
+  main:
+    display: Bildirimler
+    sections:
+      -
+        display: Genel Ayarlar
+        fields:
+          -
+            handle: notifications_enabled
+            field:
+              type: toggle
+              display: Bildirim Merkezi Aktif
+              default: true
+          -
+            handle: notifications_title
+            field:
+              type: text
+              display: Panel Başlığı
+              default: Bildirim Merkezi
+      -
+        display: Bildirim Kayıtları
+        fields:
+          -
+            handle: notification_items
+            field:
+              type: grid
+              display: Bildirimler
+              add_row: Bildirim Ekle
+              mode: stacked
+              fields:
+                -
+                  handle: title
+                  field:
+                    type: text
+                    display: Başlık
+                -
+                  handle: description
+                  field:
+                    type: textarea
+                    display: Açıklama
+                -
+                  handle: notification_type
+                  field:
+                    type: select
+                    display: Tür
+                    options:
+                      info: Bilgi
+                      update: Güncelleme
+                      warning: Uyarı
+                      success: Başarılı
+                -
+                  handle: color
+                  field:
+                    type: select
+                    display: Renk
+                    options:
+                      red: Kırmızı
+                      navy: Lacivert
+                      green: Yeşil
+                      amber: Amber
+                -
+                  handle: icon_class
+                  field:
+                    type: text
+                    display: Icon Class
+                -
+                  handle: image
+                  field:
+                    type: assets
+                    display: Görsel
+                    container: assets
+                    max_files: 1
+                -
+                  handle: date_label
+                  field:
+                    type: text
+                    display: Tarih Etiketi
+                -
+                  handle: action_label
+                  field:
+                    type: text
+                    display: Aksiyon Metni
+                -
+                  handle: action_url
+                  field:
+                    type: text
+                    display: Aksiyon URL
+                -
+                  handle: is_unread
+                  field:
+                    type: toggle
+                    display: Okunmadı
+                    default: true

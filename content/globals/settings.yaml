@@ -1,0 +1,42 @@
+title: Site Ayarları
+handle: settings
+props:
+  - handle: site_name
+    type: text
+  - handle: site_email
+    type: text
+  - handle: site_phone
+    type: text
+  - handle: site_address
+    type: textarea
+  - handle: google_analytics_id
+    type: text
+  - handle: google_tag_manager_id
+    type: text
+  - handle: cta_variants
+    type: textarea
+  - handle: message_variants
+    type: textarea
+data:
+  site_name: 'LioXERP'
+  site_email: 'info@liox.uyumsoft.com'
+  site_phone: '+90 216 315 14 14'
+  cta_variants: |
+    {
+      "1": {
+        "formTitle": "Demo Talep Edin",
+        "formSubtitle": "Süreçlerinize uygun ERP kurgusunu birlikte planlayalım",
+        "submitLabel": "DEMO TALEP EDİN"
+      },
+      "4": {
+        "formTitle": "Fırsatları daha kontrollü yönetmek adına formu doldurun",
+        "formSubtitle": "Süreçlerinizi birlikte değerlendirelim",
+        "submitLabel": "HEMEN BAŞVUR"
+      }
+    }
+  message_variants: |
+    {
+      "1": {
+        "heroTitleLines": ["Endüstride Lider", "ERP Programı"]
+      }
+    }

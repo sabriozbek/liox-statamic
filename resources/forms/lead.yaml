@@ -1,0 +1,129 @@
+title: Lead Formu
+honeypot: honeypot
+store: true
+inline_keyed_templates: false
+
+fields:
+  -
+    handle: name
+    field:
+      type: text
+      display: İsim
+      listable: true
+      validate:
+        - required
+
+  -
+    handle: email
+    field:
+      type: email
+      display: E-posta
+      listable: true
+      validate:
+        - required
+        - email
+
+  -
+    handle: tel
+    field:
+      type: text
+      display: Telefon
+      listable: true
+
+  -
+    handle: company
+    field:
+      type: text
+      display: Şirket
+      listable: true
+
+  -
+    handle: employee_count
+    field:
+      type: text
+      display: Çalışan Sayısı
+      listable: true
+
+  -
+    handle: path
+    field:
+      type: text
+      display: Kaynak Sayfa
+      listable: true
+
+  -
+    handle: variant_id
+    field:
+      type: text
+      display: Variant ID
+      listable: true
+
+  -
+    handle: utm_source
+    field:
+      type: text
+      display: UTM Source
+      listable: true
+
+  -
+    handle: utm_medium
+    field:
+      type: text
+      display: UTM Medium
+      listable: true
+
+  -
+    handle: utm_campaign
+    field:
+      type: text
+      display: UTM Campaign
+      listable: true
+
+  -
+    handle: utm_term
+    field:
+      type: text
+      display: UTM Term
+      listable: true
+
+  -
+    handle: utm_content
+    field:
+      type: text
+      display: UTM Content
+      listable: true
+
+  -
+    handle: gclid
+    field:
+      type: text
+      display: GCLID
+      listable: true
+
+  -
+    handle: fbclid
+    field:
+      type: text
+      display: FBCLID
+      listable: true
+
+  -
+    handle: crm_status
+    field:
+      type: text
+      display: CRM Durumu
+      listable: true
+
+  -
+    handle: crm_message
+    field:
+      type: textarea
+      display: CRM Mesajı
+      listable: true
+
+  -
+    handle: crm_http_code
+    field:
+      type: text
+      display: CRM HTTP Kod
+      listable: true

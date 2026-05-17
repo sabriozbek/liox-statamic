@@ -1,0 +1,665 @@
+title: Sayfalar
+tabs:
+  main:
+    display: İçerik
+    sections:
+      -
+        display: 'Hero Bölümü'
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              required: true
+              display: Başlık
+              validate:
+                - required
+          -
+            handle: page_type
+            field:
+              type: select
+              display: 'Sayfa Tipi'
+              instructions: 'Bu entry hangi frontend şablonuyla çalışacak?'
+              default: home
+              options:
+                home: 'Ana Sayfa'
+                generic: 'Genel İçerik Sayfası'
+                thank_you: 'Teşekkürler Sayfası'
+                privacy: 'Gizlilik Politikası Sayfası'
+          -
+            handle: hero_baslik
+            field:
+              type: text
+              display: 'Hero - Ana Başlık'
+              instructions: 'Sayfanın ana başlığı'
+          -
+            handle: hero_alt_baslik
+            field:
+              type: text
+              display: 'Hero - Alt Başlık'
+          -
+            handle: hero_aciklama
+            field:
+              type: textarea
+              display: 'Hero - Açıklama'
+          -
+            handle: hero_gorsel
+            field:
+              type: text
+              display: 'Hero - Görsel URL'
+              instructions: 'Görsel URL adresi (örn: /assets/hero-bg.jpg)'
+          -
+            handle: hero_video_embed
+            field:
+              type: text
+              display: 'Hero - Video Embed URL'
+      -
+        display: 'Genel İçerik Sayfası Blokları'
+        fields:
+          -
+            handle: generic_goster
+            field:
+              type: toggle
+              display: 'Genel Sayfa İçeriğini Kullan'
+              default: false
+          -
+            handle: generic_hero_baslik
+            field:
+              type: text
+              display: 'Genel Sayfa - Hero Başlık'
+          -
+            handle: generic_hero_aciklama
+            field:
+              type: textarea
+              display: 'Genel Sayfa - Hero Açıklama'
+          -
+            handle: generic_content_blocks
+            field:
+              type: replicator
+              display: 'İçerik Blokları'
+              sets:
+                text_block:
+                  display: 'Metin Bloğu'
+                  fields:
+                    -
+                      handle: title
+                      field:
+                        type: text
+                        display: Başlık
+                    -
+                      handle: content
+                      field:
+                        type: markdown
+                        display: İçerik
+                feature_grid:
+                  display: 'Özellik Grid'
+                  fields:
+                    -
+                      handle: title
+                      field:
+                        type: text
+                        display: Başlık
+                    -
+                      handle: items
+                      field:
+                        type: grid
+                        display: Öğeler
+                        fields:
+                          -
+                            handle: title
+                            field:
+                              type: text
+                              display: Başlık
+                          -
+                            handle: description
+                            field:
+                              type: textarea
+                              display: Açıklama
+                cta_block:
+                  display: 'CTA Bloğu'
+                  fields:
+                    -
+                      handle: title
+                      field:
+                        type: text
+                        display: Başlık
+                    -
+                      handle: description
+                      field:
+                        type: textarea
+                        display: Açıklama
+                    -
+                      handle: button_text
+                      field:
+                        type: text
+                        display: 'Buton Metni'
+                    -
+                      handle: button_url
+                      field:
+                        type: text
+                        display: 'Buton URL'
+      -
+        display: 'Sektörler Landing Sayfası'
+        fields:
+          -
+            handle: sectors_landing_goster
+            field:
+              type: toggle
+              display: 'Sektörler Landing İçeriğini Kullan'
+              default: false
+          -
+            handle: sectors_landing_baslik
+            field:
+              type: text
+              display: 'Sektörler Landing - Başlık'
+          -
+            handle: sectors_landing_aciklama
+            field:
+              type: textarea
+              display: 'Sektörler Landing - Açıklama'
+          -
+            handle: sectors_landing_badges
+            field:
+              type: list
+              display: "Üst Bilgi Badge'leri"
+      -
+        display: 'Modüller Bölümü'
+        fields:
+          -
+            handle: moduller_goster
+            field:
+              type: toggle
+              display: 'Modüller Bölümünü Göster'
+              default: true
+          -
+            handle: moduller_baslik
+            field:
+              type: text
+              display: 'Modüller - Başlık'
+          -
+            handle: moduller_alt_baslik
+            field:
+              type: text
+              display: 'Modüller - Alt Başlık'
+          -
+            handle: moduller
+            field:
+              type: grid
+              display: 'Modül Kartları'
+              add_row: 'Modül Ekle'
+              mode: stacked
+              fields:
+                -
+                  handle: id
+                  field:
+                    type: text
+                    display: 'Benzersiz ID'
+                -
+                  handle: title
+                  field:
+                    type: text
+                    display: Başlık
+                -
+                  handle: icon
+                  field:
+                    type: text
+                    display: 'Icon Class'
+                -
+                  handle: description
+                  field:
+                    type: textarea
+                    display: 'Kısa Açıklama'
+                -
+                  handle: long_description
+                  field:
+                    type: textarea
+                    display: 'Uzun Açıklama / Popup İçeriği'
+                -
+                  handle: media_url
+                  field:
+                    type: text
+                    display: 'Görsel URL'
+                -
+                  handle: highlights
+                  field:
+                    type: list
+                    display: 'Öne Çıkan Maddeler'
+      -
+        display: 'Sektörler Bölümü'
+        fields:
+          -
+            handle: sektorler_goster
+            field:
+              type: toggle
+              display: 'Sektörler Bölümünü Göster'
+              default: true
+          -
+            handle: sektorler_baslik
+            field:
+              type: text
+              display: 'Sektörler - Başlık'
+          -
+            handle: sektorler_aciklama
+            field:
+              type: textarea
+              display: 'Sektörler - Açıklama'
+          -
+            handle: sektor_tableri
+            field:
+              type: grid
+              display: 'Sektör Sekmeleri'
+              add_row: 'Sektör Ekle'
+              mode: stacked
+              fields:
+                -
+                  handle: id
+                  field:
+                    type: text
+                    display: 'Benzersiz ID'
+                -
+                  handle: label
+                  field:
+                    type: text
+                    display: 'Sekme Etiketi'
+                -
+                  handle: heading
+                  field:
+                    type: text
+                    display: 'İç Başlık'
+                -
+                  handle: description
+                  field:
+                    type: textarea
+                    display: Açıklama
+                -
+                  handle: items
+                  field:
+                    type: list
+                    display: Yetenekler
+      -
+        display: 'Başarı Hikayeleri'
+        fields:
+          -
+            handle: basari_goster
+            field:
+              type: toggle
+              display: 'Başarı Hikayeleri Bölümünü Göster'
+              default: true
+          -
+            handle: basari_baslik
+            field:
+              type: text
+              display: 'Başarı Hikayeleri - Başlık'
+      -
+        display: 'Video Bölümü'
+        fields:
+          -
+            handle: video_goster
+            field:
+              type: toggle
+              display: 'Video Bölümünü Göster'
+              default: true
+          -
+            handle: video_baslik
+            field:
+              type: text
+              display: 'Video - Başlık'
+          -
+            handle: video_alt_baslik
+            field:
+              type: text
+              display: 'Video - Alt Başlık'
+          -
+            handle: video_embed_url
+            field:
+              type: text
+              display: 'Video - Embed URL'
+              instructions: 'YouTube embed URL (örn: https://www.youtube.com/embed/VIDEO_ID)'
+          -
+            handle: video_slider_items
+            field:
+              type: grid
+              display: 'Video Slider Öğeleri'
+              add_row: 'Video Ekle'
+              mode: stacked
+              fields:
+                -
+                  handle: title
+                  field:
+                    type: text
+                    display: Başlık
+                -
+                  handle: src
+                  field:
+                    type: text
+                    display: 'Embed URL'
+      -
+        display: 'Roller Bölümü'
+        fields:
+          -
+            handle: roller_goster
+            field:
+              type: toggle
+              display: 'Roller Bölümünü Göster'
+              default: true
+          -
+            handle: roller_baslik
+            field:
+              type: text
+              display: 'Roller - Başlık'
+          -
+            handle: roller_aciklama
+            field:
+              type: textarea
+              display: 'Roller - Açıklama'
+          -
+            handle: role_profiles
+            field:
+              type: grid
+              display: 'Rol Kartları'
+              add_row: 'Rol Ekle'
+              mode: stacked
+              fields:
+                -
+                  handle: id
+                  field:
+                    type: text
+                    display: 'Benzersiz ID'
+                -
+                  handle: label
+                  field:
+                    type: text
+                    display: Etiket
+                -
+                  handle: title
+                  field:
+                    type: text
+                    display: Başlık
+                -
+                  handle: description
+                  field:
+                    type: textarea
+                    display: Açıklama
+                -
+                  handle: media_url
+                  field:
+                    type: text
+                    display: 'Görsel URL'
+                -
+                  handle: modules
+                  field:
+                    type: list
+                    display: 'Modül ID Listesi'
+                -
+                  handle: benefits
+                  field:
+                    type: list
+                    display: Faydalar
+      -
+        display: 'Mobil Bölümü'
+        fields:
+          -
+            handle: mobil_goster
+            field:
+              type: toggle
+              display: 'Mobil Bölümünü Göster'
+              default: true
+          -
+            handle: mobil_baslik
+            field:
+              type: text
+              display: 'Mobil - Başlık'
+          -
+            handle: mobil_aciklama
+            field:
+              type: textarea
+              display: 'Mobil - Açıklama'
+          -
+            handle: mobil_gorsel_url
+            field:
+              type: text
+              display: 'Mobil Görsel/Video URL'
+          -
+            handle: mobil_ozellikler
+            field:
+              type: grid
+              display: 'Mobil Özellik Kartları'
+              add_row: 'Özellik Ekle'
+              fields:
+                -
+                  handle: title
+                  field:
+                    type: text
+                    display: Başlık
+                -
+                  handle: description
+                  field:
+                    type: textarea
+                    display: Açıklama
+      -
+        display: 'CTA Bölümü'
+        fields:
+          -
+            handle: cta_goster
+            field:
+              type: toggle
+              display: 'CTA Bölümünü Göster'
+              default: true
+          -
+            handle: cta_baslik
+            field:
+              type: text
+              display: 'CTA - Başlık'
+          -
+            handle: cta_aciklama
+            field:
+              type: textarea
+              display: 'CTA - Açıklama'
+          -
+            handle: cta_buton_metin
+            field:
+              type: text
+              display: 'CTA - Buton Metni'
+  seo:
+    display: SEO
+    sections:
+      -
+        display: 'SEO ve İndeksleme'
+        fields:
+          -
+            handle: seo_enabled
+            field:
+              type: toggle
+              display: Enabled
+              instructions: "Kapalıysa sayfa raporlardan ve sitemap'tan çıkarılabilir, SEO render akışı devre dışı kalır."
+              default: true
+          -
+            handle: seo_title
+            field:
+              type: text
+              display: 'SEO Başlık'
+              instructions: 'Tarayıcı sekmesinde görünecek başlık'
+          -
+            handle: seo_description
+            field:
+              type: textarea
+              display: 'SEO Açıklama'
+              instructions: 'Arama motorlarında görünecek açıklama (max 160 karakter)'
+          -
+            handle: seo_site_name_mode
+            field:
+              type: select
+              display: 'Site Name'
+              default: inherit
+              options:
+                inherit: Inherit
+                custom: Custom
+                disabled: Disabled
+          -
+            handle: seo_site_name_custom
+            field:
+              type: text
+              display: 'Site Name - Custom'
+          -
+            handle: seo_site_name_position
+            field:
+              type: select
+              display: 'Site Name Position'
+              default: inherit
+              options:
+                inherit: Inherit
+                before: before
+                after: after
+          -
+            handle: seo_site_name_separator
+            field:
+              type: text
+              display: 'Site Name Separator'
+              default: '|'
+          -
+            handle: no_index
+            field:
+              type: toggle
+              display: 'Arama Motorlarından Gizle'
+              instructions: 'Açık ise bu sayfa arama motorlarında görünmez'
+          -
+            handle: robots
+            field:
+              type: checkboxes
+              display: Robots
+              options:
+                noindex: noindex
+                nofollow: nofollow
+                noarchive: noarchive
+                nosnippet: nosnippet
+          -
+            handle: seo_keywords
+            field:
+              type: list
+              display: 'SEO Anahtar Kelimeler'
+          -
+            handle: og_title
+            field:
+              type: text
+              display: 'OG Başlık'
+          -
+            handle: og_description
+            field:
+              type: textarea
+              display: 'OG Açıklama'
+          -
+            handle: og_image
+            field:
+              type: text
+              display: 'OG Görsel URL'
+          -
+            handle: x_title
+            field:
+              type: text
+              display: 'X Card Title'
+          -
+            handle: x_description
+            field:
+              type: textarea
+              display: 'X Card Description'
+          -
+            handle: x_handle
+            field:
+              type: text
+              display: 'X Handle'
+          -
+            handle: canonical_url
+            field:
+              type: text
+              display: 'Canonical URL'
+          -
+            handle: schema_type
+            field:
+              type: select
+              display: 'Schema Türü'
+              options:
+                web_page: WebPage
+                article: Article
+                service: Service
+                software_application: SoftwareApplication
+          -
+            handle: sitemap_enabled
+            field:
+              type: toggle
+              display: Sitemap
+              default: true
+          -
+            handle: sitemap_priority
+            field:
+              type: text
+              display: 'Sitemap Priority'
+              default: '0.5'
+          -
+            handle: sitemap_change_frequency
+            field:
+              type: select
+              display: 'Sitemap Change Frequency'
+              default: monthly
+              options:
+                always: always
+                hourly: hourly
+                daily: daily
+                weekly: weekly
+                monthly: monthly
+                yearly: yearly
+                never: never
+          -
+            handle: structured_data_items
+            field:
+              type: replicator
+              display: 'JSON-LD Blocks'
+              sets:
+                faq:
+                  display: 'FAQ Schema'
+                  fields:
+                    -
+                      handle: title
+                      field:
+                        type: text
+                        display: 'Blok Adı'
+                    -
+                      handle: items
+                      field:
+                        type: grid
+                        display: Sorular
+                        fields:
+                          -
+                            handle: question
+                            field:
+                              type: text
+                              display: Soru
+                          -
+                            handle: answer
+                            field:
+                              type: textarea
+                              display: Cevap
+                custom_json:
+                  display: 'Custom JSON-LD'
+                  fields:
+                    -
+                      handle: title
+                      field:
+                        type: text
+                        display: 'Blok Adı'
+                    -
+                      handle: json
+                      field:
+                        type: textarea
+                        display: JSON
+  sidebar:
+    sections:
+      -
+        fields:
+          -
+            handle: slug
+            field:
+              type: slug
+              localizable: true
+              validate:
+                - 'max:200'
+                - 'new \Statamic\Rules\UniqueEntryValue({collection}, {id}, {site})'

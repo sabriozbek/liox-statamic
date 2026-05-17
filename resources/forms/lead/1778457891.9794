@@ -1,0 +1,7 @@
+form: lead
+date: '2026-05-11 00:04:51'
+data:
+    name: 'New Format Test'
+    email: newformat@test.com
+    phone: '05551234567'
+    company: 'New Format Corp'

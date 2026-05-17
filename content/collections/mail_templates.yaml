@@ -1,0 +1,74 @@
+title: E-posta Şablonları
+layout: default
+template: mail_templates/index
+revisions: true
+铁道部: true
+status: draft
+sort_dir: asc
+inject_locale: true
+locale_urls: true
+preview_target: null
+default_status: draft
+sort: false
+
+fields:
+  -
+    handle: subject
+    field:
+      type: text
+      display: Konu
+      validate:
+        - required
+
+  -
+    handle: type
+    field:
+      type: select
+      display: Tür
+      options:
+        lead_notification: Lead Bildirimi
+        assessment_notification: Analiz Bildirimi
+        appointment_confirmation: Randevu Onayı
+        welcome: Hoşgeldin
+        newsletter: Bülten
+        reminder: Hatırlatma
+      default: lead_notification
+
+  -
+    handle: content
+    field:
+      type: textarea
+      display: İçerik
+      validate:
+        - required
+
+  -
+    handle: variables
+    field:
+      type: textarea
+      display: Değişkenler (JSON)
+
+  -
+    handle: is_active
+    field:
+      type: toggle
+      display: Aktif
+      default: true
+
+  -
+    handle: priority
+    field:
+      type: integer
+      display: Öncelik
+
+  -
+    handle: cc_email
+    field:
+      type: text
+      display: CC E-posta
+
+  -
+    handle: bcc_email
+    field:
+      type: text
+      display: BCC E-posta

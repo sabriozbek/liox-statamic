@@ -1,0 +1,42 @@
+title: Duyuru Ayarları
+tabs:
+  main:
+    display: Duyuru
+    sections:
+      -
+        display: Duyuru Bar Ayarları
+        fields:
+          -
+            handle: duyuru_aktif
+            field:
+              type: toggle
+              display: Duyuru Aktif
+              instructions: 'Duyuru barını göster/gizle'
+              default: true
+          -
+            handle: duyuru_metni
+            field:
+              type: text
+              display: Duyuru Metni
+              instructions: 'Duyuru barında görünecek metin'
+              width: 100
+          -
+            handle: duyuru_renk
+            field:
+              type: select
+              display: Duyuru Rengi
+              instructions: 'Duyuru barının arka plan rengi'
+              options:
+                -
+                  value: kirmizi
+                  label: Kırmızı
+                -
+                  value: mavi
+                  label: Mavi
+                -
+                  value: yesil
+                  label: Yeşil
+                -
+                  value: koyu
+                  label: Koyu
+              default: kirmizi

@@ -1,0 +1,78 @@
+title: 'Başarı Hikayesi'
+tabs:
+  main:
+    display: İçerik
+    sections:
+      -
+        display: 'Temel Bilgiler'
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              required: true
+              display: Başlık
+          -
+            handle: slug
+            field:
+              type: slug
+              localizable: true
+              validate:
+                - 'max:200'
+                - 'new \Statamic\Rules\UniqueEntryValue({collection}, {id}, {site})'
+              display: Slug
+          -
+            handle: company
+            field:
+              type: text
+              display: Firma
+          -
+            handle: sector
+            field:
+              type: text
+              display: Sektör
+          -
+            handle: quote
+            field:
+              type: textarea
+              display: 'Referans Metni'
+          -
+            handle: author
+            field:
+              type: text
+              display: 'Yetkili Kişi'
+          -
+            handle: youtube_embed_url
+            field:
+              type: text
+              display: 'YouTube Embed URL'
+          -
+            handle: logo_url
+            field:
+              type: assets
+              display: 'Firma Logosu'
+              container: assets
+              max_files: 1
+          -
+            handle: image_url
+            field:
+              type: assets
+              display: 'Referans Görseli'
+              container: assets
+              max_files: 1
+  seo:
+    display: SEO
+    sections:
+      -
+        display: SEO
+        fields:
+          -
+            handle: seo_title
+            field:
+              type: text
+              display: 'SEO Başlık'
+          -
+            handle: seo_description
+            field:
+              type: textarea
+              display: 'SEO Açıklama'

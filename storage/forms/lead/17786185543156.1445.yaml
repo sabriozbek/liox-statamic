@@ -1,0 +1,7 @@
+name: 'Proxy Test'
+email: proxy@test.com
+tel: '05321234567'
+company: 'Proxy Co'
+employee_count: 10-49
+path: /
+variant_id: '1'

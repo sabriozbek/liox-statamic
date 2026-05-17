@@ -1,0 +1,93 @@
+title: SEO Ayarları
+tabs:
+  main:
+    display: SEO
+    sections:
+      -
+        display: Varsayılan SEO
+        fields:
+          -
+            handle: default_title
+            field:
+              type: text
+              display: Varsayılan Başlık
+          -
+            handle: default_description
+            field:
+              type: textarea
+              display: Varsayılan Açıklama
+          -
+            handle: default_keywords
+            field:
+              type: list
+              display: Varsayılan Anahtar Kelimeler
+          -
+            handle: default_og_image
+            field:
+              type: text
+              display: Varsayılan OG Görsel URL
+          -
+            handle: site_name
+            field:
+              type: text
+              display: Site Adı
+          -
+            handle: site_name_position
+            field:
+              type: select
+              display: Site Name Position
+              default: after
+              options:
+                before: before
+                after: after
+          -
+            handle: twitter_handle
+            field:
+              type: text
+              display: Twitter/X Handle
+          -
+            handle: site_name_separator
+            field:
+              type: text
+              display: Site Name Separator
+              default: '|'
+          -
+            handle: default_robots
+            field:
+              type: checkboxes
+              display: Varsayılan Robots
+              options:
+                noindex: noindex
+                nofollow: nofollow
+                noarchive: noarchive
+                nosnippet: nosnippet
+          -
+            handle: default_canonical_base
+            field:
+              type: text
+              display: Varsayılan Canonical Base URL
+          -
+            handle: default_x_handle
+            field:
+              type: text
+              display: Varsayılan X Handle
+          -
+            handle: default_sitemap_priority
+            field:
+              type: text
+              display: Varsayılan Sitemap Priority
+              default: '0.5'
+          -
+            handle: default_sitemap_change_frequency
+            field:
+              type: select
+              display: Varsayılan Sitemap Change Frequency
+              default: monthly
+              options:
+                always: always
+                hourly: hourly
+                daily: daily
+                weekly: weekly
+                monthly: monthly
+                yearly: yearly
+                never: never

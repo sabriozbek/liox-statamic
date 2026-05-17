@@ -1,0 +1,49 @@
+title: Etiket
+tabs:
+  main:
+    display: İçerik
+    sections:
+      -
+        display: Temel Bilgiler
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              display: Başlık
+              validate:
+                - required
+          -
+            handle: slug
+            field:
+              type: slug
+              display: URL Slug
+              validate:
+                - required
+  display:
+    display: Görüntüleme
+    sections:
+      -
+        display: Sıralama
+        fields:
+          -
+            handle: display_order
+            field:
+              type: integer
+              display: Görüntüleme Sırası
+  seo:
+    display: SEO
+    sections:
+      -
+        display: SEO Alanları
+        fields:
+          -
+            handle: seo_title
+            field:
+              type: text
+              display: SEO Başlık
+          -
+            handle: seo_description
+            field:
+              type: textarea
+              display: SEO Açıklama

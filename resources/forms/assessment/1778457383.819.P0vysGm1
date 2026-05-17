@@ -1,0 +1,9 @@
+form: assessment
+date: '2026-05-10 23:56:23'
+data:
+    name: 'Analiz Test'
+    email: analiz@test.com
+    phone: '05551234567'
+    company: 'Analiz Corp'
+    sector: teknoloji
+    goals: 'Verimlilik artışı'

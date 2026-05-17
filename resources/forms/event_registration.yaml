@@ -1,0 +1,74 @@
+title: Etkinlik Kayıt Formu
+honeypot: honeypot
+store: true
+inline_keyed_templates: false
+
+fields:
+  -
+    handle: event_slug
+    field:
+      type: text
+      display: Etkinlik Slug
+      validate:
+        - required
+
+  -
+    handle: event_title
+    field:
+      type: text
+      display: Etkinlik Başlığı
+
+  -
+    handle: name
+    field:
+      type: text
+      display: Ad Soyad
+      validate:
+        - required
+
+  -
+    handle: email
+    field:
+      type: email
+      display: E-posta
+      validate:
+        - required
+        - email
+
+  -
+    handle: tel
+    field:
+      type: text
+      display: Telefon
+
+  -
+    handle: company
+    field:
+      type: text
+      display: Şirket
+      validate:
+        - required
+
+  -
+    handle: title
+    field:
+      type: text
+      display: Ünvan
+
+  -
+    handle: attendee_count
+    field:
+      type: text
+      display: Katılımcı Sayısı
+
+  -
+    handle: notes
+    field:
+      type: textarea
+      display: Notlar
+
+  -
+    handle: path
+    field:
+      type: text
+      display: Kaynak Sayfa

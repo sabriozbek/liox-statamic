@@ -1,0 +1,304 @@
+title: Modül
+tabs:
+  main:
+    display: İçerik
+    sections:
+      -
+        display: 'Temel Bilgiler'
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              required: true
+              display: Başlık
+              validate:
+                - required
+          -
+            handle: slug
+            field:
+              type: slug
+              localizable: true
+              validate:
+                - required
+                - 'new \Statamic\Rules\UniqueEntryValue({collection}, {id}, {site})'
+              display: Slug
+          -
+            handle: short_description
+            field:
+              type: textarea
+              display: 'Kısa Açıklama'
+          -
+            handle: icon
+            field:
+              type: text
+              display: Icon
+          -
+            handle: content
+            field:
+              type: grid
+              display: 'İçerik Blokları'
+              add_row: 'Blok Ekle'
+              fields:
+                -
+                  handle: type
+                  field:
+                    type: text
+                    display: Tip
+                -
+                  handle: text
+                  field:
+                    type: textarea
+                    display: Metin
+          -
+            handle: hero_badge
+            field:
+              type: text
+              display: 'Hero Badge'
+          -
+            handle: hero_highlights
+            field:
+              type: list
+              display: 'Hero Maddeleri'
+          -
+            handle: hero_stats
+            field:
+              type: grid
+              display: 'Hero İstatistik Kutuları'
+              add_row: 'İstatistik Ekle'
+              fields:
+                -
+                  handle: value
+                  field:
+                    type: text
+                    display: Değer
+                -
+                  handle: label
+                  field:
+                    type: text
+                    display: Etiket
+          -
+            handle: hero_visual_url
+            field:
+              type: assets
+              display: 'Hero Görsel'
+              container: assets
+              max_files: 1
+      -
+        display: Özellikler
+        fields:
+          -
+            handle: features
+            field:
+              type: grid
+              display: Özellikler
+              add_row: 'Özellik Ekle'
+              fields:
+                -
+                  handle: title
+                  field:
+                    type: text
+                    display: Başlık
+                -
+                  handle: description
+                  field:
+                    type: textarea
+                    display: Açıklama
+          -
+            handle: sectors
+            field:
+              type: list
+              display: 'İlgili Sektör Slugları'
+          -
+            handle: order
+            field:
+              type: integer
+              display: Sıralama
+      -
+        display: 'Problem Kartları'
+        fields:
+          -
+            handle: pain_points_title
+            field:
+              type: text
+              display: 'Problem Alanı Başlığı'
+          -
+            handle: pain_points
+            field:
+              type: grid
+              display: 'Problem Kartları'
+              add_row: 'Problem Ekle'
+              fields:
+                -
+                  handle: title
+                  field:
+                    type: text
+                    display: Başlık
+                -
+                  handle: description
+                  field:
+                    type: textarea
+                    display: Açıklama
+                -
+                  handle: icon
+                  field:
+                    type: text
+                    display: Icon
+      -
+        display: 'Capability Kartları'
+        fields:
+          -
+            handle: capabilities_title
+            field:
+              type: text
+              display: 'Capability Başlığı'
+          -
+            handle: capabilities
+            field:
+              type: grid
+              display: 'Capability Kartları'
+              add_row: 'Kart Ekle'
+              fields:
+                -
+                  handle: title
+                  field:
+                    type: text
+                    display: Başlık
+                -
+                  handle: description
+                  field:
+                    type: textarea
+                    display: Açıklama
+                -
+                  handle: image_url
+                  field:
+                    type: assets
+                    display: Görsel
+                    container: assets
+                    max_files: 1
+      -
+        display: 'Split İçerik Bloğu'
+        fields:
+          -
+            handle: split_title
+            field:
+              type: text
+              display: 'Sağ Başlık'
+          -
+            handle: split_description
+            field:
+              type: textarea
+              display: 'Sağ Açıklama'
+          -
+            handle: split_image_url
+            field:
+              type: assets
+              display: 'Sol Görsel'
+              container: assets
+              max_files: 1
+          -
+            handle: split_items
+            field:
+              type: list
+              display: 'Sağ Liste Maddeleri'
+      -
+        display: 'Ek İçerik Bölümü'
+        fields:
+          -
+            handle: extra_section_title
+            field:
+              type: text
+              display: 'Ek Bölüm Başlık'
+          -
+            handle: extra_section_description
+            field:
+              type: textarea
+              display: 'Ek Bölüm Açıklama'
+          -
+            handle: extra_section_image_url
+            field:
+              type: assets
+              display: 'Ek Bölüm Görseli'
+              container: assets
+              max_files: 1
+          -
+            handle: extra_section_reverse
+            field:
+              type: toggle
+              display: 'Görseli Sağa Al'
+              default: false
+          -
+            handle: extra_section_items
+            field:
+              type: list
+              display: 'Ek Bölüm Maddeleri'
+      -
+        display: 'Referanslar ve Alt CTA'
+        fields:
+          -
+            handle: customer_logos
+            field:
+              type: grid
+              display: 'Müşteri Logoları'
+              add_row: 'Logo Ekle'
+              fields:
+                -
+                  handle: name
+                  field:
+                    type: text
+                    display: Ad
+                -
+                  handle: logo_url
+                  field:
+                    type: assets
+                    display: Logo
+                    container: assets
+                    max_files: 1
+          -
+            handle: testimonial_quote
+            field:
+              type: textarea
+              display: 'Referans Metni'
+          -
+            handle: testimonial_author
+            field:
+              type: text
+              display: 'Referans Kişisi'
+          -
+            handle: testimonial_company
+            field:
+              type: text
+              display: 'Referans Firma'
+          -
+            handle: testimonial_image_url
+            field:
+              type: assets
+              display: 'Referans Görsel'
+              container: assets
+              max_files: 1
+          -
+            handle: bottom_cta_title
+            field:
+              type: text
+              display: 'Alt CTA Başlık'
+          -
+            handle: bottom_cta_description
+            field:
+              type: textarea
+              display: 'Alt CTA Açıklama'
+  seo:
+    display: SEO
+    sections:
+      -
+        display: 'SEO Alanları'
+        fields:
+          -
+            handle: seo_title
+            field:
+              type: text
+              display: 'SEO Başlık'
+          -
+            handle: seo_description
+            field:
+              type: textarea
+              display: 'SEO Açıklama'

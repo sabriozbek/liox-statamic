@@ -1,0 +1,86 @@
+title: Blog Kategorisi
+tabs:
+  main:
+    display: İçerik
+    sections:
+      -
+        display: Temel Bilgiler
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              display: Başlık
+              validate:
+                - required
+          -
+            handle: slug
+            field:
+              type: slug
+              display: URL Slug
+              validate:
+                - required
+          -
+            handle: description
+            field:
+              type: textarea
+              display: Kategori Açıklaması
+          -
+            handle: icon
+            field:
+              type: text
+              display: İkon
+              instructions: 'FontAwesome ikon sınıfı (örn: fa-solid fa-code)'
+          -
+            handle: color
+            field:
+              type: select
+              display: Renk
+              options:
+                - value: red
+                  display: Kırmızı
+                - value: blue
+                  display: Lacivert
+                - value: green
+                  display: Yeşil
+                - value: purple
+                  display: Mor
+                - value: amber
+                  display: Amber
+                - value: cyan
+                  display: Cyan
+              default: blue
+          -
+            handle: display_order
+            field:
+              type: integer
+              display: Görüntüleme Sırası
+  media:
+    display: Görseller
+    sections:
+      -
+        display: Kategori Görseli
+        fields:
+          -
+            handle: featured_image
+            field:
+              type: assets
+              display: Kategori Görseli
+              container: assets
+              max_files: 1
+  seo:
+    display: SEO
+    sections:
+      -
+        display: SEO Alanları
+        fields:
+          -
+            handle: seo_title
+            field:
+              type: text
+              display: SEO Başlık
+          -
+            handle: seo_description
+            field:
+              type: textarea
+              display: SEO Açıklama

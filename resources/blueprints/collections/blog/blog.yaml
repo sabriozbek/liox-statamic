@@ -1,0 +1,552 @@
+title: Blog
+tabs:
+  main:
+    display: İçerik
+    sections:
+      -
+        display: 'Temel Bilgiler'
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              required: true
+              display: Başlık
+              validate:
+                - required
+          -
+            handle: slug
+            field:
+              type: slug
+              localizable: true
+              validate:
+                - required
+                - 'new \Statamic\Rules\UniqueEntryValue({collection}, {id}, {site})'
+              display: 'URL Slug'
+          -
+            handle: publish_date
+            field:
+              type: date
+              display: 'Yayın Tarihi'
+              validate:
+                - required
+          -
+            handle: updated_date
+            field:
+              type: date
+              display: 'Son Güncelleme Tarihi'
+          -
+            handle: author
+            field:
+              type: text
+              display: 'Yazar Adı'
+          -
+            handle: author_role
+            field:
+              type: text
+              display: 'Yazar Ünvanı'
+          -
+            handle: author_bio
+            field:
+              type: textarea
+              display: 'Yazar Biyografisi'
+          -
+            handle: author_avatar
+            field:
+              type: assets
+              display: 'Yazar Avatar'
+              container: assets
+              max_files: 1
+      -
+        display: İçerik
+        fields:
+          -
+            handle: excerpt
+            field:
+              type: textarea
+              display: 'Kısa Özet'
+              instructions: 'Blog yazısının listelerde ve sosyal medyada gösterilecek özeti.'
+          -
+            handle: featured_image
+            field:
+              type: assets
+              display: 'Öne Çıkan Görsel'
+              container: assets
+              max_files: 1
+          -
+            handle: featured_image_alt
+            field:
+              type: text
+              display: 'Görsel Alt Metni'
+          -
+            handle: intro_content
+            field:
+              type: bard
+              display: 'Intro İçeriği'
+              buttons:
+                - h2
+                - h3
+                - bold
+                - italic
+                - link
+              instructions: 'Yazının başında gösterilecek kısa intro içeriği.'
+          -
+            handle: content
+            field:
+              type: bard
+              display: İçerik
+              buttons:
+                - h2
+                - h3
+                - bold
+                - italic
+                - unorderedlist
+                - orderedlist
+                - quote
+                - link
+                - image
+                - video
+                - table
+                - code
+      -
+        display: 'Kategori ve Etiketler'
+        fields:
+          -
+            handle: category
+            field:
+              type: terms
+              taxonomies:
+                - blog_categories
+              display: Kategori
+          -
+            handle: tags
+            field:
+              type: terms
+              taxonomies:
+                - tags
+              display: Etiketler
+          -
+            handle: reading_time
+            field:
+              type: integer
+              display: 'Tahmini Okuma Süresi (dakika)'
+  design:
+    display: 'Tasarım ve Görünüm'
+    sections:
+      -
+        display: 'Sayfa Şablonu'
+        fields:
+          -
+            handle: template
+            field:
+              type: select
+              display: 'Sayfa Şablonu'
+              options:
+                standard: 'Standart Blog'
+                with_form: 'Form Odaklı Blog'
+                with_sidebar: "Sidebar'lı Blog"
+                video_header: 'Video Başlıklı Blog'
+                minimal: 'Minimal Okuma'
+                magazine: 'Dergi Stili'
+              default: standard
+          -
+            handle: sidebar_position
+            field:
+              type: select
+              display: 'Sidebar Pozisyonu'
+              options:
+                right: Sağ
+                left: Sol
+              default: right
+      -
+        display: 'Form Ayarları'
+        fields:
+          -
+            handle: form_title
+            field:
+              type: text
+              display: 'Form Başlığı'
+          -
+            handle: form_description
+            field:
+              type: textarea
+              display: 'Form Açıklaması'
+          -
+            handle: form_content
+            field:
+              type: bard
+              display: 'Blog Form Content'
+              buttons:
+                - bold
+                - italic
+                - link
+          -
+            handle: form_button_text
+            field:
+              type: text
+              display: 'Form Buton Metni'
+              default: 'Demo Talep Et'
+          -
+            handle: form_button_link
+            field:
+              type: text
+              display: 'Form Buton Linki'
+              instructions: 'Form gönderildikten sonra yönlendirilecek URL.'
+          -
+            handle: form_variant
+            field:
+              type: select
+              display: 'Form Varyantı'
+              options:
+                compact: 'Kompakt Form'
+                full: 'Tam Form'
+                minimal: 'Minimal Form'
+              default: compact
+      -
+        display: 'Video Ayarları'
+        fields:
+          -
+            handle: video_url
+            field:
+              type: text
+              display: 'Video URL'
+              instructions: 'Video başlıklı şablon için YouTube/Vimeo URL.'
+          -
+            handle: video_autoplay
+            field:
+              type: toggle
+              display: 'Video Otomatik Oynasın'
+              default: false
+      -
+        display: 'Öne Çıkarma ve Rozetler'
+        fields:
+          -
+            handle: custom_badge
+            field:
+              type: text
+              display: 'Özel Rozet'
+              instructions: 'Yazıda gösterilecek özel bir rozet (örn: "Yeni", "Güncel", "Önerilen").'
+          -
+            handle: badge_color
+            field:
+              type: select
+              display: 'Rozet Rengi'
+              options:
+                red: Kırmızı
+                blue: Mavi
+                green: Yeşil
+                purple: Mor
+                amber: Amber
+              default: red
+          -
+            handle: is_featured
+            field:
+              type: toggle
+              display: 'Öne Çıkarılsın mı?'
+              default: false
+          -
+            handle: is_pinned
+            field:
+              type: toggle
+              display: 'Sabitlensin mi?'
+              default: false
+  display:
+    display: 'Görüntüleme Ayarları'
+    sections:
+      -
+        display: 'Liste Görünümü'
+        fields:
+          -
+            handle: show_in_intro
+            field:
+              type: toggle
+              display: 'İntroda Göster'
+              default: false
+              instructions: 'Blog ana sayfasında öne çıkan sliderda göster.'
+          -
+            handle: show_in_intro_right
+            field:
+              type: toggle
+              display: 'İntroda Sağda Göster'
+              default: false
+          -
+            handle: featured_in_resources
+            field:
+              type: toggle
+              display: 'Kaynaklar Sayfasında Öne Çıkar'
+              default: false
+          -
+            handle: views
+            field:
+              type: integer
+              display: 'Görüntülenme Sayısı'
+      -
+        display: 'İçerik Görünümü'
+        fields:
+          -
+            handle: show_share_buttons
+            field:
+              type: toggle
+              display: 'Paylaşım Butonları Gösterilsin'
+              default: true
+          -
+            handle: enable_sticky_share
+            field:
+              type: toggle
+              display: 'Yapışkan Paylaşım Butonları'
+              default: false
+          -
+            handle: enable_reading_progress
+            field:
+              type: toggle
+              display: 'Okuma İlerleme Çubuğu'
+              default: true
+          -
+            handle: show_author_box
+            field:
+              type: toggle
+              display: 'Yazar Kutusu Gösterilsin'
+              default: true
+          -
+            handle: show_related_posts
+            field:
+              type: toggle
+              display: 'İlgili Yazılar Gösterilsin'
+              default: true
+          -
+            handle: show_comments
+            field:
+              type: toggle
+              display: 'Yorumlar Gösterilsin'
+              default: false
+      -
+        display: 'İlgili İçerikler'
+        fields:
+          -
+            handle: related_posts_count
+            field:
+              type: integer
+              display: 'İlgili Yazı Sayısı'
+              default: 3
+          -
+            handle: related_posts_category
+            field:
+              type: toggle
+              display: 'Aynı Kategoriden İlgili Yazılar'
+              default: true
+          -
+            handle: related_posts
+            field:
+              type: entries
+              display: 'Benzer Makaleler'
+              collections:
+                - blog
+              max_items: 6
+              instructions: 'Seçim yapılmazsa aynı kategorideki makaleler otomatik gösterilir.'
+          -
+            handle: related_product
+            field:
+              type: entries
+              display: 'Bağlı Olduğu Ürün'
+              collections:
+                - modules
+              max_items: 1
+          -
+            handle: business_types
+            field:
+              type: terms
+              taxonomies:
+                - business_types
+              display: 'İşletme Türleri'
+      -
+        display: 'Footer ve SSS'
+        fields:
+          -
+            handle: footer_text
+            field:
+              type: textarea
+              display: 'Footer Metni'
+              instructions: 'Yazının altında gösterilecek özel footer içeriği.'
+          -
+            handle: footer_button_text
+            field:
+              type: text
+              display: 'Footer Buton Metni'
+          -
+            handle: footer_button_url
+            field:
+              type: text
+              display: 'Footer Buton URL'
+          -
+            handle: footer_bg_color
+            field:
+              type: select
+              display: 'Footer Arka Plan Rengi'
+              options:
+                default: Varsayılan
+                dark: 'Koyu Lacivert'
+                red: Kırmızı
+                white: Beyaz
+                gray: Gri
+              default: default
+          -
+            handle: footer_text_color
+            field:
+              type: select
+              display: 'Footer Yazı Rengi'
+              options:
+                white: Beyaz
+                dark: Koyu
+              default: white
+          -
+            handle: footer_button_bg_color
+            field:
+              type: select
+              display: 'Footer Buton Arka Plan Rengi'
+              options:
+                white: Beyaz
+                red: Kırmızı
+                transparent: Şeffaf
+              default: white
+          -
+            handle: footer_button_text_color
+            field:
+              type: select
+              display: 'Footer Buton Yazı Rengi'
+              options:
+                dark: Koyu
+                red: Kırmızı
+              default: dark
+          -
+            handle: footer_copyright_bg_color
+            field:
+              type: select
+              display: 'Copyright Arka Plan Rengi'
+              options:
+                darker: 'Daha Koyu'
+                dark: Koyu
+                transparent: Şeffaf
+              default: darker
+          -
+            handle: faq_title
+            field:
+              type: text
+              display: 'SSS Başlığı'
+          -
+            handle: faqs
+            field:
+              type: grid
+              display: 'Sıkça Sorulan Sorular'
+              add_row: 'Soru Ekle'
+              fields:
+                -
+                  handle: question
+                  field:
+                    type: text
+                    display: Soru
+                -
+                  handle: answer
+                  field:
+                    type: textarea
+                    display: Cevap
+          -
+            handle: accordion_items
+            field:
+              type: grid
+              display: 'Açılır Menüler'
+              add_row: 'Menü Ekle'
+              fields:
+                -
+                  handle: title
+                  field:
+                    type: text
+                    display: Başlık
+                -
+                  handle: content
+                  field:
+                    type: textarea
+                    display: İçerik
+  seo:
+    display: SEO
+    sections:
+      -
+        display: 'SEO Alanları'
+        fields:
+          -
+            handle: seo_title
+            field:
+              type: text
+              display: 'SEO Başlık'
+              instructions: 'Arama motorları için başlık. Boş bırakılırsa ana başlık kullanılır.'
+          -
+            handle: seo_description
+            field:
+              type: textarea
+              display: 'SEO Açıklama'
+              instructions: 'Arama sonuçlarında gösterilecek açıklama (150-160 karakter önerilir).'
+          -
+            handle: meta_keywords
+            field:
+              type: text
+              display: 'Meta Anahtar Kelimeler'
+              instructions: 'Virgülle ayrılmış anahtar kelimeler.'
+          -
+            handle: no_index
+            field:
+              type: toggle
+              display: 'No-Index (Arama Motorlarında Gözükmesin)'
+              default: false
+          -
+            handle: canonical_url
+            field:
+              type: text
+              display: 'Canonical URL'
+      -
+        display: 'Sosyal Medya'
+        fields:
+          -
+            handle: og_image
+            field:
+              type: assets
+              display: 'Open Graph Görseli'
+              container: assets
+              max_files: 1
+              instructions: 'Sosyal medyada paylaşılırken gösterilecek özel görsel.'
+          -
+            handle: twitter_card_type
+            field:
+              type: select
+              display: 'Twitter Card Tipi'
+              options:
+                summary: Summary
+                summary_large_image: 'Summary Large Image'
+                player: Player
+              default: summary_large_image
+          -
+            handle: schema_type
+            field:
+              type: select
+              display: 'Schema.org Tipi'
+              options:
+                article: Makale
+                newsarticle: 'Haber Makalesi'
+                blogpost: 'Blog Yazısı'
+                techarticle: 'Teknik Makale'
+              default: article
+      -
+        display: 'Harici Bağlantı'
+        fields:
+          -
+            handle: external_url
+            field:
+              type: text
+              display: 'Harici Bağlantı'
+              instructions: "Dış bir URL'ye yönlendir (embed içerik için)"
+          -
+            handle: parent
+            field:
+              type: entries
+              display: Parent
+              collections:
+                - blog
+              max_items: 1

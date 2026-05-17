@@ -1,0 +1,10 @@
+title: Sayfalar
+handle: pages
+template: page
+layout: layout
+inject:
+  - seo
+blueprint: page
+settings:
+  slant: false
+  listings: false

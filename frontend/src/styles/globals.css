@@ -1,0 +1,197 @@
+@import "tailwindcss";
+@import "./fonts.css";
+
+@theme {
+  /* Custom Colors */
+  --color-uyumRed: #dd222c;
+  --color-secondary: #0a1628;
+  --color-lioxBlack: #333333;
+  --color-softBg: #F9FAFB;
+  
+  /* Custom Fonts - Plus Jakarta Sans (Gilroy alternatifi) */
+  --font-family-sans: 'Plus Jakarta Sans', 'Gilroy-Medium', ui-sans-serif, system-ui, sans-serif;
+  --font-family-logo: 'Plus Jakarta Sans', 'Gilroy-Heavy', ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Base Styles */
+body {
+  font-family: 'Plus Jakarta Sans', 'Gilroy-Medium', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #334155;
+}
+
+@media (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Plus Jakarta Sans', 'Gilroy-Heavy', 'Gilroy-Bold', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+input, select, textarea {
+  font-family: 'Plus Jakarta Sans', 'Gilroy-Medium', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  font-family: 'Plus Jakarta Sans', 'Gilroy-Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 400;
+  color: rgb(100 116 139);
+  opacity: 1;
+}
+
+/* Utility Classes */
+.font-black {
+  font-weight: 900;
+}
+
+.font-extrabold {
+  font-weight: 800;
+}
+
+.font-bold,
+.font-semibold,
+.font-extrabold,
+.font-black {
+  font-family: 'Plus Jakarta Sans', 'Gilroy-Heavy', 'Gilroy-Bold', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.font-normal,
+.font-medium {
+  font-family: 'Plus Jakarta Sans', 'Gilroy-Medium', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.font-logo {
+  font-family: 'Plus Jakarta Sans', 'Gilroy-Heavy', 'Gilroy-Bold', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.hero-title-modern {
+  font-family: 'Plus Jakarta Sans', 'Gilroy-Heavy', 'Gilroy-Bold', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+}
+
+.section-title-modern {
+  font-family: 'Plus Jakarta Sans', 'Gilroy-Heavy', 'Gilroy-Bold', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: -0.025em;
+  line-height: 1.02;
+}
+
+/* Animations */
+@keyframes liox-cta-pulse {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    box-shadow: 0 10px 25px rgba(221, 34, 44, 0.35);
+  }
+  50% {
+    transform: translateY(-1px) scale(1.03);
+    box-shadow: 0 16px 40px rgba(221, 34, 44, 0.55);
+  }
+}
+
+.cta-attention {
+  animation: liox-cta-pulse 2.6s ease-in-out infinite;
+}
+
+@keyframes liox-announcement-marquee {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+
+.announcement-marquee {
+  display: inline-flex;
+  flex: none;
+  width: max-content;
+  will-change: transform;
+  animation: liox-announcement-marquee 60s linear infinite;
+}
+
+@keyframes liox-logo-marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.logo-marquee {
+  animation: liox-logo-marquee 45s linear infinite;
+}
+
+@media (max-width: 768px) {
+  .announcement-marquee {
+    animation-duration: 36s;
+  }
+}
+
+/* Tailwind color utilities */
+.bg-uyumRed {
+  background-color: #dd222c;
+}
+
+.text-uyumRed {
+  color: #dd222c;
+}
+
+.text-secondary {
+  color: #0a1628;
+}
+
+.bg-secondary {
+  background-color: #0a1628;
+}
+
+.text-lioxBlack {
+  color: #333333;
+}
+
+.bg-softBg {
+  background-color: #F9FAFB;
+}
+
+.border-uyumRed {
+  border-color: #dd222c;
+}
+
+.hover\:bg-uyumRed:hover {
+  background-color: #dd222c;
+}
+
+.hover\:text-uyumRed:hover {
+  color: #dd222c;
+}
+
+.border-t-uyumRed {
+  border-top-color: #dd222c;
+}
+
+/* Border Colors */
+.border-uyumRed\/80 {
+  border-color: rgba(221, 34, 44, 0.8);
+}
+
+.border-uyumRed\/60 {
+  border-color: rgba(221, 34, 44, 0.6);
+}
+
+.border-uyumRed\/10 {
+  border-color: rgba(221, 34, 44, 0.1);
+}
+
+/* Ring Colors for focus states */
+.focus\:ring-uyumRed:focus {
+  --tw-ring-color: #dd222c;
+}
+
+.focus\:border-uyumRed\/60:focus {
+  border-color: rgba(221, 34, 44, 0.6);
+}
+
+/* Accent for checkboxes */
+.accent-uyumRed {
+  accent-color: #dd222c;
+}

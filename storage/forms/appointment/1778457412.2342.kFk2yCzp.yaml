@@ -1,0 +1,7 @@
+data:
+    name: 'Randevu Test'
+    email: randevu@test.com
+    phone: '05551234567'
+    company: 'Randevu Corp'
+    preferred_date: '2026-06-01'
+    preferred_time: '10:00'

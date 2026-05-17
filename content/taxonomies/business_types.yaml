@@ -1,0 +1,12 @@
+title: İşletme Türleri
+handle: business_types
+inject:
+  - seo
+blueprint: taxonomies/business_types/business_type
+props:
+  - handle: description
+    type: textarea
+    display: Açıklama
+  - handle: display_order
+    type: integer
+    display: Görüntüleme Sırası

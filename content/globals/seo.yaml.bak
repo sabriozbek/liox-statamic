@@ -1,0 +1,20 @@
+title: SEO Ayarları
+handle: seo
+props:
+  - handle: default_title
+    type: text
+  - handle: default_description
+    type: textarea
+  - handle: default_keywords
+    type: text
+  - handle: default_og_image
+    type: assets
+  - handle: twitter_handle
+    type: text
+  - handle: site_verification
+    type: text
+data:
+  default_title: 'LioXERP - Akıllı ERP Çözümleri'
+  default_description: 'LioXERP, işletmeler için kapsamlı bir bulut tabanlı ERP çözümüdür. Üretim, satış, muhasebe ve daha fazlası tek platformda.'
+  default_keywords: 'ERP, iş yazılımı, üretim yönetimi, CRM, muhasebe, LioX, Uyumsoft'
+  twitter_handle: '@lioxerp'

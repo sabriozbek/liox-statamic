@@ -1,0 +1,7 @@
+title: Assets
+fields:
+  -
+    handle: title
+    field:
+      type: text
+      display: Title

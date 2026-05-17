@@ -1,0 +1,12 @@
+id: 1778748284.6046
+date: '2026-05-14 08:44:44'
+form: event_registration
+data:
+    event_slug: insaat-sektorunde-dijital-donusum-zirvesi
+    event_title: 'İnşaat Sektöründe Dijital Dönüşüm Zirvesi'
+    name: 'Test Kullanıcı'
+    email: test@example.com
+    company: LioXERP
+    title: Yönetici
+    attendee_count: '1 Kişi'
+    path: /etkinlik/insaat-sektorunde-dijital-donusum-zirvesi

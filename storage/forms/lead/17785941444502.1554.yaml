@@ -1,0 +1,11 @@
+form: lead
+date: '2026-05-12 13:55:44'
+data:
+  name: 'Home Browser Test'
+  email: homebrowser@test.com
+  tel: '05321234567'
+  company: 'Home Browser'
+  employee_count: 10-49
+  path: /
+  variant_id: '1'
+  utm_source: browser-test

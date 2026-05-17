@@ -1,0 +1,118 @@
+title: Haber
+tabs:
+  main:
+    display: İçerik
+    sections:
+      -
+        display: 'Temel Bilgiler'
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              required: true
+              display: Başlık
+              validate:
+                - required
+          -
+            handle: slug
+            field:
+              type: slug
+              localizable: true
+              validate:
+                - required
+                - 'new \Statamic\Rules\UniqueEntryValue({collection}, {id}, {site})'
+              display: Slug
+          -
+            handle: publish_date
+            field:
+              type: date
+              display: 'Yayın Tarihi'
+          -
+            handle: category
+            field:
+              type: text
+              display: Kategori
+          -
+            handle: source_label
+            field:
+              type: text
+              display: 'Kaynak Etiketi'
+          -
+            handle: excerpt
+            field:
+              type: textarea
+              display: Özet
+          -
+            handle: featured_image
+            field:
+              type: assets
+              display: 'Kapak Görseli'
+              container: assets
+              max_files: 1
+          -
+            handle: featured_image_alt
+            field:
+              type: text
+              display: 'Görsel Alt Metni'
+      -
+        display: İçerik
+        fields:
+          -
+            handle: hero_badge
+            field:
+              type: text
+              display: 'Hero Badge'
+          -
+            handle: summary_points
+            field:
+              type: list
+              display: 'Özet Maddeleri'
+          -
+            handle: content
+            field:
+              type: bard
+              display: İçerik
+              buttons:
+                - h2
+                - h3
+                - bold
+                - italic
+                - unorderedlist
+                - orderedlist
+                - quote
+                - link
+                - image
+          -
+            handle: related_links
+            field:
+              type: grid
+              display: 'İlgili Linkler'
+              add_row: 'Link Ekle'
+              fields:
+                -
+                  handle: label
+                  field:
+                    type: text
+                    display: Başlık
+                -
+                  handle: url
+                  field:
+                    type: text
+                    display: URL
+  seo:
+    display: SEO
+    sections:
+      -
+        display: SEO
+        fields:
+          -
+            handle: seo_title
+            field:
+              type: text
+              display: 'SEO Başlık'
+          -
+            handle: seo_description
+            field:
+              type: textarea
+              display: 'SEO Açıklama'

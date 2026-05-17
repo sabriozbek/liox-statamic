@@ -1,0 +1,17 @@
+title: SEO Ayarları
+default_title: 'LioXERP ERP Programı | Kurumsal Kaynak Planlama ve Entegre İş Çözümleri'
+default_description: 'LioXERP, Uyumsoft tarafından geliştirilmiş kurumsal kaynak planlama (ERP) yazılımıdır. LioXERP ERP programı ile üretim, finans, muhasebe, insan kaynakları, depo ve satış süreçlerinizi tek platformda yönetin. Türkiye''nin yerli ERP çözümü.'
+default_keywords:
+  - erp
+  - 'erp programı'
+  - 'erp yazılımı'
+  - 'kurumsal kaynak planlama'
+  - 'liox erp'
+  - lioxerp
+  - 'kurumsal erp sistemi'
+  - 'bulut erp'
+  - 'uyumsoft erp'
+  - 'uyumsoft lioxerp'
+default_og_image: '/assets/hero-bg.jpg'
+site_name: 'LioXERP'
+twitter_handle: '@lioxerp'

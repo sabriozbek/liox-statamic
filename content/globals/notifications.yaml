@@ -1,0 +1,38 @@
+title: 'Bildirim Merkezi'
+data:
+  notifications_enabled: true
+  notifications_title: 'Bildirim Merkezi'
+  notification_items:
+    -
+      id: sLCA8wn7
+      title: 'Yeni Etkinlik Yayında'
+      description: 'İnşaat sektörüne özel dijital dönüşüm zirvesi için kayıtlar açıldı.'
+      notification_type: update
+      color: red
+      icon_class: fa-calendar-days
+      date_label: Bugün
+      action_label: 'Etkinliği İncele'
+      action_url: /etkinlik/insaat-sektorunde-dijital-donusum-zirvesi
+      is_unread: true
+    -
+      id: rej9ZSny
+      title: 'Ürün Haberi'
+      description: 'LioXERP yeni entegrasyon katmanını duyurdu.'
+      notification_type: info
+      color: navy
+      icon_class: fa-newspaper
+      date_label: Dün
+      action_label: 'Haberi Oku'
+      action_url: /haber/lioxerp-uretim-entegrasyon-hamlesi
+      is_unread: false
+    -
+      id: mp5gh4ri
+      title: 'Ürün Haberi - Güncelleme'
+      description: 'LioXERP yeni entegrasyon katmanını duyurdu.'
+      notification_type: update
+      color: red
+      icon_class: fa-newspaper
+      date_label: Dün
+      action_label: 'Haberi Oku'
+      action_url: /haber/lioxerp-uretim-entegrasyon-hamlesi
+      is_unread: false

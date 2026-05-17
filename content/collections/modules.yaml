@@ -1,0 +1,11 @@
+title: Modüller
+handle: modules
+template: module
+layout: layout
+inject:
+  - seo
+blueprint: module
+settings:
+  slant: false
+  listings: true
+  order: 3

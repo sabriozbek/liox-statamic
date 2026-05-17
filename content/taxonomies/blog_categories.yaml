@@ -1,0 +1,44 @@
+title: Blog Kategorileri
+handle: blog_categories
+template: blog-category
+inject:
+  - seo
+blueprint: taxonomies/blog_categories/blog_category
+props:
+  - handle: description
+    type: textarea
+    display: Kategori Açıklaması
+  - handle: icon
+    type: text
+    display: İkon
+    instructions: 'FontAwesome ikon sınıfı (örn: fa-solid fa-code)'
+  - handle: color
+    type: select
+    display: Renk
+    options:
+      - value: red
+        display: Kırmızı (#dd222c)
+      - value: blue
+        display: Lacivert (#0a1628)
+      - value: green
+        display: Yeşil (#10b981)
+      - value: purple
+        display: Mor (#8b5cf6)
+      - value: amber
+        display: Amber (#f59e0b)
+      - value: cyan
+        display: Cyan (#06b6d4)
+    default: blue
+  - handle: featured_image
+    type: assets
+    display: Kategori Görseli
+    container: assets
+  - handle: seo_title
+    type: text
+    display: SEO Başlık
+  - handle: seo_description
+    type: textarea
+    display: SEO Açıklama
+  - handle: display_order
+    type: integer
+    display: Görüntüleme Sırası

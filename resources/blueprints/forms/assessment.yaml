@@ -1,0 +1,77 @@
+title: Analiz Formu
+sections:
+  main:
+    display: Alanlar
+    fields:
+      -
+        handle: name
+        field:
+          type: text
+          display: İsim
+          listable: true
+      -
+        handle: email
+        field:
+          type: text
+          display: E-posta
+          listable: true
+      -
+        handle: phone
+        field:
+          type: text
+          display: Telefon
+          listable: true
+      -
+        handle: company
+        field:
+          type: text
+          display: Şirket Adı
+          listable: true
+      -
+        handle: sector
+        field:
+          type: text
+          display: Sektör
+          listable: true
+      -
+        handle: employee_count
+        field:
+          type: text
+          display: Çalışan Sayısı
+          listable: true
+      -
+        handle: current_system
+        field:
+          type: textarea
+          display: Mevcut Sistem
+          listable: true
+      -
+        handle: goals
+        field:
+          type: textarea
+          display: Hedefler
+          listable: true
+      -
+        handle: budget_range
+        field:
+          type: text
+          display: Bütçe Aralığı
+          listable: true
+      -
+        handle: crm_status
+        field:
+          type: text
+          display: CRM Durumu
+          listable: true
+      -
+        handle: crm_message
+        field:
+          type: textarea
+          display: CRM Mesajı
+          listable: true
+      -
+        handle: crm_http_code
+        field:
+          type: text
+          display: CRM HTTP Kod
+          listable: true

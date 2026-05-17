@@ -1,0 +1,21 @@
+title: Duyuru Ayarları
+handle: announcement
+props:
+  - handle: duyuru_aktif
+    type: toggle
+    display: Duyuru Aktif
+  - handle: duyuru_metni
+    type: text
+    display: Duyuru Metni
+  - handle: duyuru_renk
+    type: select
+    display: Duyuru Rengi
+    options:
+      kirmizi: Kırmızı
+      mavi: Mavi
+      yesil: Yeşil
+      koyu: Koyu
+data:
+  duyuru_aktif: true
+  duyuru_metni: 'LIOX ERP ile işletmenizi dijitalleştirin!'
+  duyuru_renk: 'kirmizi'

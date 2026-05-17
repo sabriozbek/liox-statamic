@@ -1,0 +1,19 @@
+title: Etiketler
+handle: tags
+inject:
+  - seo
+blueprint: taxonomies/tags/tag
+prop_groups:
+  - handle: seo
+    fields:
+      - handle: seo_title
+        type: text
+        display: SEO Başlık
+      - handle: seo_description
+        type: textarea
+        display: SEO Açıklama
+  - handle: display
+    fields:
+      - handle: display_order
+        type: integer
+        display: Görüntüleme Sırası

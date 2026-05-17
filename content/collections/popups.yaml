@@ -1,0 +1,9 @@
+title: Popuplar
+handle: popups
+template: popup
+layout: layout
+blueprint: popup
+settings:
+  slant: false
+  listings: true
+  order: 5

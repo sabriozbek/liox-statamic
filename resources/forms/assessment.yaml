@@ -1,0 +1,89 @@
+title: Analiz Formu
+honeypot: honeypot
+store: true
+inline_keyed_templates: false
+
+fields:
+  -
+    handle: name
+    field:
+      type: text
+      display: İsim
+      validate:
+        - required
+
+  -
+    handle: email
+    field:
+      type: email
+      display: E-posta
+      validate:
+        - required
+        - email
+
+  -
+    handle: phone
+    field:
+      type: text
+      display: Telefon
+      validate:
+        - required
+
+  -
+    handle: company
+    field:
+      type: text
+      display: Şirket Adı
+      validate:
+        - required
+
+  -
+    handle: sector
+    field:
+      type: text
+      display: Sektör
+
+  -
+    handle: employee_count
+    field:
+      type: text
+      display: Çalışan Sayısı
+
+  -
+    handle: current_system
+    field:
+      type: textarea
+      display: Mevcut Sistem
+
+  -
+    handle: goals
+    field:
+      type: textarea
+      display: Hedefler
+
+  -
+    handle: crm_status
+    field:
+      type: text
+      display: CRM Durumu
+      listable: true
+
+  -
+    handle: crm_message
+    field:
+      type: textarea
+      display: CRM Mesajı
+      listable: true
+
+  -
+    handle: crm_http_code
+    field:
+      type: text
+      display: CRM HTTP Kod
+      listable: true
+
+  -
+    handle: budget_range
+    field:
+      type: text
+      display: Bütçe Aralığı

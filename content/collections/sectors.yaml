@@ -1,0 +1,11 @@
+title: Sektörler
+handle: sectors
+template: sector
+layout: layout
+inject:
+  - seo
+blueprint: sector
+settings:
+  slant: false
+  listings: true
+  order: 2

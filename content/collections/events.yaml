@@ -1,0 +1,11 @@
+title: Etkinlikler
+handle: events
+template: event
+layout: layout
+inject:
+  - seo
+blueprint: event
+settings:
+  slant: false
+  listings: true
+  order: 5

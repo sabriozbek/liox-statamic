@@ -1,0 +1,83 @@
+title: Leads
+fields:
+  -
+    handle: name
+    field:
+      type: text
+      display: İsim
+      validate:
+        - required
+
+  -
+    handle: email
+    field:
+      type: text
+      display: E-posta
+      validate:
+        - required
+        - email
+
+  -
+    handle: phone
+    field:
+      type: text
+      display: Telefon
+
+  -
+    handle: company
+    field:
+      type: text
+      display: Şirket
+
+  -
+    handle: sector
+    field:
+      type: text
+      display: Sektör
+
+  -
+    handle: message
+    field:
+      type: textarea
+      display: Mesaj
+
+  -
+    handle: crm_status
+    field:
+      type: select
+      display: CRM Durumu
+      options:
+        pending: Beklemede
+        synced: Eşitlendi
+        failed: Başarısız
+      default: pending
+
+  -
+    handle: crm_lead_id
+    field:
+      type: text
+      display: CRM Lead ID
+
+  -
+    handle: ip_address
+    field:
+      type: text
+      display: IP Adresi
+
+  -
+    handle: user_agent
+    field:
+      type: text
+      display: User Agent
+
+  -
+    handle: priority
+    field:
+      type: select
+      display: Öncelik
+      options:
+        low: Düşük
+        normal: Normal
+        high: Yüksek
+        urgent: Acil
+      default: normal

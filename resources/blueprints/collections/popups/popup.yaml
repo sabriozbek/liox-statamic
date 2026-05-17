@@ -1,0 +1,288 @@
+title: Popup
+tabs:
+  main:
+    display: İçerik
+    sections:
+      -
+        display: 'Temel Ayarlar'
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              required: true
+              display: Başlık
+              validate:
+                - required
+          -
+            handle: slug
+            field:
+              type: slug
+              localizable: true
+              validate:
+                - required
+                - 'new \Statamic\Rules\UniqueEntryValue({collection}, {id}, {site})'
+              display: Slug
+          -
+            handle: is_active
+            field:
+              type: toggle
+              display: Aktif
+              default: true
+          -
+            handle: popup_type
+            field:
+              type: select
+              display: 'Popup Türü'
+              default: modal_video
+              options:
+                modal_video: 'Video Popup'
+                form_popup: 'Form Popup'
+                exit_intent: 'Exit Intent Popup'
+                notification: 'Notification Popup'
+                mini_widget: 'Kapatılınca Kalan Mini Widget'
+                case_study: 'Vaka Çalışması Popup'
+                embed_video: 'Embed Video Popup'
+          -
+            handle: trigger_type
+            field:
+              type: select
+              display: 'Tetikleme Türü'
+              default: time_on_site
+              options:
+                time_on_site: 'Süre Bazlı'
+                scroll_depth: 'Scroll Derinliği'
+                exit_intent: 'Exit Intent'
+                first_visit: 'İlk Ziyaret'
+                manual: Manuel
+      -
+        display: 'Popup İçeriği'
+        fields:
+          -
+            handle: description
+            field:
+              type: textarea
+              display: Açıklama
+          -
+            handle: iframe_src
+            field:
+              type: text
+              display: 'Video Embed URL'
+          -
+            handle: image
+            field:
+              type: assets
+              display: Görsel
+              container: assets
+              max_files: 1
+          -
+            handle: cta_enabled
+            field:
+              type: toggle
+              display: 'CTA Aktif'
+              default: true
+          -
+            handle: cta_label
+            field:
+              type: text
+              display: 'CTA Metni'
+          -
+            handle: cta_url
+            field:
+              type: text
+              display: 'CTA URL'
+          -
+            handle: form_layout
+            field:
+              type: select
+              display: 'Form Popup Yerleşimi'
+              default: content_left_form_right
+              options:
+                content_left_form_right: 'İçerik Sol / Form Sağ'
+                form_left_content_right: 'Form Sol / İçerik Sağ'
+                compact_bottom_right: 'Kompakt Sağ Alt'
+      -
+        display: 'Davranış ve Hedefleme'
+        fields:
+          -
+            handle: frequency
+            field:
+              type: select
+              display: 'Gösterim Sıklığı'
+              default: once_per_session
+              options:
+                once_per_session: 'Oturum başına 1 kez'
+                once_per_day: 'Günde 1 kez'
+                always: 'Her zaman'
+          -
+            handle: delay_seconds
+            field:
+              type: integer
+              display: 'Gecikme (sn)'
+              default: 5
+          -
+            handle: scroll_percent
+            field:
+              type: integer
+              display: 'Scroll Yüzdesi'
+          -
+            handle: show_again_after
+            field:
+              type: integer
+              display: 'Tekrar Göster (gün)'
+              default: 7
+          -
+            handle: position
+            field:
+              type: select
+              display: Pozisyon
+              default: bottomRight
+              options:
+                topLeft: 'Sol Üst'
+                topRight: 'Sağ Üst'
+                bottomLeft: 'Sol Alt'
+                bottomRight: 'Sağ Alt'
+                center: Orta
+          -
+            handle: embed_mode
+            field:
+              type: select
+              display: 'Görünüm Modu'
+              default: corner
+              options:
+                corner: 'Köşe Widget'
+                modal: Modal
+                inline: Inline
+          -
+            handle: pages
+            field:
+              type: list
+              display: 'Dahil Sayfa Pathleri'
+          -
+            handle: exclude_pages
+            field:
+              type: list
+              display: 'Hariç Sayfa Pathleri'
+      -
+        display: Tasarım
+        fields:
+          -
+            handle: design
+            field:
+              type: select
+              display: 'Tasarım Teması'
+              default: light
+              options:
+                light: Açık
+                dark: Koyu
+                gradient: Gradient
+          -
+            handle: size
+            field:
+              type: select
+              display: Boyut
+              default: medium
+              options:
+                small: Küçük
+                medium: Orta
+                large: Büyük
+                fullscreen: 'Tam Ekran'
+  embed:
+    display: Embed
+    sections:
+      -
+        display: 'Embed Ayarları'
+        fields:
+          -
+            handle: embed_enabled
+            field:
+              type: toggle
+              display: 'Embed Olarak Kullanılsın'
+              instructions: 'Dış sayfalarda widget/script olarak kullanılabilmesi için aktif edin.'
+              default: false
+          -
+            handle: embed_position
+            field:
+              type: select
+              display: 'Embed Pozisyonu'
+              default: bottomRight
+              options:
+                topLeft: 'Sol Üst'
+                topRight: 'Sağ Üst'
+                bottomLeft: 'Sol Alt'
+                bottomRight: 'Sağ Alt'
+                center: Orta
+          -
+            handle: embed_theme
+            field:
+              type: select
+              display: 'Embed Teması'
+              default: light
+              options:
+                light: Açık
+                dark: Koyu
+                gradient: Gradient
+          -
+            handle: embed_cta_url
+            field:
+              type: text
+              display: 'Embed CTA URL'
+              instructions: 'Widget dış sayfada tıklandığında açılacak sayfa.'
+          -
+            handle: embed_utm_source
+            field:
+              type: text
+              display: 'Embed UTM Source'
+              instructions: 'Dış sayfa script tıklamalarında kullanılacak utm_source değeri.'
+          -
+            handle: embed_utm_medium
+            field:
+              type: text
+              display: 'Embed UTM Medium'
+              instructions: 'Dış sayfa script tıklamalarında kullanılacak utm_medium değeri.'
+          -
+            handle: embed_utm_campaign
+            field:
+              type: text
+              display: 'Embed UTM Campaign'
+              instructions: 'Dış sayfa script tıklamalarında kullanılacak utm_campaign değeri.'
+          -
+            handle: embed_utm_term
+            field:
+              type: text
+              display: 'Embed UTM Term'
+              instructions: 'Opsiyonel utm_term değeri.'
+          -
+            handle: embed_utm_content
+            field:
+              type: text
+              display: 'Embed UTM Content'
+              instructions: 'Opsiyonel utm_content değeri.'
+          -
+            handle: embed_notes
+            field:
+              type: textarea
+              display: 'Embed Notları'
+              instructions: 'Bu popup için kullanım notları veya entegrasyon bilgisi ekleyin.'
+      -
+        display: 'Script Bilgisi'
+        fields:
+          -
+            handle: embed_script_url
+            field:
+              type: text
+              display: 'Embed Script URL'
+              instructions: 'Bu popup için dış sayfada kullanılacak JS endpoint URLsi.'
+          -
+            handle: embed_script_code
+            field:
+              type: textarea
+              display: 'Embed Script Kodu'
+              instructions: 'Kopyalayıp dış sayfaya ekleyebileceğiniz widget script kodu.'
+          -
+            handle: embed_script_hint
+            field:
+              type: textarea
+              display: 'Script URL Şablonu'
+              instructions: 'Bu popup için script endpoint formatı: /api/popups/script/{slug}.js. Slug otomatik popup kaydından alınır.'
+              default: '/api/popups/script/{slug}.js'

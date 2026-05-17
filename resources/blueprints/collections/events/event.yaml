@@ -1,0 +1,220 @@
+title: Etkinlik
+tabs:
+  main:
+    display: İçerik
+    sections:
+      -
+        display: 'Temel Bilgiler'
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              required: true
+              display: Başlık
+              validate:
+                - required
+          -
+            handle: slug
+            field:
+              type: slug
+              localizable: true
+              validate:
+                - required
+                - 'new \Statamic\Rules\UniqueEntryValue({collection}, {id}, {site})'
+              display: Slug
+          -
+            handle: status
+            field:
+              type: select
+              display: Durum
+              options:
+                upcoming: Yaklaşan
+                live: 'Devam Ediyor'
+                past: Geçmiş
+              default: upcoming
+          -
+            handle: event_type
+            field:
+              type: select
+              display: 'Etkinlik Türü'
+              options:
+                webinar: Webinar
+                summit: Zirve
+                workshop: Workshop
+                roundtable: Roundtable
+                onsite: 'Fiziksel Etkinlik'
+              default: webinar
+          -
+            handle: event_date
+            field:
+              type: date
+              display: 'Etkinlik Tarihi'
+              validate:
+                - required
+          -
+            handle: event_time
+            field:
+              type: text
+              display: Saat
+          -
+            handle: event_end_date
+            field:
+              type: date
+              display: 'Bitiş Tarihi'
+          -
+            handle: location
+            field:
+              type: text
+              display: Lokasyon
+          -
+            handle: registration_url
+            field:
+              type: text
+              display: 'Kayıt URL'
+          -
+            handle: hero_badge
+            field:
+              type: text
+              display: 'Hero Badge'
+          -
+            handle: excerpt
+            field:
+              type: textarea
+              display: Özet
+          -
+            handle: featured_image
+            field:
+              type: assets
+              display: 'Öne Çıkarılan Görsel'
+              container: assets
+              max_files: 1
+          -
+            handle: featured_image_alt
+            field:
+              type: text
+              display: 'Görsel Alt Metni'
+      -
+        display: 'İçerik ve Program'
+        fields:
+          -
+            handle: hero_points
+            field:
+              type: list
+              display: 'Hero Maddeleri'
+          -
+            handle: content
+            field:
+              type: bard
+              display: İçerik
+              buttons:
+                - h2
+                - h3
+                - bold
+                - italic
+                - unorderedlist
+                - orderedlist
+                - quote
+                - link
+                - image
+          -
+            handle: agenda_title
+            field:
+              type: text
+              display: 'Program Başlığı'
+          -
+            handle: agenda_items
+            field:
+              type: grid
+              display: 'Program Akışı'
+              add_row: 'Oturum Ekle'
+              fields:
+                -
+                  handle: time
+                  field:
+                    type: text
+                    display: Saat
+                -
+                  handle: title
+                  field:
+                    type: text
+                    display: Başlık
+                -
+                  handle: description
+                  field:
+                    type: textarea
+                    display: Açıklama
+      -
+        display: 'Konuşmacılar ve CTA'
+        fields:
+          -
+            handle: speakers_title
+            field:
+              type: text
+              display: 'Konuşmacılar Başlığı'
+          -
+            handle: speakers
+            field:
+              type: grid
+              display: Konuşmacılar
+              add_row: 'Konuşmacı Ekle'
+              fields:
+                -
+                  handle: name
+                  field:
+                    type: text
+                    display: 'Ad Soyad'
+                -
+                  handle: role
+                  field:
+                    type: text
+                    display: Ünvan
+                -
+                  handle: company
+                  field:
+                    type: text
+                    display: Şirket
+                -
+                  handle: image
+                  field:
+                    type: assets
+                    display: Fotoğraf
+                    container: assets
+                    max_files: 1
+                -
+                  handle: bio
+                  field:
+                    type: textarea
+                    display: Bio
+          -
+            handle: cta_title
+            field:
+              type: text
+              display: 'CTA Başlığı'
+          -
+            handle: cta_description
+            field:
+              type: textarea
+              display: 'CTA Açıklama'
+          -
+            handle: cta_button_text
+            field:
+              type: text
+              display: 'CTA Buton Metni'
+              default: Kaydol
+  seo:
+    display: SEO
+    sections:
+      -
+        display: SEO
+        fields:
+          -
+            handle: seo_title
+            field:
+              type: text
+              display: 'SEO Başlık'
+          -
+            handle: seo_description
+            field:
+              type: textarea
+              display: 'SEO Açıklama'

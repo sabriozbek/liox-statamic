@@ -1,0 +1,11 @@
+title: Başarı Hikayeleri
+handle: testimonials
+template: testimonial
+layout: layout
+inject:
+  - seo
+blueprint: testimonial
+settings:
+  slant: false
+  listings: true
+  order: 4

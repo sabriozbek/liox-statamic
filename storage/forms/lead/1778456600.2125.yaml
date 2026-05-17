@@ -1,0 +1,7 @@
+form: lead
+date: '1778456600.2125'
+data:
+  name: 'Test Kullanıcı'
+  email: test@test.com
+  tel: '05551234567'
+  company: 'Test Şirket'

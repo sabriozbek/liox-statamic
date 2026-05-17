@@ -1,0 +1,11 @@
+title: Blog
+handle: blog
+template: blog-post
+layout: layout
+inject:
+  - seo
+blueprint: collections/blog/blog
+settings:
+  slant: false
+  listings: true
+  order: 4

@@ -1,0 +1,96 @@
+title: Leads
+layout: default
+template: leads/index
+revisions: true
+铁道部: true
+status: draft
+sort_dir: asc
+inject_locale: true
+locale_urls: true
+date: true
+preview_target: null
+default_status: draft
+sort: false
+
+fields:
+  -
+    handle: name
+    field:
+      type: text
+      display: İsim
+      validate:
+        - required
+
+  -
+    handle: email
+    field:
+      type: text
+      display: E-posta
+      validate:
+        - required
+        - email
+
+  -
+    handle: phone
+    field:
+      type: text
+      display: Telefon
+
+  -
+    handle: company
+    field:
+      type: text
+      display: Şirket
+
+  -
+    handle: sector
+    field:
+      type: text
+      display: Sektör
+
+  -
+    handle: message
+    field:
+      type: textarea
+      display: Mesaj
+
+  -
+    handle: crm_status
+    field:
+      type: select
+      display: CRM Durumu
+      options:
+        - pending
+        - synced
+        - failed
+      default: pending
+
+  -
+    handle: crm_lead_id
+    field:
+      type: text
+      display: CRM Lead ID
+
+  -
+    handle: ip_address
+    field:
+      type: text
+      display: IP Adresi
+
+  -
+    handle: user_agent
+    field:
+      type: text
+      display: User Agent
+
+  -
+    handle: priority
+    field:
+      type: select
+      display: Öncelik
+      options:
+        - low
+        - normal
+        - high
+        - urgent
+      default: normal

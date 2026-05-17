@@ -1,0 +1,17 @@
+form: lead
+date: '2026-05-12 13:05:24'
+data:
+  name: 'CP Sync Test'
+  email: cpsync@test.com
+  tel: '05321234567'
+  company: 'CP Sync Co'
+  employee_count: 50-249
+  path: /modul/uretim-yonetimi
+  variant_id: '2'
+  utm_source: google
+  utm_medium: cpc
+  utm_campaign: brand
+  utm_term: 'liox erp'
+  utm_content: hero
+  gclid: test-gclid
+  fbclid: test-fbclid

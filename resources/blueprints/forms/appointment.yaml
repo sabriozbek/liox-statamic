@@ -1,0 +1,65 @@
+title: Randevu Formu
+sections:
+  main:
+    display: Alanlar
+    fields:
+      -
+        handle: name
+        field:
+          type: text
+          display: İsim
+          listable: true
+      -
+        handle: email
+        field:
+          type: text
+          display: E-posta
+          listable: true
+      -
+        handle: phone
+        field:
+          type: text
+          display: Telefon
+          listable: true
+      -
+        handle: company
+        field:
+          type: text
+          display: Şirket Adı
+          listable: true
+      -
+        handle: preferred_date
+        field:
+          type: text
+          display: Tercih Edilen Tarih
+          listable: true
+      -
+        handle: preferred_time
+        field:
+          type: text
+          display: Tercih Edilen Saat
+          listable: true
+      -
+        handle: notes
+        field:
+          type: textarea
+          display: Notlar
+          listable: true
+      -
+        handle: crm_status
+        field:
+          type: text
+          display: CRM Durumu
+          listable: true
+      -
+        handle: crm_message
+        field:
+          type: textarea
+          display: CRM Mesajı
+          listable: true
+      -
+        handle: crm_http_code
+        field:
+          type: text
+          display: CRM HTTP Kod
+          listable: true

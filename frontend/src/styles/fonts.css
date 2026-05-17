@@ -1,0 +1,76 @@
+/* ================================================================
+   Font Configuration for LioXERP
+   
+   Gilroy font dosyaları: public/fonts/ klasörüne eklendiğinde
+   otomatik olarak kullanılacak.
+   
+   Şu an Plus Jakarta Sans fontu yedek olarak kullanılıyor.
+   ================================================================ */
+
+/* Fontsource Plus Jakarta Sans - Gilroy'e benzer alternatif */
+@import '@fontsource/plus-jakarta-sans/400.css';
+@import '@fontsource/plus-jakarta-sans/500.css';
+@import '@fontsource/plus-jakarta-sans/600.css';
+@import '@fontsource/plus-jakarta-sans/700.css';
+@import '@fontsource/plus-jakarta-sans/800.css';
+
+/* Gilroy Font Family - Local Font Files (Lisans gerektirir) */
+/* 
+ * Font dosyalarını public/fonts/ klasörüne ekleyin:
+ * - Gilroy-Regular.woff2 (Regular 400)
+ * - Gilroy-Medium.woff2 (Medium 500)
+ * - Gilroy-SemiBold.woff2 (SemiBold 600)
+ * - Gilroy-Bold.woff2 (Bold 700)
+ * - Gilroy-ExtraBold.woff2 (ExtraBold 800)
+ * - Gilroy-Heavy.woff2 (Heavy 900)
+ */
+
+/*
+@font-face {
+  font-family: 'Gilroy-Regular';
+  src: url('/fonts/Gilroy-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gilroy-Medium';
+  src: url('/fonts/Gilroy-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gilroy-SemiBold';
+  src: url('/fonts/Gilroy-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gilroy-Bold';
+  src: url('/fonts/Gilroy-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gilroy-ExtraBold';
+  src: url('/fonts/Gilroy-ExtraBold.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gilroy-Heavy';
+  src: url('/fonts/Gilroy-Heavy.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+*/

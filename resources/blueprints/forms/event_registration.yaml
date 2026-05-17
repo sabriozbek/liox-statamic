@@ -1,0 +1,65 @@
+title: Etkinlik Kayıt Formu
+sections:
+  main:
+    display: Alanlar
+    fields:
+      -
+        handle: event_slug
+        field:
+          type: text
+          display: Etkinlik Slug
+          listable: true
+      -
+        handle: event_title
+        field:
+          type: text
+          display: Etkinlik Başlığı
+          listable: true
+      -
+        handle: name
+        field:
+          type: text
+          display: Ad Soyad
+          listable: true
+      -
+        handle: email
+        field:
+          type: text
+          display: E-posta
+          listable: true
+      -
+        handle: tel
+        field:
+          type: text
+          display: Telefon
+          listable: true
+      -
+        handle: company
+        field:
+          type: text
+          display: Şirket
+          listable: true
+      -
+        handle: title
+        field:
+          type: text
+          display: Ünvan
+          listable: true
+      -
+        handle: attendee_count
+        field:
+          type: text
+          display: Katılımcı Sayısı
+          listable: true
+      -
+        handle: notes
+        field:
+          type: textarea
+          display: Notlar
+          listable: true
+      -
+        handle: path
+        field:
+          type: text
+          display: Kaynak Sayfa
+          listable: true

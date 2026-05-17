@@ -1,0 +1,11 @@
+title: Haberler
+handle: news
+template: news-post
+layout: layout
+inject:
+  - seo
+blueprint: news
+settings:
+  slant: false
+  listings: true
+  order: 6

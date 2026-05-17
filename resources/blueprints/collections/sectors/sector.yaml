@@ -1,0 +1,465 @@
+title: Sektör
+tabs:
+  main:
+    display: İçerik
+    sections:
+      -
+        display: 'Temel Bilgiler'
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              required: true
+              display: Başlık
+              validate:
+                - required
+          -
+            handle: slug
+            field:
+              type: slug
+              localizable: true
+              validate:
+                - required
+                - 'new \Statamic\Rules\UniqueEntryValue({collection}, {id}, {site})'
+              display: Slug
+          -
+            handle: description
+            field:
+              type: textarea
+              display: 'Kısa Açıklama'
+              instructions: 'SEO ve meta açıklama için kullanılır'
+          -
+            handle: content
+            field:
+              type: grid
+              display: 'İçerik Blokları'
+              add_row: 'Blok Ekle'
+              fields:
+                -
+                  handle: type
+                  field:
+                    type: text
+                    display: Tip
+                -
+                  handle: text
+                  field:
+                    type: textarea
+                    display: Metin
+      -
+        display: 'Hero Bölümü'
+        fields:
+          -
+            handle: hero_badge
+            field:
+              type: text
+              display: 'Hero Badge Metni'
+              instructions: 'örn: "Sektör Çözümü" veya "Sektöre Özel"'
+          -
+            handle: hero_visual
+            field:
+              type: assets
+              display: 'Hero Görseli'
+              container: assets
+              max_files: 1
+              instructions: 'Ana görsel - PNG, JPG veya WebP formatında'
+          -
+            handle: hero_points
+            field:
+              type: list
+              display: 'Hero Maddeleri'
+              instructions: 'Alt alta öne çıkan özellikler - Her satıra bir madde'
+      -
+        display: 'Sektörel İstatistikler'
+        fields:
+          -
+            handle: industry_stats_title
+            field:
+              type: text
+              display: 'İstatistikler Başlığı'
+              instructions: 'örn: "Sektörde Sayılar" veya "Neden ERP?"'
+          -
+            handle: industry_stats
+            field:
+              type: grid
+              display: İstatistikler
+              add_row: 'İstatistik Ekle'
+              fields:
+                -
+                  handle: icon
+                  field:
+                    type: text
+                    display: 'İkon (FontAwesome)'
+                    instructions: 'örn: fa-chart-line, fa-truck, fa-shield-alt, fa-users, fa-coins'
+                -
+                  handle: value
+                  field:
+                    type: text
+                    display: Değer
+                    instructions: 'örn: "40+", "7/24", "98%", "30%"'
+                -
+                  handle: label
+                  field:
+                    type: text
+                    display: Başlık
+                    instructions: 'Kısa başlık - örn: "Verimlilik Artışı"'
+                -
+                  handle: description
+                  field:
+                    type: textarea
+                    display: Açıklama
+                    instructions: 'Detaylı açıklama metni'
+      -
+        display: Metrikler
+        fields:
+          -
+            handle: metrics
+            field:
+              type: grid
+              display: Metrikler
+              add_row: 'Metrik Ekle'
+              fields:
+                -
+                  handle: label
+                  field:
+                    type: text
+                    display: Etiket
+                -
+                  handle: value
+                  field:
+                    type: text
+                    display: Değer
+                -
+                  handle: suffix
+                  field:
+                    type: text
+                    display: Sonek
+                    instructions: 'örn: "%", "+", "x"'
+                -
+                  handle: prefix
+                  field:
+                    type: text
+                    display: Önek
+                    instructions: 'örn: "-"'
+      -
+        display: Faydalar
+        fields:
+          -
+            handle: benefits
+            field:
+              type: grid
+              display: Faydalar
+              add_row: 'Fayda Ekle'
+              fields:
+                -
+                  handle: title
+                  field:
+                    type: text
+                    display: Başlık
+                -
+                  handle: description
+                  field:
+                    type: textarea
+                    display: Açıklama
+                -
+                  handle: icon
+                  field:
+                    type: text
+                    display: 'İkon (FontAwesome)'
+                    instructions: 'örn: fa-check, fa-chart-line, fa-cogs, fa-shield'
+      -
+        display: 'Süreç Adımları'
+        fields:
+          -
+            handle: process_title
+            field:
+              type: text
+              display: 'Süreç Başlığı'
+              instructions: 'örn: "Nasıl Dönüşüm Yaparsınız?"'
+          -
+            handle: process_subtitle
+            field:
+              type: textarea
+              display: 'Süreç Alt Başlığı'
+          -
+            handle: process_steps
+            field:
+              type: grid
+              display: Adımlar
+              add_row: 'Adım Ekle'
+              fields:
+                -
+                  handle: step_number
+                  field:
+                    type: text
+                    display: 'Adım Numarası'
+                    instructions: 'örn: "01", "02", "03", "04"'
+                -
+                  handle: title
+                  field:
+                    type: text
+                    display: Başlık
+                -
+                  handle: description
+                  field:
+                    type: textarea
+                    display: Açıklama
+                -
+                  handle: icon
+                  field:
+                    type: text
+                    display: 'İkon (FontAwesome)'
+      -
+        display: 'Split İçerik Bölümü'
+        fields:
+          -
+            handle: split_title
+            field:
+              type: text
+              display: Başlık
+          -
+            handle: split_description
+            field:
+              type: textarea
+              display: Açıklama
+          -
+            handle: split_image
+            field:
+              type: assets
+              display: Görsel
+              container: assets
+              max_files: 1
+              instructions: 'Split bölüm görseli'
+          -
+            handle: split_items
+            field:
+              type: list
+              display: 'Madde Listesi'
+      -
+        display: 'Başarı Hikayesi ve Video'
+        fields:
+          -
+            handle: success_title
+            field:
+              type: text
+              display: 'Başarı Hikayesi Başlığı'
+          -
+            handle: success_quote
+            field:
+              type: textarea
+              display: 'Referans Metni'
+              instructions: 'Müşteri yorumu veya başarı hikayesi'
+          -
+            handle: success_author
+            field:
+              type: text
+              display: 'Referans Kişisi'
+              instructions: 'Yorumu yapan kişinin adı'
+          -
+            handle: success_company
+            field:
+              type: text
+              display: 'Referans Firma'
+              instructions: 'Şirket adı ve pozisyon'
+          -
+            handle: success_author_role
+            field:
+              type: text
+              display: 'Referans Pozisyonu'
+              instructions: 'örn: "Genel Müdür" veya "ERP Proje Yöneticisi"'
+          -
+            handle: success_image
+            field:
+              type: assets
+              display: 'Referans/Firma Görseli'
+              container: assets
+              max_files: 1
+              instructions: 'Firma logosu veya çalışma fotoğrafı'
+          -
+            handle: success_quote_icon
+            field:
+              type: assets
+              display: 'Tırnak İkonu (Opsiyonel)'
+              container: assets
+              max_files: 1
+          -
+            handle: youtube_embed_url
+            field:
+              type: text
+              display: 'YouTube Embed URL'
+              instructions: 'örn: https://www.youtube.com/embed/VIDEO_ID'
+      -
+        display: 'SSS (Sıkça Sorulan Sorular)'
+        fields:
+          -
+            handle: faq_title
+            field:
+              type: text
+              display: 'SSS Başlığı'
+              instructions: 'örn: "Sıkça Sorulan Sorular"'
+          -
+            handle: faqs
+            field:
+              type: grid
+              display: 'Soru ve Cevaplar'
+              add_row: 'Soru Ekle'
+              fields:
+                -
+                  handle: question
+                  field:
+                    type: text
+                    display: Soru
+                -
+                  handle: answer
+                  field:
+                    type: textarea
+                    display: Cevap
+      -
+        display: 'İlgili Modüller'
+        fields:
+          -
+            handle: related_modules_title
+            field:
+              type: text
+              display: 'Modüller Başlığı'
+              instructions: 'örn: "Bu Sektörde Kullanılan Modüller"'
+          -
+            handle: related_modules
+            field:
+              type: entries
+              display: 'İlgili Modüller'
+              collections:
+                - modules
+              max_items: 6
+      -
+        display: 'Müşteri Logoları ve Alt CTA'
+        fields:
+          -
+            handle: customer_logos
+            field:
+              type: grid
+              display: 'Müşteri Logoları'
+              add_row: 'Logo Ekle'
+              fields:
+                -
+                  handle: name
+                  field:
+                    type: text
+                    display: Ad
+                -
+                  handle: logo
+                  field:
+                    type: assets
+                    display: Logo
+                    container: assets
+                    max_files: 1
+          -
+            handle: bottom_cta_title
+            field:
+              type: text
+              display: 'Alt CTA Başlığı'
+              instructions: 'Son CTA bölümü başlığı'
+          -
+            handle: bottom_cta_description
+            field:
+              type: textarea
+              display: 'Alt CTA Açıklaması'
+      -
+        display: 'Alt Form Bölümü'
+        fields:
+          -
+            handle: bottom_form_title
+            field:
+              type: text
+              display: 'Form Başlığı'
+              instructions: 'örn: "Sektörünüz İçin Demo Talep Edin"'
+          -
+            handle: bottom_form_description
+            field:
+              type: textarea
+              display: 'Form Açıklaması'
+          -
+            handle: bottom_form_image
+            field:
+              type: assets
+              display: 'Form Görseli (Opsiyonel)'
+              container: assets
+              max_files: 1
+      -
+        display: 'Ek İçerik Bölümü'
+        fields:
+          -
+            handle: extra_section_title
+            field:
+              type: text
+              display: 'Ek Bölüm Başlığı'
+          -
+            handle: extra_section_description
+            field:
+              type: textarea
+              display: 'Ek Bölüm Açıklaması'
+          -
+            handle: extra_section_image
+            field:
+              type: assets
+              display: 'Ek Bölüm Görseli'
+              container: assets
+              max_files: 1
+          -
+            handle: extra_section_items
+            field:
+              type: list
+              display: 'Ek Bölüm Maddeleri'
+      -
+        display: 'Arka Plan Görselleri'
+        fields:
+          -
+            handle: bg_pattern_image
+            field:
+              type: assets
+              display: 'Arka Plan Deseni'
+              container: assets
+              max_files: 1
+              instructions: 'Hero bölümünde kullanılacak arka plan deseni'
+          -
+            handle: section_backgrounds
+            field:
+              type: grid
+              display: 'Bölüm Arka Planları'
+              add_row: 'Bölüm Ekle'
+              fields:
+                -
+                  handle: section_name
+                  field:
+                    type: text
+                    display: 'Bölüm Adı'
+                    instructions: 'örn: "stats", "benefits", "process"'
+                -
+                  handle: background_image
+                  field:
+                    type: assets
+                    display: 'Arka Plan Görseli'
+                    container: assets
+                    max_files: 1
+                -
+                  handle: overlay_color
+                  field:
+                    type: text
+                    display: 'Overlay Rengi'
+                    instructions: 'örn: "rgba(24,60,104,0.9)" veya "#183c68"'
+  seo:
+    display: SEO
+    sections:
+      -
+        display: 'SEO Alanları'
+        fields:
+          -
+            handle: seo_title
+            field:
+              type: text
+              display: 'SEO Başlık'
+          -
+            handle: seo_description
+            field:
+              type: textarea
+              display: 'SEO Açıklama'

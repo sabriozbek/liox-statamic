@@ -1,0 +1,24 @@
+administrators:
+  title: Yöneticiler
+  roles:
+    - admin
+
+editors:
+  title: Editörler
+  roles:
+    - editor
+
+writers:
+  title: Yazarlar
+  roles:
+    - writer
+
+marketing:
+  title: Pazarlama
+  roles:
+    - marketer
+
+crm:
+  title: CRM Ekibi
+  roles:
+    - crm_manager
