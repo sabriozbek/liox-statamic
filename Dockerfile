@@ -104,8 +104,12 @@ RUN chmod +x /usr/local/bin/startup.sh
 
 # Backward-compatible CP asset paths for packages expecting legacy vendor URLs
 RUN mkdir -p /var/www/html/public/vendor/seotamic/css /var/www/html/public/vendor/seotamic/js && \
-    cp /var/www/html/public/vendor/seotamic/build/assets/*.css /var/www/html/public/vendor/seotamic/css/cp.css && \
-    cp /var/www/html/public/vendor/seotamic/build/assets/*.js /var/www/html/public/vendor/seotamic/js/cp.js
+    if ls /var/www/html/public/vendor/seotamic/build/assets/*.css >/dev/null 2>&1; then \
+        cp /var/www/html/public/vendor/seotamic/build/assets/*.css /var/www/html/public/vendor/seotamic/css/cp.css; \
+    fi && \
+    if ls /var/www/html/public/vendor/seotamic/build/assets/*.js >/dev/null 2>&1; then \
+        cp /var/www/html/public/vendor/seotamic/build/assets/*.js /var/www/html/public/vendor/seotamic/js/cp.js; \
+    fi
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/public

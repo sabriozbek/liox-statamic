@@ -47,6 +47,18 @@ interface CustomerLogo {
   logo: string
 }
 
+interface Testimonial {
+  slug: string
+  title: string
+  company: string
+  sector: string
+  quote: string
+  author: string
+  youtube_embed_url?: string
+  logo_url?: string
+  image_url?: string
+}
+
 interface SectorData {
   slug: string
   title: string
@@ -90,6 +102,8 @@ interface SectorData {
   related_modules?: RelatedModule[]
   seo_title?: string
   seo_description?: string
+  // İlişkili testimonial'lar
+  testimonials?: Testimonial[]
 }
 
 function AnimatedCounter({ value, suffix = '' }: { value: string; suffix?: string }) {
@@ -453,7 +467,28 @@ export default function SectorLanding() {
         </section>
       )}
 
-      {!!sector.success_quote && (
+      {!!sector.testimonials?.length && (
+        <section className="py-24 bg-gray-50 border-t border-gray-100">
+          <div className="max-w-7xl mx-auto px-6 space-y-16">
+            <div className="text-center">
+              <h2 className="text-3xl lg:text-4xl font-black font-logo text-gray-900 uppercase">{sector.success_title || 'Başarı Hikayeleri'}</h2>
+            </div>
+            {sector.testimonials.map((testimonial, index) => (
+              <SuccessStoryCard
+                key={testimonial.slug || index}
+                quote={testimonial.quote}
+                author={testimonial.author}
+                company={testimonial.company}
+                role=""
+                image={testimonial.image_url}
+                youtubeUrl={testimonial.youtube_embed_url}
+              />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {(!sector.testimonials?.length && sector.success_quote) && (
         <section className="py-24 bg-gray-50 border-t border-gray-100">
           <div className="max-w-7xl mx-auto px-6 space-y-16">
             {sector.success_title && <div className="text-center"><h2 className="text-3xl lg:text-4xl font-black font-logo text-gray-900 uppercase">{sector.success_title}</h2></div>}
@@ -486,7 +521,7 @@ export default function SectorLanding() {
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {sector.related_modules.map((module, index) => (
-                <Link key={index} to={`/moduller/${module.slug}`} className="group bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex items-center gap-5">
+                <Link key={index} to={`/modul/${module.slug}`} className="group bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex items-center gap-5">
                   <div className="w-14 h-14 bg-gradient-to-br from-[#0a1628] to-[#0f2744] rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                     <i className="fa-solid fa-cube text-white text-xl" />
                   </div>

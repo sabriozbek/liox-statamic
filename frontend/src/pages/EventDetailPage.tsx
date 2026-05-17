@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router'
 import api from '@/services/api'
 import EventRegistrationForm from '@/components/forms/EventRegistrationForm'
+import StatamicRichContent from '@/components/content/StatamicRichContent'
 
 interface EventSpeaker {
   name: string
@@ -140,14 +141,7 @@ export default function EventDetailPage() {
           <div className="space-y-10">
             <div className="rounded-[2rem] border border-gray-200 bg-white p-8 md:p-10 shadow-sm">
               <h2 className="text-2xl md:text-3xl font-black font-logo text-[#0a1628] mb-6 leading-[1.2] tracking-[0.01em]">Etkinlik Hakkında</h2>
-              <div className="space-y-4 text-gray-700 leading-relaxed">
-                {event.content?.map((block, index) => (
-                  <div key={index}>
-                    {block.type === 'heading' ? <h3 className="text-xl font-black text-[#0a1628] leading-[1.35] tracking-[0.01em] mb-3">{block.text}</h3> : null}
-                    {block.type === 'paragraph' ? <p>{block.text}</p> : null}
-                  </div>
-                ))}
-              </div>
+              <StatamicRichContent blocks={event.content} className="space-y-4 text-gray-700 leading-relaxed" />
             </div>
 
             {event.agenda_items && event.agenda_items.length > 0 && (

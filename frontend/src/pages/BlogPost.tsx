@@ -1,6 +1,7 @@
 import { Link, useParams, useNavigate } from 'react-router'
 import { useState, useEffect, useRef } from 'react'
 import LeadForm from '@/components/forms/LeadForm'
+import StatamicRichContent, { extractContentHeadings } from '@/components/content/StatamicRichContent'
 import { listenForBlogPopup } from '@/lib/PopupContext'
 import api from '@/services/api'
 import { getCtaVariantsFromSettings } from '@/lib/siteSettings'
@@ -10,7 +11,7 @@ interface BlogPost {
   title: string
   slug: string
   excerpt: string
-  content: any
+  content: Array<{ type?: string; text?: string; attrs?: { level?: number }; items?: Array<Array<{ type?: string; text?: string }>> }>
   featured_image: string
   featured_image_alt: string
   author: string
@@ -24,7 +25,7 @@ interface BlogPost {
     title: string
     slug: string
     color: string
-  }
+  } | null
   tags: Array<{ title: string; slug: string }>
   is_featured: boolean
   is_pinned: boolean
@@ -221,6 +222,12 @@ export default function BlogPost() {
     return colors[color] || colors.blue
   }
 
+  const postCategory = post?.category ?? {
+    title: 'Blog',
+    slug: 'blog',
+    color: 'blue',
+  }
+
   const formatDate = (date: string) => {
     return new Date(date).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })
   }
@@ -255,33 +262,16 @@ export default function BlogPost() {
     )
   }
 
+  const contentHeadings = extractContentHeadings(post?.content)
+
   // Render content based on template
   const renderContent = () => {
     return (
-      <div 
+      <div
         ref={contentRef}
         className="prose prose-slate max-w-none prose-headings:font-black prose-headings:text-[#0a1628] prose-h2:text-2xl prose-h3:text-xl prose-p:text-gray-600 prose-li:text-gray-600 prose-a:text-[#dd222c] prose-strong:text-gray-900"
       >
-        <h2>Üretim Süreçlerinde Verimlilik</h2>
-        <p>Modern üretim tesislerinde, süreç optimizasyonu rekabet avantajının anahtarıdır. LIOX ERP, üretim planlamasından kalite kontrolüne kadar tüm süreçleri tek bir platformda birleştirir.</p>
-        
-        <h2>Ana Modüller</h2>
-        <ul>
-          <li><strong>Üretim Yönetimi</strong> - İş emirleri, rota yönetimi ve kapasite planlaması</li>
-          <li><strong>Kalite Kontrol</strong> - Fire oranları, muayene noktaları ve sertifikasyon</li>
-          <li><strong>Depo Yönetimi</strong> - Lot/seri takibi, barkod sistemleri ve lokasyon yönetimi</li>
-          <li><strong>Bakım Yönetimi</strong> - Prediktif bakım ve arıza yönetimi</li>
-        </ul>
-        
-        <h2>Gerçek Zamanlı Takip</h2>
-        <p>LIOX ERP'nin gerçek zamanlı dashboard'ları sayesinde, üretim hattınızdaki her anlık değişikliği anında görürsünüz. Puant üretim, makine duruşları ve fire oranları tek bir ekranda.</p>
-        
-        <blockquote>
-          <p>"LIOX ERP ile üretim verimliliğimiz %40 arttı. Artık tüm süreçleri tek bir sistemden takip ediyoruz." — ABC Makina Genel Müdürü</p>
-        </blockquote>
-        
-        <h2>Sonuç</h2>
-        <p>Üretim süreçlerinizi optimize etmek, rekabet avantajı elde etmenin en etkili yoludur. LIOX ERP, bu süreçte size kapsamlı araçlar sunar. Demo talep ederek sistemin kendi gözlerinizle nasıl çalıştığını görebilirsiniz.</p>
+        <StatamicRichContent blocks={post.content} className="space-y-5" />
       </div>
     )
   }
@@ -292,22 +282,12 @@ export default function BlogPost() {
       <div className="bg-white rounded-3xl border border-gray-100 p-6 sticky top-24">
         <h3 className="text-sm font-black text-[#0a1628] uppercase tracking-wider mb-4">İçindekiler</h3>
         <nav className="space-y-2 text-sm">
-          <a href="#content" className="flex items-center gap-2 text-gray-600 hover:text-[#dd222c] transition">
-            <i className="fa-solid fa-chevron-right text-[10px] text-gray-400" />
-            Üretim Süreçlerinde Verimlilik
-          </a>
-          <a href="#content" className="flex items-center gap-2 text-gray-600 hover:text-[#dd222c] transition">
-            <i className="fa-solid fa-chevron-right text-[10px] text-gray-400" />
-            Ana Modüller
-          </a>
-          <a href="#content" className="flex items-center gap-2 text-gray-600 hover:text-[#dd222c] transition">
-            <i className="fa-solid fa-chevron-right text-[10px] text-gray-400" />
-            Gerçek Zamanlı Takip
-          </a>
-          <a href="#content" className="flex items-center gap-2 text-gray-600 hover:text-[#dd222c] transition">
-            <i className="fa-solid fa-chevron-right text-[10px] text-gray-400" />
-            Sonuç
-          </a>
+          {contentHeadings.map((heading) => (
+            <a key={heading.id} href={`#${heading.id}`} className="flex items-center gap-2 text-gray-600 hover:text-[#dd222c] transition">
+              <i className="fa-solid fa-chevron-right text-[10px] text-gray-400" />
+              {heading.text}
+            </a>
+          ))}
         </nav>
       </div>
 
@@ -345,8 +325,8 @@ export default function BlogPost() {
           <nav className="flex items-center gap-2 text-[11px] text-white/60 mb-6">
             <Link to="/blog" className="hover:text-white transition">Blog</Link>
             <i className="fa-solid fa-chevron-right text-[8px]" />
-            <span className={`inline-flex px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${getColorClasses(post.category.color)}`}>
-              {post.category.title}
+            <span className={`inline-flex px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${getColorClasses(postCategory.color)}`}>
+              {postCategory.title}
             </span>
           </nav>
 
@@ -450,8 +430,8 @@ export default function BlogPost() {
               ) : post.template === 'magazine' ? (
                 <div className="space-y-10">
                   <div className="text-center">
-                    <span className={`inline-flex px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${getColorClasses(post.category.color)}`}>
-                      {post.category.title}
+                    <span className={`inline-flex px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${getColorClasses(postCategory.color)}`}>
+                      {postCategory.title}
                     </span>
                   </div>
                   {renderContent()}
@@ -555,8 +535,8 @@ export default function BlogPost() {
                     </div>
                   )}
                   <div className="p-5 space-y-2">
-                    <span className={`inline-flex px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${getColorClasses(relPost.category.color)}`}>
-                      {relPost.category.title}
+                    <span className={`inline-flex px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${getColorClasses((relPost.category?.color || 'blue'))}`}>
+                      {relPost.category?.title || 'Blog'}
                     </span>
                     <h3 className="text-sm font-bold text-gray-900 line-clamp-2 group-hover:text-[#dd222c] transition">
                       {relPost.title}

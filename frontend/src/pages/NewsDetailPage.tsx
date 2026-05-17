@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import api from '@/services/api'
+import StatamicRichContent from '@/components/content/StatamicRichContent'
 
 interface NewsDetail {
   id: string
@@ -75,14 +76,7 @@ export default function NewsDetailPage() {
       <section className="py-14 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-[1fr_0.78fr] gap-10">
           <div className="rounded-[2rem] border border-gray-200 bg-white p-8 md:p-10 shadow-sm">
-            <div className="space-y-5 text-gray-700 leading-relaxed">
-              {item.content?.map((block, index) => (
-                <div key={index}>
-                  {block.type === 'heading' ? <h2 className="text-2xl font-black font-logo text-[#0a1628] leading-[1.25] tracking-[0.01em] mb-3">{block.text}</h2> : null}
-                  {block.type === 'paragraph' ? <p>{block.text}</p> : null}
-                </div>
-              ))}
-            </div>
+            <StatamicRichContent blocks={item.content} className="space-y-5 text-gray-700 leading-relaxed" />
           </div>
 
           <div className="space-y-8">

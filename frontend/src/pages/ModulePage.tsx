@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router'
 import api from '@/services/api'
 import LeadForm from '@/components/forms/LeadForm'
 import NotFoundPage from '@/pages/NotFoundPage'
+import StatamicRichContent from '@/components/content/StatamicRichContent'
 
 interface ModuleData {
   slug: string
@@ -141,6 +142,16 @@ export default function ModulePage() {
                   <p className="text-sm text-gray-600">{item.description}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {!!moduleData.content?.length && (
+        <section className="py-16 bg-white border-t border-gray-100">
+          <div className="max-w-5xl mx-auto px-6">
+            <div className="rounded-[2rem] border border-gray-200 bg-white p-8 md:p-10 shadow-sm">
+              <StatamicRichContent blocks={moduleData.content} className="space-y-5" />
             </div>
           </div>
         </section>

@@ -28,6 +28,14 @@ class MailService
         ], $lead, 'lead_created');
     }
 
+    /**
+     * Lead form verisi ile hoşgeldin e-postası gönderir
+     */
+    public function sendLeadWelcomeByArray(array $data): void
+    {
+        $this->sendBySlug('welcome-lead', $data['email'] ?? '', $data['name'] ?? '', $data, null, 'lead_created');
+    }
+
     public function sendAssessmentConfirmation(Assessment $assessment): void
     {
         $this->sendBySlug('assessment-confirmation', $assessment->email, $assessment->name, [
@@ -35,6 +43,14 @@ class MailService
             'company' => $assessment->company,
             'email' => $assessment->email,
         ], $assessment, 'assessment_created');
+    }
+
+    /**
+     * Assessment form verisi ile onay e-postası gönderir
+     */
+    public function sendAssessmentConfirmationByArray(array $data): void
+    {
+        $this->sendBySlug('assessment-confirmation', $data['email'] ?? '', $data['name'] ?? '', $data, null, 'assessment_created');
     }
 
     public function sendAppointmentConfirmation(Appointment $appointment): void
@@ -46,6 +62,22 @@ class MailService
             'preferred_date' => optional($appointment->preferred_date)?->format('d.m.Y'),
             'preferred_time' => $appointment->preferred_time,
         ], $appointment, 'appointment_created');
+    }
+
+    /**
+     * Appointment form verisi ile onay e-postası gönderir
+     */
+    public function sendAppointmentConfirmationByArray(array $data): void
+    {
+        $this->sendBySlug('appointment-confirmation', $data['email'] ?? '', $data['name'] ?? '', $data, null, 'appointment_created');
+    }
+
+    /**
+     * Etkinlik kaydı için onay e-postası gönderir
+     */
+    public function sendEventRegistrationConfirmation(array $data): void
+    {
+        $this->sendBySlug('event-registration', $data['email'] ?? '', $data['name'] ?? '', $data, null, 'event_registration_created');
     }
 
     public function sendBySlug(string $slug, string $toEmail, ?string $toName, array $data = [], ?Model $related = null, ?string $trigger = null): ?MailLog

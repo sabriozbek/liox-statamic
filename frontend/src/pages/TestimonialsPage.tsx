@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import api, { unwrapApiData } from '@/services/api'
+import { Link } from 'react-router'
 
 interface TestimonialItem {
   slug: string
@@ -11,6 +12,7 @@ interface TestimonialItem {
   youtube_embed_url?: string
   logo_url?: string
   image_url?: string
+  seo_description?: string
 }
 
 export default function TestimonialsPage() {
@@ -68,8 +70,18 @@ export default function TestimonialsPage() {
                 <h2 className="text-2xl md:text-3xl font-black text-secondary font-logo">{item.company}</h2>
                 <p className="text-gray-700 text-lg leading-relaxed">“{item.quote}”</p>
                 {item.author ? <div className="text-sm text-gray-500">{item.author}</div> : null}
+                {item.seo_description ? <p className="text-sm leading-relaxed text-gray-500">{item.seo_description}</p> : null}
+                <div>
+                  <Link
+                    to={`/basari-hikayeleri#${item.slug}`}
+                    className="inline-flex items-center gap-2 rounded-full bg-[#0a1628] px-5 py-2.5 text-xs font-black uppercase tracking-[0.18em] text-white transition hover:bg-[#dd222c]"
+                  >
+                    İncele
+                    <i className="fa-solid fa-arrow-right text-[10px]" />
+                  </Link>
+                </div>
               </div>
-              <div className="bg-gray-50 min-h-[280px]">
+              <div id={item.slug} className="bg-gray-50 min-h-[280px] scroll-mt-28">
                 {item.youtube_embed_url ? (
                   <iframe
                     src={item.youtube_embed_url}
