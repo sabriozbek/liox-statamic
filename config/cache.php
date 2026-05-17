@@ -6,9 +6,14 @@ return [
     |--------------------------------------------------------------------------
     | Default Cache Store
     |--------------------------------------------------------------------------
+    |
+    | In production with Cloud Run, use 'file' cache to avoid MySQL connection
+    | issues. The 'database' cache requires MySQL which may not be accessible
+    | from Cloud Run without proper VPC configuration.
+    |
     */
 
-    'default' => env('CACHE_STORE', 'database'),
+    'default' => env('CACHE_STORE', 'file'),
 
     /*
     |--------------------------------------------------------------------------
