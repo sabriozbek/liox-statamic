@@ -66,6 +66,10 @@ RUN rm -rf vendor/nunomaduro/collision vendor/nunomaduro/termwind && \
     rm -f vendor/composer/autoload_classmap.php vendor/composer/autoload_static.php && \
     composer dump-autoload --optimize --no-dev --no-scripts --ignore-platform-reqs
 
+# Publish package assets for CP/vendor resources
+RUN cp .env.example .env && \
+    php artisan vendor:publish --tag=laravel-assets --force || true
+
 # ============== Production Stage ==============
 FROM php:8.3-fpm-alpine AS production
 
