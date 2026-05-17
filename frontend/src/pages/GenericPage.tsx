@@ -11,58 +11,60 @@ export default function GenericPage({ fixedSlug }: GenericPageProps) {
   const params = useParams()
   const slug = fixedSlug || params.slug || ''
   const [content, setContent] = useState<HomePageContent | null>(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    setLoading(true)
     getPageContent(slug)
       .then((data) => setContent(data))
       .catch(() => setContent(null))
+      .finally(() => setLoading(false))
   }, [slug])
 
-  if (!content) {
-    return (
-      <section className="min-h-[70vh] flex items-center justify-center bg-white">
-        <div className="text-center space-y-4">
-          <div className="mx-auto h-10 w-10 rounded-full border-4 border-[#0a1628]/10 border-t-[#dd222c] animate-spin" />
-        </div>
-      </section>
-    )
-  }
-
-  const blocks = Array.isArray(content.generic_content_blocks) ? content.generic_content_blocks : []
+  const blocks = Array.isArray(content?.generic_content_blocks) ? content?.generic_content_blocks : []
 
   return (
     <>
-      <SeoManager
-        title={(content.resolved_seo as any)?.title || content.seo_title || content.title || null}
-        description={(content.resolved_seo as any)?.description || content.seo_description || null}
-        canonicalUrl={(content.resolved_seo as any)?.canonical || content.canonical_url || null}
-        robots={((content.resolved_seo as any)?.robots as string[]) || content.robots || null}
-        ogTitle={(content.resolved_seo as any)?.og_title || content.og_title || null}
-        ogDescription={(content.resolved_seo as any)?.og_description || content.og_description || null}
-        ogImage={(content.resolved_seo as any)?.og_image || content.og_image || null}
-        xTitle={(content.resolved_seo as any)?.x_title || content.x_title || null}
-        xDescription={(content.resolved_seo as any)?.x_description || content.x_description || null}
-        xHandle={(content.resolved_seo as any)?.x_handle || content.x_handle || null}
-        siteName={(content.resolved_seo as any)?.site_name || null}
-        siteNamePosition={(content.resolved_seo as any)?.site_name_position || null}
-        siteNameSeparator={(content.resolved_seo as any)?.site_name_separator || null}
-        enabled={(content.resolved_seo as any)?.enabled ?? content.seo_enabled ?? true}
-        structuredData={content.structured_data || []}
-      />
+      {content ? (
+        <SeoManager
+          title={(content.resolved_seo as any)?.title || content.seo_title || content.title || null}
+          description={(content.resolved_seo as any)?.description || content.seo_description || null}
+          canonicalUrl={(content.resolved_seo as any)?.canonical || content.canonical_url || null}
+          robots={((content.resolved_seo as any)?.robots as string[]) || content.robots || null}
+          ogTitle={(content.resolved_seo as any)?.og_title || content.og_title || null}
+          ogDescription={(content.resolved_seo as any)?.og_description || content.og_description || null}
+          ogImage={(content.resolved_seo as any)?.og_image || content.og_image || null}
+          xTitle={(content.resolved_seo as any)?.x_title || content.x_title || null}
+          xDescription={(content.resolved_seo as any)?.x_description || content.x_description || null}
+          xHandle={(content.resolved_seo as any)?.x_handle || content.x_handle || null}
+          siteName={(content.resolved_seo as any)?.site_name || null}
+          siteNamePosition={(content.resolved_seo as any)?.site_name_position || null}
+          siteNameSeparator={(content.resolved_seo as any)?.site_name_separator || null}
+          enabled={(content.resolved_seo as any)?.enabled ?? content.seo_enabled ?? true}
+          structuredData={content.structured_data || []}
+        />
+      ) : null}
 
       <section className="py-20 md:py-28 bg-gradient-to-b from-white to-gray-50 border-b border-gray-100">
         <div className="max-w-5xl mx-auto px-6 text-center">
           <h1 className="text-3xl md:text-5xl font-black font-logo text-secondary uppercase mb-5">
-            {content.generic_hero_baslik || content.title}
+            {content?.generic_hero_baslik || content?.title || 'LioXERP'}
           </h1>
           <p className="text-base md:text-lg text-gray-600 max-w-3xl mx-auto">
-            {content.generic_hero_aciklama || content.seo_description}
+            {content?.generic_hero_aciklama || content?.seo_description || (loading ? ' ' : '')}
           </p>
         </div>
       </section>
 
       <section className="py-14 md:py-20 bg-white">
         <div className="max-w-5xl mx-auto px-6 space-y-10">
+          {!content && loading ? (
+            <div className="space-y-6 animate-pulse">
+              <div className="h-8 bg-gray-100 rounded-xl w-1/3" />
+              <div className="h-28 bg-gray-50 rounded-2xl" />
+              <div className="h-28 bg-gray-50 rounded-2xl" />
+            </div>
+          ) : null}
           {blocks.map((block: any, index: number) => {
             const type = block.type || block.set
 
