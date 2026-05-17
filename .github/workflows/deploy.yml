@@ -11,7 +11,7 @@ on:
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   REGION: europe-west1
-  SERVICE_NAME: liox-backend
+  SERVICE_NAME: liox-app
   ARTIFACT_REGISTRY: gcr.io
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
@@ -124,6 +124,7 @@ jobs:
           tags: |
             ${{ env.REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ env.SERVICE_NAME }}/${{ env.SERVICE_NAME }}:${{ github.sha }}
             ${{ env.REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ env.SERVICE_NAME }}/${{ env.SERVICE_NAME }}:latest
+          outputs: type=image,push=true
           build-args: |
             APP_ENV=production
 
@@ -147,7 +148,7 @@ jobs:
         with:
           service: ${{ env.SERVICE_NAME }}
           region: ${{ env.REGION }}
-          image: $REGION-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ env.SERVICE_NAME }}/${{ env.SERVICE_NAME }}:${{ github.sha }}
+          image: ${{ env.REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ env.SERVICE_NAME }}/${{ env.SERVICE_NAME }}:${{ github.sha }}
           port: 8080
           min_instances: 1
           max_instances: 10
@@ -188,7 +189,7 @@ jobs:
       - name: Run Database Migrations
         run: |
           gcloud run jobs create liox-migrate-${{ github.run_number }} \
-            --image $REGION-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ env.SERVICE_NAME }}/${{ env.SERVICE_NAME }}:${{ github.sha }} \
+            --image ${{ env.REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ env.SERVICE_NAME }}/${{ env.SERVICE_NAME }}:${{ github.sha }} \
             --region ${{ env.REGION }} \
             --command php \
             --args artisan,migrate,--force \
