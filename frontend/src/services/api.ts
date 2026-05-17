@@ -291,12 +291,12 @@ export interface HomePageContent {
 
 export async function getHomePageContent() {
   const response = await api.get<HomePageContent>('/page/home')
-  return response.data
+  return unwrapApiData<HomePageContent | null>(response.data, null)
 }
 
 export async function getPageContent(slug: string) {
   const response = await api.get<HomePageContent>(`/page/${slug}`)
-  return response.data
+  return unwrapApiData<HomePageContent | null>(response.data, null)
 }
 
 export default api

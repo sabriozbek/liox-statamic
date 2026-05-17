@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use App\Services\SeoService;
 use Statamic\Facades\Entry;
 use Statamic\Facades\GlobalSet;
@@ -19,73 +20,81 @@ class PageContentController extends Controller
      */
     public function show(string $slug)
     {
-        $entry = Entry::query()
-            ->where('collection', 'pages')
-            ->where('slug', $slug)
-            ->first();
+        $payload = Cache::remember("page_content_{$slug}", 3600, function () use ($slug) {
+            $entry = Entry::query()
+                ->where('collection', 'pages')
+                ->where('slug', $slug)
+                ->first();
 
-        if (!$entry) {
+            if (! $entry) {
+                return null;
+            }
+
+            $seoMeta = $this->seoService->getMeta($slug);
+
+            return [
+                'page_type' => $entry->get('page_type'),
+                'title' => $entry->get('title'),
+                'seo_title' => $entry->get('seo_title'),
+                'seo_description' => $entry->get('seo_description'),
+                'seo_enabled' => $entry->get('seo_enabled', true),
+                'seo_site_name_mode' => $entry->get('seo_site_name_mode', 'inherit'),
+                'seo_site_name_custom' => $entry->get('seo_site_name_custom'),
+                'seo_site_name_position' => $entry->get('seo_site_name_position', 'inherit'),
+                'seo_site_name_separator' => $entry->get('seo_site_name_separator'),
+                'robots' => $entry->get('robots') ?? [],
+                'hero_baslik' => $entry->get('hero_baslik'),
+                'hero_alt_baslik' => $entry->get('hero_alt_baslik'),
+                'hero_aciklama' => $entry->get('hero_aciklama'),
+                'hero_gorsel' => $entry->get('hero_gorsel'),
+                'hero_video_embed' => $entry->get('hero_video_embed'),
+                'generic_goster' => $entry->get('generic_goster'),
+                'generic_hero_baslik' => $entry->get('generic_hero_baslik'),
+                'generic_hero_aciklama' => $entry->get('generic_hero_aciklama'),
+                'generic_content_blocks' => $entry->get('generic_content_blocks') ?? [],
+                'moduller_baslik' => $entry->get('moduller_baslik'),
+                'moduller_alt_baslik' => $entry->get('moduller_alt_baslik'),
+                'moduller_goster' => $entry->get('moduller_goster'),
+                'sektorler_baslik' => $entry->get('sektorler_baslik'),
+                'sektorler_aciklama' => $entry->get('sektorler_aciklama'),
+                'sektorler_goster' => $entry->get('sektorler_goster'),
+                'basari_baslik' => $entry->get('basari_baslik'),
+                'basari_goster' => $entry->get('basari_goster'),
+                'video_baslik' => $entry->get('video_baslik'),
+                'video_alt_baslik' => $entry->get('video_alt_baslik'),
+                'video_embed_url' => $entry->get('video_embed_url'),
+                'video_goster' => $entry->get('video_goster'),
+                'cta_baslik' => $entry->get('cta_baslik'),
+                'cta_aciklama' => $entry->get('cta_aciklama'),
+                'cta_buton_metin' => $entry->get('cta_buton_metin'),
+                'cta_goster' => $entry->get('cta_goster'),
+                'sectors_landing_goster' => $entry->get('sectors_landing_goster'),
+                'sectors_landing_baslik' => $entry->get('sectors_landing_baslik'),
+                'sectors_landing_aciklama' => $entry->get('sectors_landing_aciklama'),
+                'sectors_landing_badges' => $entry->get('sectors_landing_badges') ?? [],
+                'seo_keywords' => $entry->get('seo_keywords') ?? [],
+                'og_title' => $entry->get('og_title'),
+                'og_description' => $entry->get('og_description'),
+                'og_image' => $entry->get('og_image'),
+                'x_title' => $entry->get('x_title'),
+                'x_description' => $entry->get('x_description'),
+                'x_handle' => $entry->get('x_handle'),
+                'canonical_url' => $entry->get('canonical_url'),
+                'schema_type' => $entry->get('schema_type'),
+                'sitemap_enabled' => $entry->get('sitemap_enabled', true),
+                'sitemap_priority' => $entry->get('sitemap_priority'),
+                'sitemap_change_frequency' => $entry->get('sitemap_change_frequency'),
+                'structured_data_items' => $entry->get('structured_data_items') ?? [],
+                'resolved_seo' => $seoMeta,
+                'structured_data' => $this->seoService->buildStructuredData($slug),
+            ];
+        });
+
+        if (! $payload) {
             return response()->json(['error' => 'Sayfa bulunamadı'], 404);
         }
 
-        $seoMeta = $this->seoService->getMeta($slug);
-
-        return response()->json([
-            'page_type' => $entry->get('page_type'),
-            'title' => $entry->get('title'),
-            'seo_title' => $entry->get('seo_title'),
-            'seo_description' => $entry->get('seo_description'),
-            'seo_enabled' => $entry->get('seo_enabled', true),
-            'seo_site_name_mode' => $entry->get('seo_site_name_mode', 'inherit'),
-            'seo_site_name_custom' => $entry->get('seo_site_name_custom'),
-            'seo_site_name_position' => $entry->get('seo_site_name_position', 'inherit'),
-            'seo_site_name_separator' => $entry->get('seo_site_name_separator'),
-            'robots' => $entry->get('robots') ?? [],
-            'hero_baslik' => $entry->get('hero_baslik'),
-            'hero_alt_baslik' => $entry->get('hero_alt_baslik'),
-            'hero_aciklama' => $entry->get('hero_aciklama'),
-            'hero_gorsel' => $entry->get('hero_gorsel'),
-            'hero_video_embed' => $entry->get('hero_video_embed'),
-            'generic_goster' => $entry->get('generic_goster'),
-            'generic_hero_baslik' => $entry->get('generic_hero_baslik'),
-            'generic_hero_aciklama' => $entry->get('generic_hero_aciklama'),
-            'generic_content_blocks' => $entry->get('generic_content_blocks') ?? [],
-            'moduller_baslik' => $entry->get('moduller_baslik'),
-            'moduller_alt_baslik' => $entry->get('moduller_alt_baslik'),
-            'moduller_goster' => $entry->get('moduller_goster'),
-            'sektorler_baslik' => $entry->get('sektorler_baslik'),
-            'sektorler_aciklama' => $entry->get('sektorler_aciklama'),
-            'sektorler_goster' => $entry->get('sektorler_goster'),
-            'basari_baslik' => $entry->get('basari_baslik'),
-            'basari_goster' => $entry->get('basari_goster'),
-            'video_baslik' => $entry->get('video_baslik'),
-            'video_alt_baslik' => $entry->get('video_alt_baslik'),
-            'video_embed_url' => $entry->get('video_embed_url'),
-            'video_goster' => $entry->get('video_goster'),
-            'cta_baslik' => $entry->get('cta_baslik'),
-            'cta_aciklama' => $entry->get('cta_aciklama'),
-            'cta_buton_metin' => $entry->get('cta_buton_metin'),
-            'cta_goster' => $entry->get('cta_goster'),
-            'sectors_landing_goster' => $entry->get('sectors_landing_goster'),
-            'sectors_landing_baslik' => $entry->get('sectors_landing_baslik'),
-            'sectors_landing_aciklama' => $entry->get('sectors_landing_aciklama'),
-            'sectors_landing_badges' => $entry->get('sectors_landing_badges') ?? [],
-            'seo_keywords' => $entry->get('seo_keywords') ?? [],
-            'og_title' => $entry->get('og_title'),
-            'og_description' => $entry->get('og_description'),
-            'og_image' => $entry->get('og_image'),
-            'x_title' => $entry->get('x_title'),
-            'x_description' => $entry->get('x_description'),
-            'x_handle' => $entry->get('x_handle'),
-            'canonical_url' => $entry->get('canonical_url'),
-            'schema_type' => $entry->get('schema_type'),
-            'sitemap_enabled' => $entry->get('sitemap_enabled', true),
-            'sitemap_priority' => $entry->get('sitemap_priority'),
-            'sitemap_change_frequency' => $entry->get('sitemap_change_frequency'),
-            'structured_data_items' => $entry->get('structured_data_items') ?? [],
-            'resolved_seo' => $seoMeta,
-            'structured_data' => $this->seoService->buildStructuredData($slug),
-        ]);
+        return response()->json($payload);
     }
 
     /**

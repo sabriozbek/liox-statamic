@@ -98,7 +98,8 @@ interface Module {
     let mounted = true
 
     getHomePageContent()
-      .then((data: HomePageContent) => {
+      .then((data: HomePageContent | null) => {
+        if (!data) return
         if (mounted) {
           setPageContent(data)
           try {
