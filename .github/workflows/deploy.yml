@@ -13,6 +13,7 @@ env:
   REGION: europe-west1
   SERVICE_NAME: liox-backend
   ARTIFACT_REGISTRY: gcr.io
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   lint:
@@ -26,7 +27,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.4'
           extensions: pdo_mysql, mbstring, zip, pcntl, redis
           coverage: none
 
@@ -67,7 +68,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.4'
           extensions: pdo_mysql, mbstring, zip, pcntl, redis
           coverage: none
 
