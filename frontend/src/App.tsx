@@ -1,5 +1,5 @@
 import { Routes, Route, useLocation } from 'react-router'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, lazy, Suspense } from 'react'
 import { getSiteSettings, trackEvent } from '@/services/api'
 import { injectGoogleTagManager, storeSiteSettings } from '@/lib/siteSettings'
 import Layout from '@/components/layout/Layout'
@@ -7,24 +7,35 @@ import ScrollToTop from '@/components/layout/ScrollToTop'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import PopupWidget from '@/components/forms/PopupWidget'
-import Home from '@/pages/Home'
-import ErpPage from '@/pages/ErpPage'
-import ModulesPage from '@/pages/ModulesPage'
-import ModulePage from '@/pages/ModulePage'
-import SectorsPage from '@/pages/SectorsPage'
-import SectorLanding from '@/pages/SectorLanding'
-import TestimonialsPage from '@/pages/TestimonialsPage'
-import Contact from '@/pages/Contact'
-import ThankYouPage from '@/pages/ThankYouPage'
-import GenericPage from '@/pages/GenericPage'
-import Blog from '@/pages/Blog'
-import BlogPost from '@/pages/BlogPost'
-import BlogCategory from '@/pages/BlogCategory'
-import EventsPage from '@/pages/EventsPage'
-import EventDetailPage from '@/pages/EventDetailPage'
-import NewsPage from '@/pages/NewsPage'
-import NewsDetailPage from '@/pages/NewsDetailPage'
-import NotFoundPage from '@/pages/NotFoundPage'
+const Home = lazy(() => import('@/pages/Home'))
+const ErpPage = lazy(() => import('@/pages/ErpPage'))
+const ModulesPage = lazy(() => import('@/pages/ModulesPage'))
+const ModulePage = lazy(() => import('@/pages/ModulePage'))
+const SectorsPage = lazy(() => import('@/pages/SectorsPage'))
+const SectorLanding = lazy(() => import('@/pages/SectorLanding'))
+const TestimonialsPage = lazy(() => import('@/pages/TestimonialsPage'))
+const Contact = lazy(() => import('@/pages/Contact'))
+const ThankYouPage = lazy(() => import('@/pages/ThankYouPage'))
+const GenericPage = lazy(() => import('@/pages/GenericPage'))
+const Blog = lazy(() => import('@/pages/Blog'))
+const BlogPost = lazy(() => import('@/pages/BlogPost'))
+const BlogCategory = lazy(() => import('@/pages/BlogCategory'))
+const EventsPage = lazy(() => import('@/pages/EventsPage'))
+const EventDetailPage = lazy(() => import('@/pages/EventDetailPage'))
+const NewsPage = lazy(() => import('@/pages/NewsPage'))
+const NewsDetailPage = lazy(() => import('@/pages/NewsDetailPage'))
+const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'))
+
+function PageLoader() {
+  return (
+    <section className="min-h-[70vh] flex items-center justify-center bg-white">
+      <div className="text-center space-y-4">
+        <div className="mx-auto h-10 w-10 rounded-full border-4 border-[#0a1628]/10 border-t-[#dd222c] animate-spin" />
+        <p className="text-sm font-semibold tracking-[0.12em] uppercase text-gray-500">Yükleniyor</p>
+      </div>
+    </section>
+  )
+}
 
 function isKnownRoute(pathname: string) {
   if (
@@ -108,33 +119,35 @@ function App() {
   return (
     <>
       <ScrollToTop />
-      <Header onDemoClick={handleDemoClick} hidden={(isNotFoundRoute || forceShowHeader) ? false : isFooterVisible} />
-      {!isHome && <div className="h-[88px] md:h-[100px] lg:h-[108px]" />}
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="erp" element={<ErpPage />} />
-        <Route path="modul" element={<ModulesPage />} />
-        <Route path="modul/:slug" element={<ModulePage />} />
-        <Route path="sektorler" element={<SectorsPage />} />
-        <Route path="sektor/:slug" element={<SectorLanding />} />
-        <Route path="neden-lioxerp" element={<GenericPage fixedSlug="neden-lioxerp" />} />
-        <Route path="basari-hikayeleri" element={<TestimonialsPage />} />
-        <Route path="iletisim" element={<Contact />} />
-        <Route path="tesekkurler" element={<ThankYouPage />} />
-        <Route path="gizlilik-politikasi" element={<GenericPage fixedSlug="gizlilik-politikasi" />} />
-        <Route path="kullanim-sartlari" element={<GenericPage fixedSlug="kullanim-sartlari" />} />
-        <Route path="kvkk" element={<GenericPage fixedSlug="kvkk" />} />
-        <Route path="blog" element={<Blog />} />
-        <Route path="blog/:slug" element={<BlogPost />} />
-        <Route path="etkinlik" element={<EventsPage />} />
-        <Route path="etkinlik/:slug" element={<EventDetailPage />} />
-        <Route path="haber" element={<NewsPage />} />
-        <Route path="haber/:slug" element={<NewsDetailPage />} />
-        <Route path="kategori/:slug" element={<BlogCategory />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-      <PopupWidget />
-      <Footer />
+      <Suspense fallback={<PageLoader />}>
+        <Header onDemoClick={handleDemoClick} hidden={(isNotFoundRoute || forceShowHeader) ? false : isFooterVisible} />
+        {!isHome && <div className="h-[88px] md:h-[100px] lg:h-[108px]" />}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="erp" element={<ErpPage />} />
+          <Route path="modul" element={<ModulesPage />} />
+          <Route path="modul/:slug" element={<ModulePage />} />
+          <Route path="sektorler" element={<SectorsPage />} />
+          <Route path="sektor/:slug" element={<SectorLanding />} />
+          <Route path="neden-lioxerp" element={<GenericPage fixedSlug="neden-lioxerp" />} />
+          <Route path="basari-hikayeleri" element={<TestimonialsPage />} />
+          <Route path="iletisim" element={<Contact />} />
+          <Route path="tesekkurler" element={<ThankYouPage />} />
+          <Route path="gizlilik-politikasi" element={<GenericPage fixedSlug="gizlilik-politikasi" />} />
+          <Route path="kullanim-sartlari" element={<GenericPage fixedSlug="kullanim-sartlari" />} />
+          <Route path="kvkk" element={<GenericPage fixedSlug="kvkk" />} />
+          <Route path="blog" element={<Blog />} />
+          <Route path="blog/:slug" element={<BlogPost />} />
+          <Route path="etkinlik" element={<EventsPage />} />
+          <Route path="etkinlik/:slug" element={<EventDetailPage />} />
+          <Route path="haber" element={<NewsPage />} />
+          <Route path="haber/:slug" element={<NewsDetailPage />} />
+          <Route path="kategori/:slug" element={<BlogCategory />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+        <PopupWidget />
+        <Footer />
+      </Suspense>
     </>
   )
 }

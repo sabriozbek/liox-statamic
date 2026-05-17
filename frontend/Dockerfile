@@ -10,7 +10,7 @@ COPY . .
 ARG VITE_API_URL=https://liox-app-1084795151663.europe-west1.run.app/api
 ENV VITE_API_URL=${VITE_API_URL}
 
-RUN npm run build
+RUN VITE_API_URL=${VITE_API_URL} npm run build
 
 FROM nginx:1.27-alpine
 
