@@ -124,8 +124,6 @@ jobs:
           tags: |
             $REGION-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ env.SERVICE_NAME }}/${{ env.SERVICE_NAME }}:${{ github.sha }}
             $REGION-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ env.SERVICE_NAME }}/${{ env.SERVICE_NAME }}:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
           build-args: |
             APP_ENV=production
 
