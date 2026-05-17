@@ -24,6 +24,14 @@ RUN printf '%s\n' \
 '    root /usr/share/nginx/html;' \
 '    index index.html;' \
 '' \
+'    location = /cp {' \
+'        return 302 https://liox-app-1084795151663.europe-west1.run.app/cp;' \
+'    }' \
+'' \
+'    location ^~ /cp/ {' \
+'        return 302 https://liox-app-1084795151663.europe-west1.run.app$request_uri;' \
+'    }' \
+'' \
 '    location / {' \
 '        try_files $uri /index.html;' \
 '    }' \

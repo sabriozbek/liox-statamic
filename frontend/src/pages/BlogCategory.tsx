@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router'
 import { useState, useEffect } from 'react'
+import api, { unwrapApiData } from '@/services/api'
 
 interface BlogPost {
   id: string
@@ -45,11 +46,11 @@ export default function BlogCategory() {
     const fetchCategoryData = async () => {
       try {
         // Fetch posts by category
-        const postsRes = await fetch(`/api/blog/category/${slug}`)
-        const postsData = await postsRes.json()
+        const postsRes = await api.get(`/blog/category/${slug}`)
+        const postsData = unwrapApiData<any[]>(postsRes.data, [])
         
-        if (postsData.data) {
-          const apiPosts = postsData.data.map((p: any) => ({
+        if (postsData.length > 0) {
+          const apiPosts = postsData.map((p: any) => ({
             id: p.id,
             title: p.title,
             slug: p.slug,
@@ -69,11 +70,11 @@ export default function BlogCategory() {
         }
         
         // Fetch categories to get current category info
-        const categoriesRes = await fetch('/api/blog/categories')
-        const categoriesData = await categoriesRes.json()
+        const categoriesRes = await api.get('/blog/categories')
+        const categoriesData = unwrapApiData<any[]>(categoriesRes.data, [])
         
-        if (categoriesData.data) {
-          const catData = categoriesData.data.find((c: any) => c.slug === slug)
+        if (categoriesData.length > 0) {
+          const catData = categoriesData.find((c: any) => c.slug === slug)
           if (catData) {
             const apiCategory: Category = {
               id: catData.id || slug,
