@@ -1,0 +1,6 @@
+#!include:.gitignore
+
+# Keep git metadata in Cloud Build context so Statamic Git automation
+# can access a real repository inside the runtime image.
+!.git
+!.git/**
