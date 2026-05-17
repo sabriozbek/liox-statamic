@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Support\ResolvesStatamicAssets;
+use Illuminate\Support\Facades\Cache;
 use Statamic\Facades\Entry;
 
 class ModuleContentController extends Controller
@@ -12,32 +13,36 @@ class ModuleContentController extends Controller
 
     public function index()
     {
-        $entries = Entry::query()
-            ->where('collection', 'modules')
-            ->get()
-            ->map(function ($entry) {
-                return [
-                    'id' => $entry->id(),
-                    'slug' => $entry->slug(),
-                    'title' => $entry->get('title'),
-                    'short_description' => $entry->get('short_description'),
-                    'icon' => $entry->get('icon'),
-                    'features' => $entry->get('features') ?? [],
-                    'seo_title' => $entry->get('seo_title'),
-                    'seo_description' => $entry->get('seo_description'),
-                ];
-            })
-            ->values();
+        $entries = Cache::remember('api_modules_index', 3600, function () {
+            return Entry::query()
+                ->where('collection', 'modules')
+                ->get()
+                ->map(function ($entry) {
+                    return [
+                        'id' => $entry->id(),
+                        'slug' => $entry->slug(),
+                        'title' => $entry->get('title'),
+                        'short_description' => $entry->get('short_description'),
+                        'icon' => $entry->get('icon'),
+                        'features' => $entry->get('features') ?? [],
+                        'seo_title' => $entry->get('seo_title'),
+                        'seo_description' => $entry->get('seo_description'),
+                    ];
+                })
+                ->values();
+        });
 
         return response()->json($entries);
     }
 
     public function show(string $slug)
     {
-        $entry = Entry::query()
-            ->where('collection', 'modules')
-            ->where('slug', $slug)
-            ->first();
+        $entry = Cache::remember("api_modules_show_{$slug}", 3600, function () use ($slug) {
+            return Entry::query()
+                ->where('collection', 'modules')
+                ->where('slug', $slug)
+                ->first();
+        });
 
         if (!$entry) {
             return response()->json(['error' => 'Modül bulunamadı'], 404);

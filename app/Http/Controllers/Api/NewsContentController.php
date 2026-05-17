@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 use Statamic\Facades\Asset;
 use Statamic\Facades\Entry;
 
@@ -39,8 +40,8 @@ class NewsContentController extends Controller
 
     public function index()
     {
-        return response()->json(
-            Entry::query()
+        return response()->json(Cache::remember('api_news_index', 3600, function () {
+            return Entry::query()
                 ->where('collection', 'news')
                 ->orderBy('publish_date', 'desc')
                 ->get()
@@ -57,16 +58,18 @@ class NewsContentController extends Controller
                     'featured_image_alt' => $entry->get('featured_image_alt'),
                     'summary_points' => $entry->get('summary_points') ?? [],
                 ])
-                ->values()
-        );
+                ->values();
+        }));
     }
 
     public function show(string $slug)
     {
-        $entry = Entry::query()
-            ->where('collection', 'news')
-            ->where('slug', $slug)
-            ->first();
+        $entry = Cache::remember("api_news_show_{$slug}", 3600, function () use ($slug) {
+            return Entry::query()
+                ->where('collection', 'news')
+                ->where('slug', $slug)
+                ->first();
+        });
 
         if (! $entry) {
             return response()->json(['error' => 'Haber bulunamadı'], 404);

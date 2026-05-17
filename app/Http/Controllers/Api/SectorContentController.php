@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Support\ResolvesStatamicAssets;
+use Illuminate\Support\Facades\Cache;
 use Statamic\Facades\Entry;
 
 class SectorContentController extends Controller
@@ -12,33 +13,37 @@ class SectorContentController extends Controller
 
     public function index()
     {
-        $entries = Entry::query()
-            ->where('collection', 'sectors')
-            ->get()
-            ->map(function ($entry) {
-                return [
-                    'id' => $entry->id(),
-                    'slug' => $entry->slug(),
-                    'title' => $entry->get('title'),
-                    'description' => $entry->get('description'),
-                    'hero_badge' => $entry->get('hero_badge'),
-                    'metrics' => $entry->get('metrics') ?? [],
-                    'benefits' => $entry->get('benefits') ?? [],
-                    'seo_title' => $entry->get('seo_title'),
-                    'seo_description' => $entry->get('seo_description'),
-                ];
-            })
-            ->values();
+        $entries = Cache::remember('api_sectors_index', 3600, function () {
+            return Entry::query()
+                ->where('collection', 'sectors')
+                ->get()
+                ->map(function ($entry) {
+                    return [
+                        'id' => $entry->id(),
+                        'slug' => $entry->slug(),
+                        'title' => $entry->get('title'),
+                        'description' => $entry->get('description'),
+                        'hero_badge' => $entry->get('hero_badge'),
+                        'metrics' => $entry->get('metrics') ?? [],
+                        'benefits' => $entry->get('benefits') ?? [],
+                        'seo_title' => $entry->get('seo_title'),
+                        'seo_description' => $entry->get('seo_description'),
+                    ];
+                })
+                ->values();
+        });
 
         return response()->json($entries);
     }
 
     public function show(string $slug)
     {
-        $entry = Entry::query()
-            ->where('collection', 'sectors')
-            ->where('slug', $slug)
-            ->first();
+        $entry = Cache::remember("api_sectors_show_{$slug}", 3600, function () use ($slug) {
+            return Entry::query()
+                ->where('collection', 'sectors')
+                ->where('slug', $slug)
+                ->first();
+        });
 
         if (!$entry) {
             return response()->json(['error' => 'Sektör bulunamadı'], 404);

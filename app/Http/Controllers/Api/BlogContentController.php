@@ -8,6 +8,7 @@ use Statamic\Facades\Entry;
 use Statamic\Facades\Term;
 use Statamic\Facades\Taxonomy;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Cache;
 
 class BlogContentController extends Controller
 {
@@ -16,14 +17,17 @@ class BlogContentController extends Controller
      */
     public function index(): JsonResponse
     {
-        $posts = Entry::query()
-            ->where('collection', 'blog')
-            ->where('status', 'published')
-            ->orderBy('publish_date', 'desc')
-            ->get()
-            ->map(function ($post) {
-                return $this->formatPost($post);
-            });
+        $posts = Cache::remember('api_blog_index', 3600, function () {
+            return Entry::query()
+                ->where('collection', 'blog')
+                ->where('status', 'published')
+                ->orderBy('publish_date', 'desc')
+                ->get()
+                ->map(function ($post) {
+                    return $this->formatPost($post);
+                })
+                ->values();
+        });
 
         return response()->json([
             'data' => $posts,
@@ -36,11 +40,15 @@ class BlogContentController extends Controller
      */
     public function show(string $slug): JsonResponse
     {
-        $post = Entry::query()
-            ->where('collection', 'blog')
-            ->where('slug', $slug)
-            ->where('status', 'published')
-            ->first();
+        $post = Cache::remember("api_blog_show_{$slug}", 3600, function () use ($slug) {
+            $entry = Entry::query()
+                ->where('collection', 'blog')
+                ->where('slug', $slug)
+                ->where('status', 'published')
+                ->first();
+
+            return $entry ? $this->formatPost($entry) : null;
+        });
 
         if (!$post) {
             return response()->json([
@@ -49,7 +57,7 @@ class BlogContentController extends Controller
         }
 
         return response()->json([
-            'data' => $this->formatPost($post),
+            'data' => $post,
         ]);
     }
 
@@ -85,16 +93,19 @@ class BlogContentController extends Controller
      */
     public function featured(): JsonResponse
     {
-        $posts = Entry::query()
-            ->where('collection', 'blog')
-            ->where('status', 'published')
-            ->where('is_featured', true)
-            ->orderBy('publish_date', 'desc')
-            ->limit(6)
-            ->get()
-            ->map(function ($post) {
-                return $this->formatPost($post);
-            });
+        $posts = Cache::remember('api_blog_featured', 3600, function () {
+            return Entry::query()
+                ->where('collection', 'blog')
+                ->where('status', 'published')
+                ->where('is_featured', true)
+                ->orderBy('publish_date', 'desc')
+                ->limit(6)
+                ->get()
+                ->map(function ($post) {
+                    return $this->formatPost($post);
+                })
+                ->values();
+        });
 
         return response()->json([
             'data' => $posts,
@@ -106,15 +117,18 @@ class BlogContentController extends Controller
      */
     public function pinned(): JsonResponse
     {
-        $posts = Entry::query()
-            ->where('collection', 'blog')
-            ->where('status', 'published')
-            ->where('is_pinned', true)
-            ->orderBy('publish_date', 'desc')
-            ->get()
-            ->map(function ($post) {
-                return $this->formatPost($post);
-            });
+        $posts = Cache::remember('api_blog_pinned', 3600, function () {
+            return Entry::query()
+                ->where('collection', 'blog')
+                ->where('status', 'published')
+                ->where('is_pinned', true)
+                ->orderBy('publish_date', 'desc')
+                ->get()
+                ->map(function ($post) {
+                    return $this->formatPost($post);
+                })
+                ->values();
+        });
 
         return response()->json([
             'data' => $posts,
@@ -211,42 +225,47 @@ class BlogContentController extends Controller
      */
     public function categories(): JsonResponse
     {
-        $categories = [];
-        
-        $categoryTaxonomy = Taxonomy::find('blog_categories');
-        
-        if ($categoryTaxonomy) {
-            $terms = $categoryTaxonomy->queryTerms()->get();
-            
-            foreach ($terms as $term) {
-                $postCount = Entry::query()
-                    ->where('collection', 'blog')
-                    ->where('status', 'published')
-                    ->get()
-                    ->filter(function ($post) use ($term) {
-                        $value = $post->get('category');
+        $categories = Cache::remember('api_blog_categories', 3600, function () {
+            $categories = [];
+            $posts = Entry::query()
+                ->where('collection', 'blog')
+                ->where('status', 'published')
+                ->get();
 
-                        if (is_array($value)) {
-                            $value = $value[0] ?? null;
-                        }
+            $categoryTaxonomy = Taxonomy::find('blog_categories');
 
-                        if (is_string($value) && str_contains($value, '::')) {
-                            $value = explode('::', $value)[1] ?? $value;
-                        }
+            if ($categoryTaxonomy) {
+                $terms = $categoryTaxonomy->queryTerms()->get();
 
-                        return $value === $term->slug();
-                    })
-                    ->count();
-                
-                $categories[] = [
-                    'id' => $term->id(),
-                    'title' => $term->get('title'),
-                    'slug' => $term->slug(),
-                    'description' => $term->get('description') ?? '',
-                    'post_count' => $postCount,
-                ];
+                foreach ($terms as $term) {
+                    $postCount = $posts
+                        ->filter(function ($post) use ($term) {
+                            $value = $post->get('category');
+
+                            if (is_array($value)) {
+                                $value = $value[0] ?? null;
+                            }
+
+                            if (is_string($value) && str_contains($value, '::')) {
+                                $value = explode('::', $value)[1] ?? $value;
+                            }
+
+                            return $value === $term->slug();
+                        })
+                        ->count();
+
+                    $categories[] = [
+                        'id' => $term->id(),
+                        'title' => $term->get('title'),
+                        'slug' => $term->slug(),
+                        'description' => $term->get('description') ?? '',
+                        'post_count' => $postCount,
+                    ];
+                }
             }
-        }
+
+            return $categories;
+        });
         
         return response()->json([
             'data' => $categories,
@@ -258,51 +277,56 @@ class BlogContentController extends Controller
      */
     public function tags(): JsonResponse
     {
-        $tags = [];
-        
-        $tagTaxonomy = Taxonomy::find('tags');
-        
-        if ($tagTaxonomy) {
-            $terms = $tagTaxonomy->queryTerms()->get();
-            
-            foreach ($terms as $term) {
-                $usageCount = Entry::query()
-                    ->where('collection', 'blog')
-                    ->where('status', 'published')
-                    ->get()
-                    ->filter(function ($post) use ($term) {
-                        $values = $post->get('tags', []);
+        $tags = Cache::remember('api_blog_tags', 3600, function () {
+            $tags = [];
+            $posts = Entry::query()
+                ->where('collection', 'blog')
+                ->where('status', 'published')
+                ->get();
 
-                        if (is_string($values)) {
-                            $values = [$values];
-                        }
+            $tagTaxonomy = Taxonomy::find('tags');
 
-                        foreach ($values as $value) {
-                            if (is_array($value)) {
-                                $value = $value['slug'] ?? $value['value'] ?? $value[0] ?? null;
+            if ($tagTaxonomy) {
+                $terms = $tagTaxonomy->queryTerms()->get();
+
+                foreach ($terms as $term) {
+                    $usageCount = $posts
+                        ->filter(function ($post) use ($term) {
+                            $values = $post->get('tags', []);
+
+                            if (is_string($values)) {
+                                $values = [$values];
                             }
 
-                            if (is_string($value) && str_contains($value, '::')) {
-                                $value = explode('::', $value)[1] ?? $value;
+                            foreach ($values as $value) {
+                                if (is_array($value)) {
+                                    $value = $value['slug'] ?? $value['value'] ?? $value[0] ?? null;
+                                }
+
+                                if (is_string($value) && str_contains($value, '::')) {
+                                    $value = explode('::', $value)[1] ?? $value;
+                                }
+
+                                if ($value === $term->slug()) {
+                                    return true;
+                                }
                             }
 
-                            if ($value === $term->slug()) {
-                                return true;
-                            }
-                        }
+                            return false;
+                        })
+                        ->count();
 
-                        return false;
-                    })
-                    ->count();
-
-                $tags[] = [
-                    'id' => $term->id(),
-                    'title' => $term->get('title'),
-                    'slug' => $term->slug(),
-                    'count' => $usageCount,
-                ];
+                    $tags[] = [
+                        'id' => $term->id(),
+                        'title' => $term->get('title'),
+                        'slug' => $term->slug(),
+                        'count' => $usageCount,
+                    ];
+                }
             }
-        }
+
+            return $tags;
+        });
         
         return response()->json([
             'data' => $tags,

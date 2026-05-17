@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Support\ResolvesStatamicAssets;
+use Illuminate\Support\Facades\Cache;
 use Statamic\Facades\Entry;
 
 class EventContentController extends Controller
@@ -12,38 +13,42 @@ class EventContentController extends Controller
 
     public function index()
     {
-        $entries = Entry::query()
-            ->where('collection', 'events')
-            ->get()
-            ->map(function ($entry) {
-                return [
-                    'id' => $entry->id(),
-                    'slug' => $entry->slug(),
-                    'title' => $entry->get('title'),
-                    'status' => $entry->get('status', 'upcoming'),
-                    'event_type' => $entry->get('event_type', 'webinar'),
-                    'event_date' => $entry->get('event_date'),
-                    'event_time' => $entry->get('event_time'),
-                    'location' => $entry->get('location'),
-                    'hero_badge' => $entry->get('hero_badge'),
-                    'excerpt' => $entry->get('excerpt'),
-                    'registration_url' => $entry->get('registration_url'),
-                    'featured_image' => $this->resolveAssetUrl($entry->get('featured_image')),
-                    'featured_image_alt' => $entry->get('featured_image_alt'),
-                    'hero_points' => $entry->get('hero_points') ?? [],
-                ];
-            })
-            ->values();
+        $entries = Cache::remember('api_events_index', 3600, function () {
+            return Entry::query()
+                ->where('collection', 'events')
+                ->get()
+                ->map(function ($entry) {
+                    return [
+                        'id' => $entry->id(),
+                        'slug' => $entry->slug(),
+                        'title' => $entry->get('title'),
+                        'status' => $entry->get('status', 'upcoming'),
+                        'event_type' => $entry->get('event_type', 'webinar'),
+                        'event_date' => $entry->get('event_date'),
+                        'event_time' => $entry->get('event_time'),
+                        'location' => $entry->get('location'),
+                        'hero_badge' => $entry->get('hero_badge'),
+                        'excerpt' => $entry->get('excerpt'),
+                        'registration_url' => $entry->get('registration_url'),
+                        'featured_image' => $this->resolveAssetUrl($entry->get('featured_image')),
+                        'featured_image_alt' => $entry->get('featured_image_alt'),
+                        'hero_points' => $entry->get('hero_points') ?? [],
+                    ];
+                })
+                ->values();
+        });
 
         return response()->json($entries);
     }
 
     public function show(string $slug)
     {
-        $entry = Entry::query()
-            ->where('collection', 'events')
-            ->where('slug', $slug)
-            ->first();
+        $entry = Cache::remember("api_events_show_{$slug}", 3600, function () use ($slug) {
+            return Entry::query()
+                ->where('collection', 'events')
+                ->where('slug', $slug)
+                ->first();
+        });
 
         if (! $entry) {
             return response()->json(['error' => 'Etkinlik bulunamadı'], 404);
