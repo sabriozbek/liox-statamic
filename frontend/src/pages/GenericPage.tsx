@@ -19,7 +19,13 @@ export default function GenericPage({ fixedSlug }: GenericPageProps) {
   }, [slug])
 
   if (!content) {
-    return <section className="py-24 text-center text-gray-500">İçerik yükleniyor...</section>
+    return (
+      <section className="min-h-[70vh] flex items-center justify-center bg-white">
+        <div className="text-center space-y-4">
+          <div className="mx-auto h-10 w-10 rounded-full border-4 border-[#0a1628]/10 border-t-[#dd222c] animate-spin" />
+        </div>
+      </section>
+    )
   }
 
   const blocks = Array.isArray(content.generic_content_blocks) ? content.generic_content_blocks : []
