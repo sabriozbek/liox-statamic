@@ -24,13 +24,21 @@ chmod -R ug+rwX "$APP_DIR/content" "$APP_DIR/resources" "$APP_DIR/storage" "$APP
 
 if [ -d "$APP_DIR/.git" ]; then
   echo "[startup] preparing git repository"
-  chown -R www-data:www-data "$APP_DIR/.git"
-  chmod -R ug+rwX "$APP_DIR/.git"
-
+  
+  # Ensure all files are writable by www-data before git operations
+  echo "[startup] fixing file ownership for git operations"
+  chown -R www-data:www-data "$APP_DIR"
+  chmod -R ug+rwX "$APP_DIR"
+  
   su -s /bin/sh www-data -c "git config --global --add safe.directory $APP_DIR" || true
   su -s /bin/sh www-data -c "git -C $APP_DIR remote set-url origin '$AUTH_REPO_URL'" || true
   su -s /bin/sh www-data -c "git -C $APP_DIR config user.name '${STATAMIC_GIT_USER_NAME:-Liox Statamic Bot}'" || true
   su -s /bin/sh www-data -c "git -C $APP_DIR config user.email '${STATAMIC_GIT_USER_EMAIL:-bot@liox.uyumsoft.com}'" || true
+  
+  # Fix git index permissions
+  su -s /bin/sh www-data -c "chmod -f 664 '$APP_DIR/.git/index' || true" || true
+  su -s /bin/sh www-data -c "chmod -f 755 '$APP_DIR/.git' || true" || true
+  
   cat > "$RUNTIME_GIT_EXCLUDES" <<'EOF'
 storage/*.key
 storage/logs/**
@@ -48,11 +56,15 @@ EOF
 
   echo "[startup] syncing tracked content from GitHub branch $SYNC_BRANCH"
   su -s /bin/sh www-data -c "git -C $APP_DIR fetch origin $SYNC_BRANCH --prune" || true
-  su -s /bin/sh www-data -c "git -C $APP_DIR checkout $SYNC_BRANCH || git -C $APP_DIR checkout -b $SYNC_BRANCH origin/$SYNC_BRANCH" || true
-  su -s /bin/sh www-data -c "git -C $APP_DIR branch --set-upstream-to=origin/$SYNC_BRANCH $SYNC_BRANCH" || true
-  su -s /bin/sh www-data -c "git -C $APP_DIR reset --hard HEAD" || true
-  su -s /bin/sh www-data -c "git -C $APP_DIR checkout origin/$SYNC_BRANCH -- $CONTENT_PATHS" || true
-  su -s /bin/sh www-data -c "git -C $APP_DIR clean -fd -- $CONTENT_PATHS" || true
+  
+  # Safe reset - don't fail if there are permission issues
+  su -s /bin/sh www-data -c "git -C $APP_DIR reset --hard HEAD" 2>/dev/null || {
+    echo "[startup] git reset failed, trying force checkout"
+    su -s /bin/sh www-data -c "git -C $APP_DIR checkout -f HEAD -- ." || true
+  }
+  
+  su -s /bin/sh www-data -c "git -C $APP_DIR checkout origin/$SYNC_BRANCH -- $CONTENT_PATHS" 2>/dev/null || true
+  su -s /bin/sh www-data -c "git -C $APP_DIR clean -fd -- $CONTENT_PATHS" 2>/dev/null || true
 fi
 
 echo "[startup] starting supervisord"
