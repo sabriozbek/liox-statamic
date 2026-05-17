@@ -14,6 +14,7 @@ is_pinned: false
 show_in_intro: false
 show_in_intro_right: false
 featured_in_resources: false
+views: 1
 show_share_buttons: true
 enable_sticky_share: false
 enable_reading_progress: true
