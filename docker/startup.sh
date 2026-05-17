@@ -17,10 +17,12 @@ fi
 echo "[startup] clearing Laravel bootstrap cache"
 rm -f "$APP_DIR"/bootstrap/cache/*.php
 
-echo "[startup] preparing writable Statamic directories"
+echo "[startup] preparing writable directories"
 mkdir -p "$APP_DIR/content" "$APP_DIR/resources/users" "$APP_DIR/storage/forms" "$APP_DIR/storage/statamic"
+mkdir -p /var/run/php-fpm /var/log/php-fpm
 chown -R www-data:www-data "$APP_DIR/content" "$APP_DIR/resources" "$APP_DIR/storage" "$APP_DIR/bootstrap/cache"
 chmod -R ug+rwX "$APP_DIR/content" "$APP_DIR/resources" "$APP_DIR/storage" "$APP_DIR/bootstrap/cache"
+chown -R www-data:www-data /var/run/php-fpm /var/log/php-fpm
 
 if [ -d "$APP_DIR/.git" ]; then
   echo "[startup] preparing git repository"

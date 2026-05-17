@@ -125,6 +125,12 @@ RUN echo "memory_limit=256M" >> /usr/local/etc/php/conf.d/custom.ini && \
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 COPY docker/nginx.conf /etc/nginx/http.d/default.conf
 
+# PHP-FPM pool configuration
+COPY docker/php-fpm-pool.conf /usr/local/etc/php-fpm.d/www.conf
+
+# Create required directories
+RUN mkdir -p /var/run/php-fpm /var/log/php-fpm
+
 # Supervisor configuration
 COPY docker/supervisord.conf /etc/supervisord.conf
 
