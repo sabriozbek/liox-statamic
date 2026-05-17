@@ -72,6 +72,9 @@ jobs:
           extensions: pdo_mysql, mbstring, zip, pcntl, redis
           coverage: none
 
+      - name: Create Required Directories
+        run: mkdir -p bootstrap/cache storage
+
       - name: Copy Environment
         run: cp .env.example .env
 
