@@ -73,9 +73,6 @@ RUN cp .env.example .env && \
 # ============== Production Stage ==============
 FROM php:8.3-fpm-alpine AS production
 
-# Install www-data user if not exists
-RUN addgroup -g 82 -S www-data && adduser -u 82 -D -S -G www-data www-data
-
 # Install system dependencies
 RUN apk add --no-cache \
     git \
