@@ -111,6 +111,9 @@ RUN mkdir -p /var/www/html/public/vendor/seotamic/css /var/www/html/public/vendo
         cp /var/www/html/public/vendor/seotamic/build/assets/*.js /var/www/html/public/vendor/seotamic/js/cp.js; \
     fi
 
+# Create required directories
+RUN mkdir -p /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/public
+
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/public
 RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/public
