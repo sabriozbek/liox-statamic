@@ -1,0 +1,23 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'europe-west1-docker.pkg.dev/crmtrack-483900/liox-app/liox-app:502-fix-v3'
+      - '--platform=linux/amd64'
+      - '.'
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'europe-west1-docker.pkg.dev/crmtrack-483900/liox-app/liox-app:502-fix-v3'
+  - name: 'gcr.io/google-appengine/debian10'
+    args:
+      - 'bash'
+      - '-c'
+      - |
+        gcloud run deploy liox-app \
+          --image=europe-west1-docker.pkg.dev/crmtrack-483900/liox-app/liox-app:502-fix-v3 \
+          --region=europe-west1 \
+          --platform=managed
+images:
+  - europe-west1-docker.pkg.dev/crmtrack-483900/liox-app/liox-app:502-fix-v3
