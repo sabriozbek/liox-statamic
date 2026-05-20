@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Services\SeoService;
 use Statamic\Facades\Asset;
 use Statamic\Facades\Entry;
 use Statamic\Facades\Term;
@@ -12,6 +13,10 @@ use Illuminate\Support\Facades\Cache;
 
 class BlogContentController extends Controller
 {
+    public function __construct(
+        private SeoService $seoService
+    ) {}
+
     /**
      * Get all blog posts
      */
@@ -434,6 +439,18 @@ class BlogContentController extends Controller
             'enable_reading_progress' => (bool) $post->get('enable_reading_progress', true),
             'show_author_box' => (bool) $post->get('show_author_box', true),
             'show_related_posts' => (bool) $post->get('show_related_posts', true),
+            'seo_title' => $post->get('seo_title'),
+            'seo_description' => $post->get('seo_description'),
+            'canonical_url' => $post->get('canonical_url'),
+            'og_title' => $post->get('og_title'),
+            'og_description' => $post->get('og_description'),
+            'og_image' => $this->normalizeAssetUrl($post->get('og_image')),
+            'x_title' => $post->get('x_title'),
+            'x_description' => $post->get('x_description'),
+            'x_handle' => $post->get('x_handle'),
+            'robots' => $post->get('robots') ?? [],
+            'resolved_seo' => $this->seoService->resolveEntryMeta($post, 'blog/'.$post->slug()),
+            'structured_data' => $this->seoService->buildStructuredData('blog/'.$post->slug()),
             'url' => '/blog/' . $post->slug(),
         ];
     }

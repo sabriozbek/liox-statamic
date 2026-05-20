@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import NotFoundPage from '@/pages/NotFoundPage'
 import LeadForm from '@/components/forms/LeadForm'
 import api from '@/services/api'
+import SeoManager from '@/components/seo/SeoManager'
 
 interface IndustryStat {
   icon: string
@@ -102,6 +103,16 @@ interface SectorData {
   related_modules?: RelatedModule[]
   seo_title?: string
   seo_description?: string
+  canonical_url?: string
+  og_title?: string
+  og_description?: string
+  og_image?: string
+  x_title?: string
+  x_description?: string
+  x_handle?: string
+  robots?: string[]
+  resolved_seo?: Record<string, any>
+  structured_data?: Array<Record<string, unknown>>
   // İlişkili testimonial'lar
   testimonials?: Testimonial[]
 }
@@ -325,6 +336,24 @@ export default function SectorLanding() {
 
   return (
     <>
+      <SeoManager
+        title={sector?.resolved_seo?.title || sector?.seo_title || sector?.title || null}
+        description={sector?.resolved_seo?.description || sector?.seo_description || sector?.description || null}
+        canonicalUrl={sector?.resolved_seo?.canonical || sector?.canonical_url || null}
+        robots={sector?.resolved_seo?.robots || sector?.robots || null}
+        ogTitle={sector?.resolved_seo?.og_title || sector?.og_title || null}
+        ogDescription={sector?.resolved_seo?.og_description || sector?.og_description || null}
+        ogImage={sector?.resolved_seo?.og_image || sector?.og_image || null}
+        xTitle={sector?.resolved_seo?.x_title || sector?.x_title || null}
+        xDescription={sector?.resolved_seo?.x_description || sector?.x_description || null}
+        xHandle={sector?.resolved_seo?.x_handle || sector?.x_handle || null}
+        siteName={sector?.resolved_seo?.site_name || null}
+        siteNamePosition={sector?.resolved_seo?.site_name_position || null}
+        siteNameSeparator={sector?.resolved_seo?.site_name_separator || null}
+        enabled={sector?.resolved_seo?.enabled ?? true}
+        structuredData={sector?.structured_data || []}
+      />
+
       <section className="bg-[#0a1628] text-white py-20 lg:py-32 relative overflow-hidden">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-20 left-10 w-72 h-72 border border-white/5 rounded-full" />
@@ -597,8 +626,6 @@ export default function SectorLanding() {
       <div id="form">
         <BottomFormSection title={sector.bottom_form_title || sector.bottom_cta_title || 'Sektörünüz İçin Demo Talep Edin'} description={sector.bottom_form_description || sector.bottom_cta_description || 'Uzman ekibimiz sektörünüze özel çözümler sunmak için hazır.'} sectorTitle={sector.title} />
       </div>
-
-      {sector.seo_title && (<><title>{sector.seo_title}</title><meta name="description" content={sector.seo_description} /></>)}
     </>
   )
 }

@@ -5,6 +5,7 @@ import StatamicRichContent, { extractContentHeadings } from '@/components/conten
 import { listenForBlogPopup } from '@/lib/PopupContext'
 import api from '@/services/api'
 import { getCtaVariantsFromSettings } from '@/lib/siteSettings'
+import SeoManager from '@/components/seo/SeoManager'
 
 interface BlogPost {
   id: string
@@ -46,6 +47,17 @@ interface BlogPost {
   schema_type: string
   og_image: string
   no_index: boolean
+  seo_title?: string
+  seo_description?: string
+  canonical_url?: string
+  og_title?: string
+  og_description?: string
+  x_title?: string
+  x_description?: string
+  x_handle?: string
+  robots?: string[]
+  resolved_seo?: Record<string, any>
+  structured_data?: Array<Record<string, unknown>>
 }
 
 export default function BlogPost() {
@@ -104,8 +116,19 @@ export default function BlogPost() {
             show_related_posts: postData.data.show_related_posts ?? true,
             related_posts_count: 3,
             schema_type: 'article',
-            og_image: '',
-            no_index: false
+            og_image: postData.data.og_image || '',
+            no_index: false,
+            seo_title: postData.data.seo_title || '',
+            seo_description: postData.data.seo_description || '',
+            canonical_url: postData.data.canonical_url || '',
+            og_title: postData.data.og_title || '',
+            og_description: postData.data.og_description || '',
+            x_title: postData.data.x_title || '',
+            x_description: postData.data.x_description || '',
+            x_handle: postData.data.x_handle || '',
+            robots: postData.data.robots || [],
+            resolved_seo: postData.data.resolved_seo || {},
+            structured_data: postData.data.structured_data || [],
           } as BlogPost
           
           setPost(apiPost)
@@ -308,6 +331,23 @@ export default function BlogPost() {
 
   return (
     <div className="min-h-screen bg-white -mt-[60px] pt-[60px]">
+      <SeoManager
+        title={post?.resolved_seo?.title || post?.seo_title || post?.title || null}
+        description={post?.resolved_seo?.description || post?.seo_description || post?.excerpt || null}
+        canonicalUrl={post?.resolved_seo?.canonical || post?.canonical_url || null}
+        robots={post?.resolved_seo?.robots || post?.robots || null}
+        ogTitle={post?.resolved_seo?.og_title || post?.og_title || null}
+        ogDescription={post?.resolved_seo?.og_description || post?.og_description || null}
+        ogImage={post?.resolved_seo?.og_image || post?.og_image || null}
+        xTitle={post?.resolved_seo?.x_title || post?.x_title || null}
+        xDescription={post?.resolved_seo?.x_description || post?.x_description || null}
+        xHandle={post?.resolved_seo?.x_handle || post?.x_handle || null}
+        siteName={post?.resolved_seo?.site_name || null}
+        siteNamePosition={post?.resolved_seo?.site_name_position || null}
+        siteNameSeparator={post?.resolved_seo?.site_name_separator || null}
+        enabled={post?.resolved_seo?.enabled ?? true}
+        structuredData={post?.structured_data || []}
+      />
       {/* Reading Progress Bar */}
       {post.enable_reading_progress && (
         <div className="fixed top-0 left-0 right-0 h-1 bg-[#dd222c] z-50">

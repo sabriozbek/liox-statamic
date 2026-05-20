@@ -6,6 +6,7 @@ use Spatie\SchemaOrg\Schema;
 use Illuminate\Support\Facades\Cache;
 use Statamic\Facades\GlobalSet;
 use Statamic\Facades\Entry;
+use Statamic\Contracts\Entries\Entry as StatamicEntry;
 
 class SeoService
 {
@@ -53,6 +54,39 @@ class SeoService
         });
     }
 
+    public function resolveEntryMeta(StatamicEntry $entry, ?string $page = null): array
+    {
+        $page = $page ?: ltrim($entry->uri() ?? $entry->slug(), '/');
+
+        $siteNameMode = $entry->get('seo_site_name_mode', 'inherit');
+        $siteName = $siteNameMode === 'custom'
+            ? ($entry->get('seo_site_name_custom') ?: $this->defaults['site_name'])
+            : ($siteNameMode === 'disabled' ? null : $this->defaults['site_name']);
+
+        return [
+            'enabled' => (bool) $entry->get('seo_enabled', true),
+            'title' => $entry->get('seo_title') ?? $entry->get('title') ?? $this->defaults['title'],
+            'description' => $entry->get('seo_description') ?? $entry->get('description') ?? $this->defaults['description'],
+            'keywords' => is_array($entry->get('seo_keywords')) ? implode(', ', $entry->get('seo_keywords')) : ($entry->get('seo_keywords') ?? $this->defaults['keywords']),
+            'og_image' => $entry->get('og_image') ?? $entry->asset('og_image')?->url ?? url($this->defaults['og_image']),
+            'canonical' => $entry->get('canonical_url') ?: $this->defaults['default_canonical_base'].'/'.ltrim($page, '/'),
+            'type' => $entry->get('schema_type') ?? 'web_page',
+            'site_name' => $siteName,
+            'site_name_position' => $entry->get('seo_site_name_position', 'inherit') === 'inherit' ? $this->defaults['site_name_position'] : $entry->get('seo_site_name_position'),
+            'site_name_separator' => $entry->get('seo_site_name_separator') ?: $this->defaults['site_name_separator'],
+            'robots' => $entry->get('robots') ?? $this->defaults['default_robots'],
+            'og_title' => $entry->get('og_title') ?? ($entry->get('seo_title') ?? $entry->get('title') ?? $this->defaults['title']),
+            'og_description' => $entry->get('og_description') ?? ($entry->get('seo_description') ?? $this->defaults['description']),
+            'x_title' => $entry->get('x_title') ?? ($entry->get('seo_title') ?? $entry->get('title') ?? $this->defaults['title']),
+            'x_description' => $entry->get('x_description') ?? ($entry->get('seo_description') ?? $this->defaults['description']),
+            'x_handle' => $entry->get('x_handle') ?? $this->defaults['default_x_handle'],
+            'sitemap_enabled' => (bool) $entry->get('sitemap_enabled', true),
+            'sitemap_priority' => $entry->get('sitemap_priority') ?? $this->defaults['default_sitemap_priority'],
+            'sitemap_change_frequency' => $entry->get('sitemap_change_frequency') ?? $this->defaults['default_sitemap_change_frequency'],
+            'structured_data_items' => $entry->get('structured_data_items') ?? [],
+        ];
+    }
+
     /**
      * Statamic content'ten meta yükle
      */
@@ -69,28 +103,7 @@ class SeoService
                         ? ($entry->get('seo_site_name_custom') ?: $this->defaults['site_name'])
                         : ($siteNameMode === 'disabled' ? null : $this->defaults['site_name']);
 
-                    return [
-                        'enabled' => (bool) $entry->get('seo_enabled', true),
-                        'title' => $entry->get('seo_title') ?? $entry->title ?? $this->defaults['title'],
-                        'description' => $entry->get('seo_description') ?? $entry->get('description') ?? $this->defaults['description'],
-                        'keywords' => is_array($entry->get('seo_keywords')) ? implode(', ', $entry->get('seo_keywords')) : ($entry->get('seo_keywords') ?? $this->defaults['keywords']),
-                        'og_image' => $entry->get('og_image') ?? $entry->asset('og_image')?->url ?? url($this->defaults['og_image']),
-                        'canonical' => $entry->get('canonical_url') ?: $this->defaults['default_canonical_base'].'/'.ltrim($page, '/'),
-                        'type' => $entry->get('schema_type') ?? 'web_page',
-                        'site_name' => $siteName,
-                        'site_name_position' => $entry->get('seo_site_name_position', 'inherit') === 'inherit' ? $this->defaults['site_name_position'] : $entry->get('seo_site_name_position'),
-                        'site_name_separator' => $entry->get('seo_site_name_separator') ?: $this->defaults['site_name_separator'],
-                        'robots' => $entry->get('robots') ?? $this->defaults['default_robots'],
-                        'og_title' => $entry->get('og_title') ?? ($entry->get('seo_title') ?? $entry->title ?? $this->defaults['title']),
-                        'og_description' => $entry->get('og_description') ?? ($entry->get('seo_description') ?? $this->defaults['description']),
-                        'x_title' => $entry->get('x_title') ?? ($entry->get('seo_title') ?? $entry->title ?? $this->defaults['title']),
-                        'x_description' => $entry->get('x_description') ?? ($entry->get('seo_description') ?? $this->defaults['description']),
-                        'x_handle' => $entry->get('x_handle') ?? $this->defaults['default_x_handle'],
-                        'sitemap_enabled' => (bool) $entry->get('sitemap_enabled', true),
-                        'sitemap_priority' => $entry->get('sitemap_priority') ?? $this->defaults['default_sitemap_priority'],
-                        'sitemap_change_frequency' => $entry->get('sitemap_change_frequency') ?? $this->defaults['default_sitemap_change_frequency'],
-                        'structured_data_items' => $entry->get('structured_data_items') ?? [],
-                    ];
+                    return $this->resolveEntryMeta($entry, $page);
                 }
             } catch (\Exception $e) {
                 // Statamic not available, use defaults

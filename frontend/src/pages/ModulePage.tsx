@@ -4,6 +4,7 @@ import api from '@/services/api'
 import LeadForm from '@/components/forms/LeadForm'
 import NotFoundPage from '@/pages/NotFoundPage'
 import StatamicRichContent from '@/components/content/StatamicRichContent'
+import SeoManager from '@/components/seo/SeoManager'
 
 interface ModuleData {
   slug: string
@@ -38,6 +39,16 @@ interface ModuleData {
   content?: Array<{ type?: string; text?: string }>
   seo_title?: string
   seo_description?: string
+  canonical_url?: string
+  og_title?: string
+  og_description?: string
+  og_image?: string
+  x_title?: string
+  x_description?: string
+  x_handle?: string
+  robots?: string[]
+  resolved_seo?: Record<string, any>
+  structured_data?: Array<Record<string, unknown>>
 }
 
 export default function ModulePage() {
@@ -62,6 +73,24 @@ export default function ModulePage() {
 
   return (
     <>
+      <SeoManager
+        title={moduleData?.resolved_seo?.title || moduleData?.seo_title || moduleData?.title || null}
+        description={moduleData?.resolved_seo?.description || moduleData?.seo_description || moduleData?.short_description || null}
+        canonicalUrl={moduleData?.resolved_seo?.canonical || moduleData?.canonical_url || null}
+        robots={moduleData?.resolved_seo?.robots || moduleData?.robots || null}
+        ogTitle={moduleData?.resolved_seo?.og_title || moduleData?.og_title || null}
+        ogDescription={moduleData?.resolved_seo?.og_description || moduleData?.og_description || null}
+        ogImage={moduleData?.resolved_seo?.og_image || moduleData?.og_image || null}
+        xTitle={moduleData?.resolved_seo?.x_title || moduleData?.x_title || null}
+        xDescription={moduleData?.resolved_seo?.x_description || moduleData?.x_description || null}
+        xHandle={moduleData?.resolved_seo?.x_handle || moduleData?.x_handle || null}
+        siteName={moduleData?.resolved_seo?.site_name || null}
+        siteNamePosition={moduleData?.resolved_seo?.site_name_position || null}
+        siteNameSeparator={moduleData?.resolved_seo?.site_name_separator || null}
+        enabled={moduleData?.resolved_seo?.enabled ?? true}
+        structuredData={moduleData?.structured_data || []}
+      />
+
       <section className="bg-[#0a1628] text-white py-14 lg:py-20 relative overflow-hidden">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-20 left-10 w-72 h-72 border border-white/5 rounded-full" />

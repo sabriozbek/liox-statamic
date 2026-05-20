@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Services\SeoService;
 use App\Support\ResolvesStatamicAssets;
 use Illuminate\Support\Facades\Cache;
 use Statamic\Facades\Entry;
@@ -10,6 +11,10 @@ use Statamic\Facades\Entry;
 class EventContentController extends Controller
 {
     use ResolvesStatamicAssets;
+
+    public function __construct(
+        private SeoService $seoService
+    ) {}
 
     public function index()
     {
@@ -54,6 +59,8 @@ class EventContentController extends Controller
             return response()->json(['error' => 'Etkinlik bulunamadı'], 404);
         }
 
+        $resolvedSeo = $this->seoService->resolveEntryMeta($entry, 'etkinlik/'.$slug);
+
         return response()->json([
             'id' => $entry->id(),
             'slug' => $entry->slug(),
@@ -80,6 +87,16 @@ class EventContentController extends Controller
             'cta_button_text' => $entry->get('cta_button_text'),
             'seo_title' => $entry->get('seo_title'),
             'seo_description' => $entry->get('seo_description'),
+            'canonical_url' => $entry->get('canonical_url'),
+            'og_title' => $entry->get('og_title'),
+            'og_description' => $entry->get('og_description'),
+            'og_image' => $this->resolveAssetUrl($entry->get('og_image')),
+            'x_title' => $entry->get('x_title'),
+            'x_description' => $entry->get('x_description'),
+            'x_handle' => $entry->get('x_handle'),
+            'robots' => $entry->get('robots') ?? [],
+            'resolved_seo' => $resolvedSeo,
+            'structured_data' => $this->seoService->buildStructuredData('etkinlik/'.$slug),
         ]);
     }
 }
