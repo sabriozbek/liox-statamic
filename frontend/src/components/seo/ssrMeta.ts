@@ -24,18 +24,16 @@ export function setSsrSeoState(state: SsrSeoState) {
 
 export function renderSsrSeoTags() {
   const tags: string[] = []
+  const fallbackTitle = currentSeoState.title || 'LioXERP - Akıllı ERP Çözümleri'
+  const fallbackDescription = currentSeoState.description || 'LioXERP - Akıllı ERP Çözümleri'
 
-  if (currentSeoState.title) {
-    tags.push(`<title>${escapeHtml(currentSeoState.title)}</title>`)
-    tags.push(`<meta property="og:title" content="${escapeHtml(currentSeoState.ogTitle || currentSeoState.title)}">`)
-    tags.push(`<meta name="twitter:title" content="${escapeHtml(currentSeoState.xTitle || currentSeoState.title)}">`)
-  }
+  tags.push(`<title>${escapeHtml(fallbackTitle)}</title>`)
+  tags.push(`<meta property="og:title" content="${escapeHtml(currentSeoState.ogTitle || fallbackTitle)}">`)
+  tags.push(`<meta name="twitter:title" content="${escapeHtml(currentSeoState.xTitle || fallbackTitle)}">`)
 
-  if (currentSeoState.description) {
-    tags.push(`<meta name="description" content="${escapeHtml(currentSeoState.description)}">`)
-    tags.push(`<meta property="og:description" content="${escapeHtml(currentSeoState.ogDescription || currentSeoState.description)}">`)
-    tags.push(`<meta name="twitter:description" content="${escapeHtml(currentSeoState.xDescription || currentSeoState.description)}">`)
-  }
+  tags.push(`<meta name="description" content="${escapeHtml(fallbackDescription)}">`)
+  tags.push(`<meta property="og:description" content="${escapeHtml(currentSeoState.ogDescription || fallbackDescription)}">`)
+  tags.push(`<meta name="twitter:description" content="${escapeHtml(currentSeoState.xDescription || fallbackDescription)}">`)
 
   if (currentSeoState.canonicalUrl) {
     tags.push(`<link rel="canonical" href="${escapeHtml(currentSeoState.canonicalUrl)}">`)
