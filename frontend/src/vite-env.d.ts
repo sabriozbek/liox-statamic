@@ -33,4 +33,5 @@ interface Window {
   __LIOX_HOME_PAGE_CONTENT__?: Record<string, unknown> | null
   __LIOX_ANNOUNCEMENT__?: Record<string, unknown> | null
   __LIOX_BOOTSTRAP_PROMISE__?: Promise<void>
+  __LIOX_ROUTE_DATA__?: Record<string, unknown>
 }

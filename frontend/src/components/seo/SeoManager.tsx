@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { setSsrSeoState } from './ssrMeta'
 
 interface SeoManagerProps {
   title?: string | null
@@ -76,6 +77,31 @@ export default function SeoManager({
   enabled,
   structuredData,
 }: SeoManagerProps) {
+  const separator = siteNameSeparator || '|'
+  const fullTitle = title
+    ? siteName
+      ? siteNamePosition === 'before'
+        ? `${siteName} ${separator} ${title}`
+        : `${title} ${separator} ${siteName}`
+      : title
+    : siteName || 'LIOX ERP'
+
+  if (typeof document === 'undefined') {
+    setSsrSeoState({
+      title: fullTitle,
+      description: description || undefined,
+      canonicalUrl: canonicalUrl || undefined,
+      robots,
+      ogTitle: ogTitle || fullTitle,
+      ogDescription: ogDescription || description || undefined,
+      ogImage: ogImage || undefined,
+      xTitle: xTitle || fullTitle,
+      xDescription: xDescription || description || undefined,
+      xHandle: xHandle || undefined,
+      structuredData,
+    })
+  }
+
   useEffect(() => {
     if (enabled === false) {
       upsertMeta('robots', 'noindex,nofollow')
@@ -83,15 +109,6 @@ export default function SeoManager({
       removeManagedJsonLd()
       return
     }
-
-    const separator = siteNameSeparator || '|'
-    const fullTitle = title
-      ? siteName
-        ? siteNamePosition === 'before'
-          ? `${siteName} ${separator} ${title}`
-          : `${title} ${separator} ${siteName}`
-        : title
-      : siteName || 'LIOX ERP'
 
     document.title = fullTitle
 

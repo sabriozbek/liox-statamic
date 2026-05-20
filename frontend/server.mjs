@@ -4,6 +4,7 @@ import express from 'express'
 import compression from 'compression'
 import sirv from 'sirv'
 import { fileURLToPath } from 'node:url'
+import { preloadRouteData } from './src/ssr/routeData.ts'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const isProd = process.env.NODE_ENV === 'production'
@@ -14,9 +15,9 @@ async function createServer() {
   const app = express()
   app.use(compression())
 
-  let vite: any
-  let render: (url: string) => Promise<{ html: string }>
-  let template: string
+  let vite
+  let render
+  let template
 
   if (!isProd) {
     const { createServer } = await import('vite')
@@ -29,16 +30,15 @@ async function createServer() {
   } else {
     app.use(base, sirv(path.resolve(__dirname, 'dist/client'), { extensions: [] }))
     template = fs.readFileSync(path.resolve(__dirname, 'dist/client/index.html'), 'utf-8')
-    // @ts-expect-error built at runtime
     render = (await import('./dist/server/entry-server.js')).render
   }
 
-  app.use('*', async (req, res) => {
+  app.use(async (req, res) => {
     try {
       const url = req.originalUrl.replace(base, '')
 
-      let htmlTemplate: string
-      let ssrRender: (url: string) => Promise<{ html: string }>
+      let htmlTemplate
+      let ssrRender
 
       if (!isProd) {
         htmlTemplate = fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf-8')
@@ -49,11 +49,17 @@ async function createServer() {
         ssrRender = render
       }
 
+      const routeData = await preloadRouteData(url)
       const rendered = await ssrRender(url)
-      const html = htmlTemplate.replace('<!--app-html-->', rendered.html)
+      const routeDataObject = Object.fromEntries(routeData.map((item) => [item.key, item.data]))
+      const appDataScript = `<script>window.__LIOX_ROUTE_DATA__ = ${JSON.stringify(routeDataObject).replace(/</g, '\\u003c')};$${''}</script>`.replace('$', '')
+      const html = htmlTemplate
+        .replace('<!--app-head-->', rendered.head || '')
+        .replace('<!--app-data-->', appDataScript)
+        .replace('<!--app-html-->', rendered.html)
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
-    } catch (e: any) {
+    } catch (e) {
       vite?.ssrFixStacktrace?.(e)
       console.error(e)
       res.status(500).end(e?.stack || String(e))
