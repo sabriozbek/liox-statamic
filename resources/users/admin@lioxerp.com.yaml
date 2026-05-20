@@ -1,4 +1,4 @@
 name: Admin
 email: admin@lioxerp.com
 super: true
-password: '$2y$12$jpoXJs52th2NkZkecFtONeM3wS.hAMd7ADlYOZAz8IPGn75AXSUJy'
+password_hash: '$2y$12$jpoXJs52th2NkZkecFtONeM3wS.hAMd7ADlYOZAz8IPGn75AXSUJy'
