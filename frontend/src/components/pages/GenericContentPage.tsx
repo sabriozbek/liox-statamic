@@ -10,11 +10,13 @@ interface GenericContentPageProps {
 
 export default function GenericContentPage({ content, loading, fallbackTitle }: GenericContentPageProps) {
   const blocks = Array.isArray(content?.generic_content_blocks) ? content.generic_content_blocks : []
+  const heroTitle = content?.generic_hero_baslik || content?.title || fallbackTitle || 'LIOXERP'
+  const heroDescription = content?.generic_hero_aciklama || content?.seo_description || ''
 
   return (
     <>
       <SeoManager
-        title={(content?.resolved_seo as any)?.title || content?.seo_title || content?.title || fallbackTitle}
+        title={(content?.resolved_seo as any)?.title || content?.seo_title || content?.title || fallbackTitle || null}
         description={(content?.resolved_seo as any)?.description || content?.seo_description || null}
         canonicalUrl={(content?.resolved_seo as any)?.canonical || content?.canonical_url || null}
         robots={((content?.resolved_seo as any)?.robots as string[]) || content?.robots || null}
@@ -33,12 +35,22 @@ export default function GenericContentPage({ content, loading, fallbackTitle }: 
 
       <section className="py-20 md:py-28 bg-gradient-to-b from-white to-gray-50 border-b border-gray-100">
         <div className="max-w-5xl mx-auto px-6 text-center">
-          <h1 className="text-3xl md:text-5xl font-black font-logo text-secondary uppercase mb-5">
-            {content?.generic_hero_baslik || content?.title || fallbackTitle}
-          </h1>
-          <p className="text-base md:text-lg text-gray-600 max-w-3xl mx-auto">
-            {content?.generic_hero_aciklama || content?.seo_description || (loading ? ' ' : '')}
-          </p>
+          {loading && !content ? (
+            <div className="space-y-5 animate-pulse flex flex-col items-center">
+              <div className="h-10 md:h-14 w-64 md:w-96 rounded-2xl bg-gray-200" />
+              <div className="h-5 md:h-6 w-full max-w-3xl rounded-xl bg-gray-100" />
+              <div className="h-5 md:h-6 w-4/5 max-w-2xl rounded-xl bg-gray-100" />
+            </div>
+          ) : (
+            <>
+              <h1 className="text-3xl md:text-5xl font-black font-logo text-secondary uppercase mb-5">
+                {heroTitle}
+              </h1>
+              <p className="text-base md:text-lg text-gray-600 max-w-3xl mx-auto">
+                {heroDescription}
+              </p>
+            </>
+          )}
         </div>
       </section>
 

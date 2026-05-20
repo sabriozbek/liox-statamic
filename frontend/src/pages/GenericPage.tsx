@@ -4,13 +4,6 @@ import { getPageContent, type HomePageContent } from '@/services/api'
 import GenericContentPage from '@/components/pages/GenericContentPage'
 import { getRoutePayload } from '@/ssr/useRoutePayload'
 
-const PAGE_TITLE_MAP: Record<string, string> = {
-  'neden-lioxerp': 'Neden LIOXERP',
-  'gizlilik-politikasi': 'Gizlilik Politikası',
-  'kullanim-sartlari': 'Kullanım Şartları',
-  kvkk: 'KVKK',
-}
-
 interface GenericPageProps {
   fixedSlug?: string
 }
@@ -21,7 +14,6 @@ export default function GenericPage({ fixedSlug }: GenericPageProps) {
   const ssrPayload = getRoutePayload<HomePageContent>(`page:${slug}`)
   const [content, setContent] = useState<HomePageContent | null>(() => ssrPayload)
   const [loading, setLoading] = useState(true)
-  const fallbackTitle = PAGE_TITLE_MAP[slug] || 'LIOXERP'
 
   useEffect(() => {
     const payload = getRoutePayload<HomePageContent>(`page:${slug}`)
@@ -40,5 +32,5 @@ export default function GenericPage({ fixedSlug }: GenericPageProps) {
       .finally(() => setLoading(false))
   }, [slug])
 
-  return <GenericContentPage content={content} loading={loading} fallbackTitle={fallbackTitle} />
+  return <GenericContentPage content={content} loading={loading} fallbackTitle="" />
 }
