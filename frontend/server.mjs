@@ -50,8 +50,8 @@ async function createServer() {
       }
 
       const routeData = await preloadRouteData(url)
-      const rendered = await ssrRender(url)
       const routeDataObject = Object.fromEntries(routeData.map((item) => [item.key, item.data]))
+      const rendered = await ssrRender(url, routeDataObject)
       const appDataScript = `<script>window.__LIOX_ROUTE_DATA__ = ${JSON.stringify(routeDataObject).replace(/</g, '\\u003c')};$${''}</script>`.replace('$', '')
       const html = htmlTemplate
         .replace('<!--app-head-->', rendered.head || '')
