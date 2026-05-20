@@ -40,10 +40,10 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-// Alias for Statamic auth
-Route::get('/login', function () {
-    return redirect('/cp/auth/login');
-})->name('login');
+// Legacy CP aliases -> Filament admin panel
+Route::redirect('/cp', '/admin');
+Route::redirect('/cp/auth/login', '/login');
+Route::redirect('/cp/dashboard', '/admin');
 
 // Health check
 Route::get('/up', function () {
