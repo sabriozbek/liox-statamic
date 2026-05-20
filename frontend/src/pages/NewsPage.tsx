@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import api, { unwrapApiData } from '@/services/api'
+import SeoManager from '@/components/seo/SeoManager'
 
 interface NewsItem {
   id: string
@@ -29,6 +30,11 @@ export default function NewsPage() {
 
   return (
     <>
+      <SeoManager
+        title="LioXERP Haberler"
+        description="Ürün güncellemeleri, kurumsal duyurular, iş ortaklığı gelişmeleri ve ekosistem haberlerini LioXERP Haber Merkezi'nden takip edin."
+      />
+
       <section className="relative overflow-hidden py-24 md:py-32 bg-[#0a1628] text-white border-b border-[#0f2746]">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-20 left-10 w-72 h-72 border border-white/5 rounded-full" />

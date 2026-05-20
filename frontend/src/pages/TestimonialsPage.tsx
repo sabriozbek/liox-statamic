@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import api, { unwrapApiData } from '@/services/api'
 import { Link } from 'react-router'
+import SeoManager from '@/components/seo/SeoManager'
 
 interface TestimonialItem {
   slug: string
@@ -26,6 +27,11 @@ export default function TestimonialsPage() {
 
   return (
     <>
+      <SeoManager
+        title="LioXERP Başarı Hikayeleri"
+        description="LIOX ERP kullanan firmaların dönüşüm hikayelerini, sektör bazlı başarı örneklerini ve video referanslarını inceleyin."
+      />
+
       <section className="bg-[#0a1628] text-white py-20 md:py-28 relative overflow-hidden border-b border-[#0f2746]">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-20 left-10 w-72 h-72 border border-white/5 rounded-full" />

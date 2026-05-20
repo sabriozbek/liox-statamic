@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import api from '@/services/api'
 import StatamicRichContent from '@/components/content/StatamicRichContent'
+import SeoManager from '@/components/seo/SeoManager'
 
 interface NewsDetail {
   id: string
@@ -17,6 +18,18 @@ interface NewsDetail {
   summary_points?: string[]
   content?: Array<{ type: string; text?: string; attrs?: { level?: number } }>
   related_links?: Array<{ label?: string; url?: string }>
+  seo_title?: string
+  seo_description?: string
+  canonical_url?: string
+  og_title?: string
+  og_description?: string
+  og_image?: string
+  x_title?: string
+  x_description?: string
+  x_handle?: string
+  robots?: string[]
+  resolved_seo?: Record<string, any>
+  structured_data?: Array<Record<string, unknown>>
 }
 
 export default function NewsDetailPage() {
@@ -49,6 +62,23 @@ export default function NewsDetailPage() {
 
   return (
     <div className="min-h-screen bg-white -mt-[60px] pt-[60px]">
+      <SeoManager
+        title={item?.resolved_seo?.title || item?.seo_title || item?.title || null}
+        description={item?.resolved_seo?.description || item?.seo_description || item?.excerpt || null}
+        canonicalUrl={item?.resolved_seo?.canonical || item?.canonical_url || null}
+        robots={item?.resolved_seo?.robots || item?.robots || null}
+        ogTitle={item?.resolved_seo?.og_title || item?.og_title || null}
+        ogDescription={item?.resolved_seo?.og_description || item?.og_description || null}
+        ogImage={item?.resolved_seo?.og_image || item?.og_image || item?.featured_image || null}
+        xTitle={item?.resolved_seo?.x_title || item?.x_title || null}
+        xDescription={item?.resolved_seo?.x_description || item?.x_description || null}
+        xHandle={item?.resolved_seo?.x_handle || item?.x_handle || null}
+        siteName={item?.resolved_seo?.site_name || null}
+        siteNamePosition={item?.resolved_seo?.site_name_position || null}
+        siteNameSeparator={item?.resolved_seo?.site_name_separator || null}
+        enabled={item?.resolved_seo?.enabled ?? true}
+        structuredData={item?.structured_data || []}
+      />
       <section className="relative overflow-hidden py-20 md:py-28 bg-[#0a1628] text-white border-b border-[#0f2746]">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-20 left-10 w-72 h-72 border border-white/5 rounded-full" />

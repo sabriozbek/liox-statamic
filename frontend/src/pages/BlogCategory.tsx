@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router'
 import { useState, useEffect } from 'react'
 import api, { unwrapApiData } from '@/services/api'
+import SeoManager from '@/components/seo/SeoManager'
 
 interface BlogPost {
   id: string
@@ -164,6 +165,11 @@ export default function BlogCategory() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <SeoManager
+        title={category?.seo_title || category?.title || 'LioXERP Blog'}
+        description={category?.seo_description || category?.description || null}
+      />
+
       {/* Hero */}
       <section className={`py-16 bg-gradient-to-br ${getBgColorClasses(category.color)}`}>
         <div className="max-w-7xl mx-auto px-6">

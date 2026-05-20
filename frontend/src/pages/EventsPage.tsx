@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router'
 import api, { unwrapApiData } from '@/services/api'
+import SeoManager from '@/components/seo/SeoManager'
 
 interface EventListItem {
   id: string
@@ -58,6 +59,11 @@ export default function EventsPage() {
 
   return (
     <>
+      <SeoManager
+        title="LioXERP Etkinlikleri"
+        description="Sektörel webinarlar, canlı etkinlikler, dönüşüm zirveleri ve ürün odaklı özel oturumlarla LioXERP ekibiyle buluşun."
+      />
+
       <section className="relative overflow-hidden py-24 md:py-32 border-b border-[#0f2746] bg-[#0a1628] text-white">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-20 left-10 w-72 h-72 border border-white/5 rounded-full" />

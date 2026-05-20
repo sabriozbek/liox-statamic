@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router'
 import api from '@/services/api'
 import EventRegistrationForm from '@/components/forms/EventRegistrationForm'
 import StatamicRichContent from '@/components/content/StatamicRichContent'
+import SeoManager from '@/components/seo/SeoManager'
 
 interface EventSpeaker {
   name: string
@@ -42,6 +43,18 @@ interface EventDetail {
   cta_title?: string
   cta_description?: string
   cta_button_text?: string
+  seo_title?: string
+  seo_description?: string
+  canonical_url?: string
+  og_title?: string
+  og_description?: string
+  og_image?: string
+  x_title?: string
+  x_description?: string
+  x_handle?: string
+  robots?: string[]
+  resolved_seo?: Record<string, any>
+  structured_data?: Array<Record<string, unknown>>
 }
 
 const TYPE_LABELS: Record<string, string> = {
@@ -76,6 +89,23 @@ export default function EventDetailPage() {
 
   return (
     <div className="min-h-screen bg-white -mt-[60px] pt-[60px]">
+      <SeoManager
+        title={event?.resolved_seo?.title || event?.seo_title || event?.title || null}
+        description={event?.resolved_seo?.description || event?.seo_description || event?.excerpt || null}
+        canonicalUrl={event?.resolved_seo?.canonical || event?.canonical_url || null}
+        robots={event?.resolved_seo?.robots || event?.robots || null}
+        ogTitle={event?.resolved_seo?.og_title || event?.og_title || null}
+        ogDescription={event?.resolved_seo?.og_description || event?.og_description || null}
+        ogImage={event?.resolved_seo?.og_image || event?.og_image || event?.featured_image || null}
+        xTitle={event?.resolved_seo?.x_title || event?.x_title || null}
+        xDescription={event?.resolved_seo?.x_description || event?.x_description || null}
+        xHandle={event?.resolved_seo?.x_handle || event?.x_handle || null}
+        siteName={event?.resolved_seo?.site_name || null}
+        siteNamePosition={event?.resolved_seo?.site_name_position || null}
+        siteNameSeparator={event?.resolved_seo?.site_name_separator || null}
+        enabled={event?.resolved_seo?.enabled ?? true}
+        structuredData={event?.structured_data || []}
+      />
       <section className="relative overflow-hidden py-20 md:py-28 bg-[radial-gradient(circle_at_10%_18%,rgba(221,34,44,0.16),transparent_0,transparent_24%),radial-gradient(circle_at_82%_14%,rgba(255,255,255,0.08),transparent_0,transparent_22%),linear-gradient(180deg,#07111f_0%,#0a1628_48%,#10203a_100%)] text-white border-b border-[#0f2746]">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-16 left-8 w-64 h-64 border border-white/5 rounded-full" />
