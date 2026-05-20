@@ -14,9 +14,15 @@ import {
   DEFAULT_POPUP_VIDEO_EMBED_URL,
 } from '@/lib/constants'
 import { getMessageVariantsFromSettings } from '@/lib/siteSettings'
+import { getRoutePayload } from '@/ssr/useRoutePayload'
 
 export default function Home() {
   const [pageContent, setPageContent] = useState<HomePageContent | null>(() => {
+    const ssrPayload = getRoutePayload<HomePageContent>('home')
+    if (ssrPayload) {
+      return ssrPayload
+    }
+
     if (window.__LIOX_HOME_PAGE_CONTENT__) {
       return window.__LIOX_HOME_PAGE_CONTENT__ as HomePageContent
     }

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { getPageContent, type HomePageContent } from '@/services/api'
 import GenericContentPage from '@/components/pages/GenericContentPage'
+import { getRoutePayload } from '@/ssr/useRoutePayload'
 
 const PAGE_TITLE_MAP: Record<string, string> = {
   'neden-lioxerp': 'Neden LIOXERP',
@@ -17,11 +18,16 @@ interface GenericPageProps {
 export default function GenericPage({ fixedSlug }: GenericPageProps) {
   const params = useParams()
   const slug = fixedSlug || params.slug || ''
-  const [content, setContent] = useState<HomePageContent | null>(null)
+  const [content, setContent] = useState<HomePageContent | null>(() => getRoutePayload<HomePageContent>(`page:${slug}`))
   const [loading, setLoading] = useState(true)
   const fallbackTitle = PAGE_TITLE_MAP[slug] || 'LIOXERP'
 
   useEffect(() => {
+    if (content) {
+      setLoading(false)
+      return
+    }
+
     setLoading(true)
     getPageContent(slug)
       .then((data) => setContent(data))
