@@ -18,16 +18,21 @@ interface GenericPageProps {
 export default function GenericPage({ fixedSlug }: GenericPageProps) {
   const params = useParams()
   const slug = fixedSlug || params.slug || ''
-  const [content, setContent] = useState<HomePageContent | null>(() => getRoutePayload<HomePageContent>(`page:${slug}`))
+  const ssrPayload = getRoutePayload<HomePageContent>(`page:${slug}`)
+  const [content, setContent] = useState<HomePageContent | null>(() => ssrPayload)
   const [loading, setLoading] = useState(true)
   const fallbackTitle = PAGE_TITLE_MAP[slug] || 'LIOXERP'
 
   useEffect(() => {
-    if (content) {
+    const payload = getRoutePayload<HomePageContent>(`page:${slug}`)
+
+    if (payload) {
+      setContent(payload)
       setLoading(false)
       return
     }
 
+    setContent(null)
     setLoading(true)
     getPageContent(slug)
       .then((data) => setContent(data))
