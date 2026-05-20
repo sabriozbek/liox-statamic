@@ -10,32 +10,18 @@ COPY . .
 ARG VITE_API_URL=https://liox-app-1084795151663.europe-west1.run.app/api
 ENV VITE_API_URL=${VITE_API_URL}
 
-RUN VITE_API_URL=${VITE_API_URL} npm run build
+RUN VITE_API_URL=${VITE_API_URL} npm run build:ssr
 
-FROM nginx:1.27-alpine
+FROM node:20-alpine
 
-COPY --from=build /app/dist /usr/share/nginx/html
+WORKDIR /app
 
-RUN printf '%s\n' \
-'server {' \
-'    listen 8080;' \
-'    server_name _;' \
-'' \
-'    root /usr/share/nginx/html;' \
-'    index index.html;' \
-'' \
-'    location = /cp {' \
-'        return 302 https://liox-app-1084795151663.europe-west1.run.app/cp;' \
-'    }' \
-'' \
-'    location ^~ /cp/ {' \
-'        return 302 https://liox-app-1084795151663.europe-west1.run.app$request_uri;' \
-'    }' \
-'' \
-'    location / {' \
-'        try_files $uri /index.html;' \
-'    }' \
-'}' \
-> /etc/nginx/conf.d/default.conf
+COPY package*.json ./
+RUN npm ci --omit=dev
+
+COPY --from=build /app/dist ./dist
+COPY --from=build /app/server.ts ./server.ts
 
 EXPOSE 8080
+
+CMD ["npm", "run", "start:ssr"]

@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import path from 'path'
 
-export default defineConfig({
+export default defineConfig(({ isSsrBuild }) => ({
   plugins: [
     react(),
     tailwindcss(),
@@ -23,15 +23,20 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: 'dist',
+    outDir: 'dist/client',
     sourcemap: true,
     rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router'],
-          forms: ['react-hook-form', 'zod', '@hookform/resolvers'],
-        },
-      },
+      output: isSsrBuild
+        ? undefined
+        : {
+            manualChunks: {
+              vendor: ['react', 'react-dom', 'react-router'],
+              forms: ['react-hook-form', 'zod', '@hookform/resolvers'],
+            },
+          },
     },
   },
-})
+  ssr: {
+    noExternal: ['react-router', 'react-router-dom'],
+  },
+}))
