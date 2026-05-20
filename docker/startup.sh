@@ -24,7 +24,7 @@ chown -R www-data:www-data "$APP_DIR/content" "$APP_DIR/resources" "$APP_DIR/sto
 chmod -R ug+rwX "$APP_DIR/content" "$APP_DIR/resources" "$APP_DIR/storage" "$APP_DIR/bootstrap/cache"
 chown -R www-data:www-data /var/run/php-fpm /var/log/php-fpm
 
-if [ -d "$APP_DIR/.git" ]; then
+if [ -d "$APP_DIR/.git" ] && [ "${STARTUP_GIT_SYNC_ENABLED:-false}" = "true" ]; then
   echo "[startup] preparing git repository"
   
   # Ensure all files are writable by www-data before git operations
