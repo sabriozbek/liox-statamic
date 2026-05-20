@@ -21,6 +21,7 @@ RUN npm ci --omit=dev
 
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/server.mjs ./server.mjs
+COPY --from=build /app/routeData.mjs ./routeData.mjs
 
 EXPOSE 8080
 

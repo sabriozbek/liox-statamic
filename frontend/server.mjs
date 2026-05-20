@@ -4,7 +4,7 @@ import express from 'express'
 import compression from 'compression'
 import sirv from 'sirv'
 import { fileURLToPath } from 'node:url'
-import { preloadRouteData } from './src/ssr/routeData.ts'
+import { preloadRouteData } from './routeData.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const isProd = process.env.NODE_ENV === 'production'
