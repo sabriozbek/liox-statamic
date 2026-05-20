@@ -3,6 +3,13 @@ import { useParams, Link } from 'react-router'
 import { getPageContent, type HomePageContent } from '@/services/api'
 import SeoManager from '@/components/seo/SeoManager'
 
+const PAGE_TITLE_MAP: Record<string, string> = {
+  'neden-lioxerp': 'Neden LIOXERP',
+  'gizlilik-politikasi': 'Gizlilik Politikası',
+  'kullanim-sartlari': 'Kullanım Şartları',
+  kvkk: 'KVKK',
+}
+
 interface GenericPageProps {
   fixedSlug?: string
 }
@@ -12,6 +19,7 @@ export default function GenericPage({ fixedSlug }: GenericPageProps) {
   const slug = fixedSlug || params.slug || ''
   const [content, setContent] = useState<HomePageContent | null>(null)
   const [loading, setLoading] = useState(true)
+  const fallbackTitle = PAGE_TITLE_MAP[slug] || 'LIOXERP'
 
   useEffect(() => {
     setLoading(true)
@@ -25,25 +33,23 @@ export default function GenericPage({ fixedSlug }: GenericPageProps) {
 
   return (
     <>
-      {content ? (
-        <SeoManager
-          title={(content.resolved_seo as any)?.title || content.seo_title || content.title || null}
-          description={(content.resolved_seo as any)?.description || content.seo_description || null}
-          canonicalUrl={(content.resolved_seo as any)?.canonical || content.canonical_url || null}
-          robots={((content.resolved_seo as any)?.robots as string[]) || content.robots || null}
-          ogTitle={(content.resolved_seo as any)?.og_title || content.og_title || null}
-          ogDescription={(content.resolved_seo as any)?.og_description || content.og_description || null}
-          ogImage={(content.resolved_seo as any)?.og_image || content.og_image || null}
-          xTitle={(content.resolved_seo as any)?.x_title || content.x_title || null}
-          xDescription={(content.resolved_seo as any)?.x_description || content.x_description || null}
-          xHandle={(content.resolved_seo as any)?.x_handle || content.x_handle || null}
-          siteName={(content.resolved_seo as any)?.site_name || null}
-          siteNamePosition={(content.resolved_seo as any)?.site_name_position || null}
-          siteNameSeparator={(content.resolved_seo as any)?.site_name_separator || null}
-          enabled={(content.resolved_seo as any)?.enabled ?? content.seo_enabled ?? true}
-          structuredData={content.structured_data || []}
-        />
-      ) : null}
+      <SeoManager
+        title={(content?.resolved_seo as any)?.title || content?.seo_title || content?.title || fallbackTitle}
+        description={(content?.resolved_seo as any)?.description || content?.seo_description || null}
+        canonicalUrl={(content?.resolved_seo as any)?.canonical || content?.canonical_url || null}
+        robots={((content?.resolved_seo as any)?.robots as string[]) || content?.robots || null}
+        ogTitle={(content?.resolved_seo as any)?.og_title || content?.og_title || fallbackTitle}
+        ogDescription={(content?.resolved_seo as any)?.og_description || content?.og_description || content?.seo_description || null}
+        ogImage={(content?.resolved_seo as any)?.og_image || content?.og_image || null}
+        xTitle={(content?.resolved_seo as any)?.x_title || content?.x_title || fallbackTitle}
+        xDescription={(content?.resolved_seo as any)?.x_description || content?.x_description || content?.seo_description || null}
+        xHandle={(content?.resolved_seo as any)?.x_handle || content?.x_handle || null}
+        siteName={(content?.resolved_seo as any)?.site_name || null}
+        siteNamePosition={(content?.resolved_seo as any)?.site_name_position || null}
+        siteNameSeparator={(content?.resolved_seo as any)?.site_name_separator || null}
+        enabled={(content?.resolved_seo as any)?.enabled ?? content?.seo_enabled ?? true}
+        structuredData={content?.structured_data || []}
+      />
 
       <section className="py-20 md:py-28 bg-gradient-to-b from-white to-gray-50 border-b border-gray-100">
         <div className="max-w-5xl mx-auto px-6 text-center">
@@ -56,7 +62,7 @@ export default function GenericPage({ fixedSlug }: GenericPageProps) {
         </div>
       </section>
 
-      <section className="py-14 md:py-20 bg-white">
+      <section className="py-14 md:py-20 bg-white flex-1">
         <div className="max-w-5xl mx-auto px-6 space-y-10">
           {!content && loading ? (
             <div className="space-y-6 animate-pulse">

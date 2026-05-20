@@ -68,6 +68,7 @@ function App() {
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false)
   const [isFooterVisible, setIsFooterVisible] = useState(false)
   const [forceShowHeader, setForceShowHeader] = useState(false)
+  const [hasScrolled, setHasScrolled] = useState(false)
   const location = useLocation()
   const isHome = location.pathname === '/'
   const isNotFoundRoute = !isKnownRoute(location.pathname)
@@ -99,6 +100,7 @@ function App() {
 
   useEffect(() => {
     setIsFooterVisible(false)
+    setHasScrolled(false)
     setForceShowHeader(document.body.dataset.lioxForceHeader === '1')
 
     const footer = document.getElementById('site-footer')
@@ -116,39 +118,57 @@ function App() {
     return () => observer.disconnect()
   }, [location.pathname])
 
+  useEffect(() => {
+    const onScroll = () => {
+      if (window.scrollY > 24) {
+        setHasScrolled(true)
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [location.pathname])
+
+  const shouldHideHeader = (isNotFoundRoute || forceShowHeader)
+    ? false
+    : (hasScrolled && isFooterVisible)
+
   return (
-    <>
+    <div className="min-h-screen flex flex-col bg-white">
       <ScrollToTop />
+      <Header onDemoClick={handleDemoClick} hidden={shouldHideHeader} />
       <Suspense fallback={<PageLoader />}>
-        <Header onDemoClick={handleDemoClick} hidden={(isNotFoundRoute || forceShowHeader) ? false : isFooterVisible} />
         {!isHome && <div className="h-[88px] md:h-[100px] lg:h-[108px]" />}
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="erp" element={<ErpPage />} />
-          <Route path="modul" element={<ModulesPage />} />
-          <Route path="modul/:slug" element={<ModulePage />} />
-          <Route path="sektorler" element={<SectorsPage />} />
-          <Route path="sektor/:slug" element={<SectorLanding />} />
-          <Route path="neden-lioxerp" element={<GenericPage fixedSlug="neden-lioxerp" />} />
-          <Route path="basari-hikayeleri" element={<TestimonialsPage />} />
-          <Route path="iletisim" element={<Contact />} />
-          <Route path="tesekkurler" element={<ThankYouPage />} />
-          <Route path="gizlilik-politikasi" element={<GenericPage fixedSlug="gizlilik-politikasi" />} />
-          <Route path="kullanim-sartlari" element={<GenericPage fixedSlug="kullanim-sartlari" />} />
-          <Route path="kvkk" element={<GenericPage fixedSlug="kvkk" />} />
-          <Route path="blog" element={<Blog />} />
-          <Route path="blog/:slug" element={<BlogPost />} />
-          <Route path="etkinlik" element={<EventsPage />} />
-          <Route path="etkinlik/:slug" element={<EventDetailPage />} />
-          <Route path="haber" element={<NewsPage />} />
-          <Route path="haber/:slug" element={<NewsDetailPage />} />
-          <Route path="kategori/:slug" element={<BlogCategory />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
+        <main className="flex-1 flex flex-col">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="erp" element={<ErpPage />} />
+            <Route path="modul" element={<ModulesPage />} />
+            <Route path="modul/:slug" element={<ModulePage />} />
+            <Route path="sektorler" element={<SectorsPage />} />
+            <Route path="sektor/:slug" element={<SectorLanding />} />
+            <Route path="neden-lioxerp" element={<GenericPage fixedSlug="neden-lioxerp" />} />
+            <Route path="basari-hikayeleri" element={<TestimonialsPage />} />
+            <Route path="iletisim" element={<Contact />} />
+            <Route path="tesekkurler" element={<ThankYouPage />} />
+            <Route path="gizlilik-politikasi" element={<GenericPage fixedSlug="gizlilik-politikasi" />} />
+            <Route path="kullanim-sartlari" element={<GenericPage fixedSlug="kullanim-sartlari" />} />
+            <Route path="kvkk" element={<GenericPage fixedSlug="kvkk" />} />
+            <Route path="blog" element={<Blog />} />
+            <Route path="blog/:slug" element={<BlogPost />} />
+            <Route path="etkinlik" element={<EventsPage />} />
+            <Route path="etkinlik/:slug" element={<EventDetailPage />} />
+            <Route path="haber" element={<NewsPage />} />
+            <Route path="haber/:slug" element={<NewsDetailPage />} />
+            <Route path="kategori/:slug" element={<BlogCategory />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </main>
         <PopupWidget />
         <Footer />
       </Suspense>
-    </>
+    </div>
   )
 }
 
